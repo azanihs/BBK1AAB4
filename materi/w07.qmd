@@ -3,6 +3,9 @@ title: "Minggu 7 · Tutorial & Praktikum 1 · Gladi UTS"
 description: "Mahasiswa mampu menggabungkan variabel, kondisional, fungsi, dan perulangan menjadi solusi utuh untuk masalah kecil, serta mengerjakannya dalam kondisi seperti UTS."
 categories: [Praktikum, Remedial]
 minggu: 7
+resources:
+  - w07/W07-CHEATSHEET-W01-W06-ID.html
+  - w07/W07-CHEATSHEET-W01-W06-ID.pdf
 ---
 ::: week-meta
 <span>Minggu 7</span><span>Lesson A: Studio mini proyek terbimbing</span><span>Lesson B: Gladi UTS dan remedial</span>
@@ -35,6 +38,15 @@ Jendela remedial 1: mahasiswa menutup skill U1.1-U6.5 yang belum tuntas. Daftar 
 **Lesson A.** Kamu mengerjakan mini proyek terbimbing yang menggabungkan variabel, kondisional, fungsi, dan perulangan. Susun dulu rencana fungsinya sebelum mengetik kode. Di akhir lesson, tunjukkan programmu berjalan dan sebutkan pola yang dipakai di tiap fungsi.
 
 **Lesson B.** Gladi UTS: satu soal bergaya UTS dikerjakan di SEB dengan batas waktu penuh, lalu dibahas bersama. Setelah itu jendela remedial dibuka.
+
+## Lembar Ringkas W01-W06
+
+Lembar ringkas ini merangkum materi Minggu 1 sampai 6 (dari masalah ke program, variabel dan masukan, kondisional dan guard, fungsi, serta perulangan) untuk persiapan gladi dan UTS. Buka versi HTML untuk dibaca di layar, atau unduh PDF untuk dicetak.
+
+- [Buka lembar ringkas (HTML)](w07/W07-CHEATSHEET-W01-W06-ID.html){target="_blank"}
+- [Unduh lembar ringkas (PDF)](w07/W07-CHEATSHEET-W01-W06-ID.pdf){download="W07-CHEATSHEET-W01-W06-ID.pdf"}
+
+<iframe src="w07/W07-CHEATSHEET-W01-W06-ID.html" title="Lembar Ringkas Alpro W01-W06" loading="lazy" style="width:100%; height:80vh; border:1px solid var(--bs-border-color); border-radius:8px;"></iframe>
 
 ## Bacaan
 
