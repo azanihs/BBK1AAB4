@@ -313,7 +313,7 @@ Memilih tepat satu dari dua tindakan atau dua rumus.
 2. Tulis tindakan untuk kasus benar
 3. Tulis tindakan untuk kasus salah
 
-[Sering tertukar dengan]{.schema-label} [B3 · Klasifikasi bertingkat](#B3)
+[Sering tertukar dengan]{.schema-label} [B3 · Klasifikasi bertingkat](#B3) · [B1 · Penjaga](#B1)
 
 [Minggu 3]{.schema-week}
 
@@ -348,7 +348,7 @@ Memasukkan satu nilai ke salah satu dari beberapa kategori yang berurutan (renta
 3. Pakai `if`–`elif`–`else` agar tepat satu cabang yang berjalan
 4. Pakai `else` untuk kategori terakhir
 
-[Sering tertukar dengan]{.schema-label} [B4 · Keputusan bersarang](#B4) · [B5 · Tabel rujukan](#B5)
+[Sering tertukar dengan]{.schema-label} [B4 · Keputusan bersarang](#B4) · [B5 · Tabel rujukan](#B5) · [B2 · Pilih salah satu](#B2)
 
 [Minggu 3]{.schema-week}
 
@@ -497,7 +497,7 @@ Memproses masukan satu per satu sampai muncul nilai penanda berhenti.
 3. Baca nilai berikutnya di akhir badan perulangan
 4. Setelah perulangan, laporkan hasilnya
 
-[Sering tertukar dengan]{.schema-label} [C3 · Minta ulang sampai benar](#C3) · [C4 · Ulangi sampai tercapai](#C4)
+[Sering tertukar dengan]{.schema-label} [C3 · Minta ulang sampai benar](#C3) · [C4 · Ulangi sampai tercapai](#C4) · [C5 · Perulangan menu](#C5)
 
 [Minggu 6]{.schema-week}
 
@@ -566,7 +566,7 @@ Mengulang pembaruan sampai keadaan target tercapai, sambil menghitung langkahnya
 3. Selama target belum tercapai: perbarui dan hitung
 4. Kembalikan penghitungnya
 
-[Sering tertukar dengan]{.schema-label} [C1 · Ulangi n kali](#C1)
+[Sering tertukar dengan]{.schema-label} [C1 · Ulangi n kali](#C1) · [C2 · Baca sampai tanda berhenti](#C2)
 
 [Minggu 6]{.schema-week}
 
@@ -762,11 +762,28 @@ Menemukan nilai terbesar atau terkecil.
 
 [Minggu 9 · lagi pada list (11)]{.schema-week}
 
-<details><summary>Kerangka kode</summary>
+<details><summary>Kerangka kode · Minggu 9 (data dari input)</summary>
 
 ```python
+if n == 0:
+    return None
+terbaik = int(input())        # item pertama
+for i in range(n - 1):        # item lainnya
+    x = int(input())
+    if x > terbaik:
+        terbaik = x
+return terbaik
+```
+
+</details>
+
+<details><summary>Kerangka kode · list (Minggu 11)</summary>
+
+```python
+if len(koleksi) == 0:
+    return None
 terbaik = koleksi[0]
-for item in koleksi:
+for item in koleksi[1:]:
     if item > terbaik:
         terbaik = item
 return terbaik
@@ -828,11 +845,23 @@ Menemukan item pertama (atau posisinya) yang cocok, dan berhenti begitu ketemu.
 2. Begitu ada yang cocok, langsung kembalikan item (atau posisinya)
 3. Setelah perulangan, kembalikan nilai 'tidak ditemukan'
 
-[Sering tertukar dengan]{.schema-label} [D1 · Menghitung](#D1) · [D7 · Adakah?](#D7)
+[Sering tertukar dengan]{.schema-label} [D1 · Menghitung](#D1) · [D7 · Adakah?](#D7) · [D5 · Posisi terbesar](#D5)
 
 [Minggu 9 · string (10) · list (11)]{.schema-week}
 
-<details><summary>Kerangka kode</summary>
+<details><summary>Kerangka kode · Minggu 9 (data dari input)</summary>
+
+```python
+for posisi in range(1, n + 1):
+    x = int(input())
+    if cocok(x):
+        return posisi
+return -1
+```
+
+</details>
+
+<details><summary>Kerangka kode · list (Minggu 11)</summary>
 
 ```python
 for i in range(len(data)):
@@ -862,11 +891,23 @@ Menjawab apakah setidaknya satu item memenuhi kondisi.
 2. Kembalikan `True` pada item pertama yang memenuhi kondisi
 3. Setelah perulangan, kembalikan `False`
 
-[Sering tertukar dengan]{.schema-label} [D8 · Semuakah?](#D8) · [D1 · Menghitung](#D1)
+[Sering tertukar dengan]{.schema-label} [D8 · Semuakah?](#D8) · [D1 · Menghitung](#D1) · [D6 · Cari yang pertama](#D6)
 
 [Minggu 9 · lagi di Minggu 10–11]{.schema-week}
 
-<details><summary>Kerangka kode</summary>
+<details><summary>Kerangka kode · Minggu 9 (data dari input)</summary>
+
+```python
+for i in range(n):
+    x = int(input())
+    if kondisi(x):
+        return True
+return False
+```
+
+</details>
+
+<details><summary>Kerangka kode · list (Minggu 11)</summary>
 
 ```python
 for item in koleksi:
@@ -900,7 +941,19 @@ Menjawab apakah semua item memenuhi kondisi.
 
 [Minggu 9 · lagi di Minggu 10–11]{.schema-week}
 
-<details><summary>Kerangka kode</summary>
+<details><summary>Kerangka kode · Minggu 9 (data dari input)</summary>
+
+```python
+for i in range(n):
+    x = int(input())
+    if not kondisi(x):
+        return False
+return True
+```
+
+</details>
+
+<details><summary>Kerangka kode · list (Minggu 11)</summary>
 
 ```python
 for item in koleksi:
@@ -967,7 +1020,7 @@ Membuat koleksi baru yang setiap itemnya diubah dengan cara yang sama.
 3. Ubah item itu dan tambahkan hasilnya
 4. Kembalikan list hasil
 
-[Sering tertukar dengan]{.schema-label} [D9 · Saring](#D9)
+[Sering tertukar dengan]{.schema-label} [D9 · Saring](#D9) · [D11 · Bangun teks](#D11)
 
 [Minggu 11 (butuh list)]{.schema-week}
 
@@ -1040,7 +1093,20 @@ Memakai setiap item bersama item sebelumnya.
 
 [Minggu 9 (variabel 'sebelumnya') · list (11)]{.schema-week}
 
-<details><summary>Kerangka kode</summary>
+<details><summary>Kerangka kode · Minggu 9 (data dari input)</summary>
+
+```python
+sebelumnya = int(input())
+for i in range(n - 1):
+    x = int(input())
+    if x > sebelumnya:
+        ...
+    sebelumnya = x            # x menjadi 'sebelumnya' di putaran berikutnya
+```
+
+</details>
+
+<details><summary>Kerangka kode · list (Minggu 11)</summary>
 
 ```python
 for i in range(1, len(data)):
@@ -1074,7 +1140,25 @@ Menemukan panjang rangkaian terpanjang dari item berurutan yang memenuhi kondisi
 
 [Minggu 9]{.schema-week}
 
-<details><summary>Kerangka kode</summary>
+<details><summary>Kerangka kode · Minggu 9 (data dari input)</summary>
+
+```python
+sekarang = 0
+terpanjang = 0
+for i in range(n):
+    x = int(input())
+    if kondisi(x):
+        sekarang = sekarang + 1
+        if sekarang > terpanjang:
+            terpanjang = sekarang
+    else:
+        sekarang = 0
+return terpanjang
+```
+
+</details>
+
+<details><summary>Kerangka kode · list (Minggu 11)</summary>
 
 ```python
 sekarang = 0
@@ -1082,9 +1166,11 @@ terpanjang = 0
 for item in koleksi:
     if kondisi(item):
         sekarang = sekarang + 1
-        terpanjang = max(terpanjang, sekarang)
+        if sekarang > terpanjang:
+            terpanjang = sekarang
     else:
         sekarang = 0
+return terpanjang
 ```
 
 </details>
@@ -1208,9 +1294,9 @@ Perulangan di dalam perulangan: baris dan kolom, pasangan, tabel.
 
 ::: {.schema-grid}
 
-::: {#E1 .schema-card data-week="9" data-core="0"}
+::: {#E1 .schema-card data-week="9" data-core="1"}
 ::: schema-head
-[E1]{.schema-id}
+[E1]{.schema-id} [★ inti]{.schema-core}
 :::
 [Pola baris-kolom]{.schema-name} [Rows and columns]{.schema-en}
 
@@ -1227,7 +1313,7 @@ Menghasilkan pola atau tabel dua dimensi yang perulangan dalamnya bergantung pad
 3. Perulangan dalam membangun baris itu
 4. Akhiri baris (pindah baris) lalu lanjut
 
-[Sering tertukar dengan]{.schema-label} [E2 · Bandingkan setiap pasangan](#E2)
+[Sering tertukar dengan]{.schema-label} [E2 · Bandingkan setiap pasangan](#E2) · [E3 · Telusuri tabel 2D](#E3)
 
 [Minggu 9]{.schema-week}
 
