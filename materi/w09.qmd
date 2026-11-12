@@ -29,25 +29,776 @@ minggu: 9
 
 ## Konsep Kunci
 
-Pola **nilai ekstrem** (*best-so-far*) menyimpan kandidat terbaik sejauh ini dan menggantinya setiap kali menemukan yang lebih baik. Pola **pencarian** memakai `return` di dalam perulangan: fungsi langsung berhenti begitu yang dicari ketemu, dan `return` sesudah perulangan menangani kasus *tidak ketemu*. Pada perulangan **bersarang**, perulangan dalam berjalan penuh untuk setiap putaran perulangan luar.
+Pola **nilai ekstrem** (*best-so-far*) menyimpan nilai **terbaik sejauh ini** dan menggantinya setiap kali datang nilai yang lebih baik. Nilai awalnya diambil dari **data pertama**, bukan angka tebakan seperti 0. Pola **pencarian** memakai `return` di dalam perulangan: fungsi langsung selesai begitu yang dicari ketemu, dan jawaban *tidak ketemu* baru dikembalikan **setelah** perulangan. Pada perulangan **bersarang**, perulangan dalam berjalan **penuh, dari awal**, untuk setiap putaran perulangan luar.
 
 ```python
-def terbesar(daftar):
-    juara = daftar[0]            # best-so-far
-    for n in daftar:
-        if n > juara:
-            juara = n
-    return juara
+def suhu_tertinggi(n):
+    tertinggi = int(input())          # ① ambil data pertama
+    for hari in range(n - 1):         # ② ulangi sisa data
+        x = int(input())
+        if x > tertinggi:             # ③ bandingkan dan ganti
+            tertinggi = x
+    return tertinggi                  # ④ kembalikan setelah loop
 
-def ada_gagal(nilai):
-    for n in nilai:
-        if n < 50:
-            return True          # ketemu: fungsi langsung berhenti
-    return False                 # sudah diperiksa semua
+def hari_pertama_minus(n):
+    for hari in range(1, n + 1):      # ① ulangi setiap data
+        x = int(input())
+        if x < 0:
+            return hari               # ② ketemu? langsung kembalikan
+    return -1                         # ③ tidak ketemu: setelah loop
 
-print(terbesar([70, 92, 85]))    # 92
-print(ada_gagal([70, 45, 85]))   # True
+def jumlah_tabel(n):
+    total = 0
+    for a in range(1, n + 1):         # loop luar: baris
+        for b in range(1, n + 1):     # loop dalam: mulai ulang tiap baris
+            total = total + a * b
+    return total
+
+print(jumlah_tabel(5))                # 225
 ```
+
+## Lesson A · Nilai Ekstrem dan Pencarian
+
+### Masalahnya: suhu yang tidak pernah terjadi
+
+Bulan Juli, suhu subuh di dataran tinggi Dieng bisa turun di bawah 0 °C. Embun di daun kentang membeku, dan petani menyebutnya *embun upas*. Berikut suhu empat subuh dalam satu minggu:
+
+| Subuh | 1 | 2 | 3 | 4 |
+|---|---|---|---|---|
+| Suhu (°C) | -3 | -1 | -4 | -2 |
+
+Subuh mana yang paling hangat? Semua orang langsung menjawab: −1. Sekarang jalankan fungsi ini dengan keempat data tersebut:
+
+```python
+def suhu_tertinggi(n):
+    tertinggi = 0
+    for hari in range(n):
+        x = int(input())
+        if x > tertinggi:
+            tertinggi = x
+    return tertinggi
+
+print(suhu_tertinggi(4))
+```
+
+```
+-3
+-1
+-4
+-2
+0
+```
+
+Fungsi menjawab **0 °C**, suhu yang tidak pernah terjadi di data. Tidak ada pesan galat, loopnya berjalan empat kali, dan `>` juga sudah benar. Jadi apa yang salah? Simpan dulu tebakanmu; jawabannya ada dua subbab di bawah.
+
+### Terbaik sejauh ini
+
+Cara panjang mencari suhu terhangat adalah membandingkan setiap hari dengan **semua** hari lain. Untuk 30 hari, itu ratusan perbandingan. Lagi pula, `input()` membaca data satu per satu, dan data yang sudah lewat tidak bisa dilihat lagi.
+
+Cara yang lebih cerdas: **ingat satu nilai saja**, yaitu yang terbaik sejauh ini. Setiap data baru dibandingkan dengan nilai itu, sekali saja. Jika data baru lebih baik, nilai itu diganti. Penampung ini disebut **terbaik sejauh ini** (*best so far*), dan polanya disebut **pola nilai ekstrem** (*extreme value*).
+
+| Langkah | Data baru | Lebih hangat? | `tertinggi` |
+|---|---|---|---|
+| mulai | -3 | – | -3 |
+| 2 | -1 | `-1 > -3` ya → ganti | -1 |
+| 3 | -4 | `-4 > -1` tidak → tetap | -1 |
+| 4 | -2 | `-2 > -1` tidak → tetap | -1 |
+
+: {tbl-colwidths="[16,20,38,26]"}
+
+Bayangkan sebuah piala yang dipegang oleh suhu terhangat sejauh ini. Piala hanya berpindah tangan jika muncul penantang yang **lebih** baik. Di akhir data, siapa pun yang memegang piala adalah jawabannya.
+
+### Nilai awal yang aman
+
+Sekarang tebakan Engage bisa dijawab. Pada versi pertama, piala dipegang lebih dulu oleh angka `0`, dan **nilai awal ikut bertanding**. 0 lebih hangat dari semua subuh di data, sehingga tidak ada penantang yang pernah mengalahkannya. Fungsi mengembalikan "pemenang" yang tidak pernah diukur.
+
+Ini berbeda dari akumulator di Minggu 6. `total = 0` aman karena menambahkan ke nol tidak mengubah apa pun. Pada pola nilai ekstrem, nilai awal **bersaing** dengan data, jadi ia harus berupa nilai yang tidak mungkin menang secara curang. Nilai yang selalu aman adalah **data pertama itu sendiri**: dengan begitu, jawabannya pasti salah satu data yang sungguh ada.
+
+```python
+def suhu_tertinggi(n):
+    tertinggi = int(input())          # data pertama memegang piala
+    for hari in range(n - 1):         # n - 1: satu data sudah dibaca
+        x = int(input())
+        if x > tertinggi:
+            tertinggi = x
+    return tertinggi
+```
+
+Dua hal yang perlu diperhatikan:
+
+- **Ini *priming read* dari Minggu 6.** Satu data dibaca sebelum loop, sehingga loop hanya perlu membaca **n − 1** data sisanya. Jika ditulis `range(n)`, loop mencoba membaca satu data terlalu banyak, dan Moodle menghentikan program dengan `EOFError: EOF when reading a line`.
+- **Angka "cukup besar" juga jebakan.** Untuk suhu **terendah**, nilai awal 0 gagal jika semua data positif (`2 4 6` menghasilkan `0`), dan nilai awal 100 gagal jika ada data di atas 100. Data pertama selalu berhasil.
+
+### Algoritma dan trace table
+
+Pola nilai ekstrem punya **empat langkah**. Seperti di Minggu 6, label ini adalah *pseudocode* kita: tulis dulu sebagai komentar, baru isi kodenya.
+
+```
+① tertinggi ← data pertama
+② ulangi untuk n − 1 data sisanya: baca x
+③     jika x > tertinggi: tertinggi ← x
+④ kembalikan tertinggi (setelah perulangan)
+```
+
+| Langkah | Python |
+|---|---|
+| ① Ambil data pertama | `tertinggi = int(input())` |
+| ② Ulangi sisa data | `for hari in range(n - 1):` lalu `x = int(input())` |
+| ③ Bandingkan dan ganti | `if x > tertinggi:` lalu `tertinggi = x` |
+| ④ Kembalikan setelah loop | `return tertinggi`, **sejajar** dengan `for` |
+
+: {tbl-colwidths="[34,66]"}
+
+Trace table untuk data `-3 -1 -4 -2` (n = 4). Baris *(sebelum)* mencatat nilai dari langkah ①:
+
+::: {.table-responsive}
+| Putaran | `x` | `x > tertinggi` | `tertinggi` |
+|---|---|---|---|
+| *(sebelum)* | – | – | -3 |
+| 1 | -1 | `True` | -1 |
+| 2 | -4 | `False` | -1 |
+| 3 | -2 | `False` | -1 |
+| `return` | | | **-1** |
+
+: {tbl-colwidths="[22,18,32,28]"}
+:::
+
+Bandingkan dengan versi Engage: di sana baris *(sebelum)* berisi `0`, dan `0` tidak pernah kalah.
+
+### Satu pola, banyak soal
+
+Pola yang sama dipakai untuk setiap pertanyaan "yang paling …". Yang berubah hanya nama penampung dan **arah perbandingannya**:
+
+::: {.table-responsive}
+| Pertanyaan | Penampung | Perbandingan |
+|---|---|---|
+| Suhu subuh terhangat | `tertinggi = int(input())` | `if x > tertinggi:` |
+| Harga termurah | `murah = int(input())` | `if x < murah:` |
+| Nilai kuis tertinggi | `top = int(input())` | `if x > top:` |
+
+: {tbl-colwidths="[34,36,30]"}
+:::
+
+::: {.callout-note title="Nilai kembar: > atau >=?"}
+Jika soal menanyakan **pada hari ke berapa** nilai terbaik terjadi, kamu butuh **dua** penampung: nilainya dan nomor harinya, dan keduanya diganti bersamaan. Saat ada dua nilai yang sama besar, tanda perbandingan menentukan hari mana yang menang:
+
+```python
+def hari_terhangat(n):
+    tertinggi = int(input())
+    hari_ke = 1
+    for hari in range(2, n + 1):      # hari 2 sampai n
+        x = int(input())
+        if x > tertinggi:             # > : hari pertama yang mencapai nilai itu tetap juara
+            tertinggi = x
+            hari_ke = hari
+    return hari_ke
+```
+
+Dengan data `1 5 3 5`, fungsi ini mengembalikan `2`. Jika `>` diganti `>=`, hari yang **terakhir** mencapai nilai itu ikut merebut piala, dan hasilnya `4`. Baca soalnya: "hari **pertama**" berarti `>`, "hari **terakhir**" berarti `>=`.
+:::
+
+### Variasi: penampung sekarang dan penampung terbaik
+
+Kadang yang dicari bukan nilai data, tetapi nilai yang **dihitung** sambil jalan. Contohnya *streak* di aplikasi langkah kaki: berapa hari **berturut-turut** terpanjang target 8000 langkah tercapai?
+
+::: {.table-responsive}
+| Hari | Sen | Sel | Rab | Kam | Jum | Sab | Min |
+|---|---|---|---|---|---|---|---|
+| Langkah | 9000 | 8200 | 3000 | 4500 | 8000 | 9500 | 10000 |
+| `streak` | 1 | 2 | 0 | 0 | 1 | 2 | 3 |
+| `terbaik` | 1 | 2 | 2 | 2 | 2 | 2 | 3 |
+
+: {tbl-colwidths="[16,12,12,12,12,12,12,12]"}
+:::
+
+Di sini ada dua penampung. `streak` adalah **keadaan sekarang**: bertambah satu saat target tercapai dan kembali ke 0 saat gagal. `terbaik` adalah **terbaik sejauh ini**: hanya bisa naik. Nilai awal 0 untuk `terbaik` aman, karena *streak* tidak mungkin kurang dari 0.
+
+```python
+def streak_terpanjang():
+    streak = 0
+    terbaik = 0
+    for hari in range(7):
+        langkah = int(input())
+        if langkah >= 8000:               # "minimal 8000": 8000 ikut
+            streak = streak + 1
+            if streak > terbaik:          # catat rekor saat itu juga
+                terbaik = streak
+        else:
+            streak = 0
+    return terbaik
+```
+
+Dengan data di atas, fungsi mengembalikan `3`. Jebakan yang sering muncul adalah mencatat rekor **hanya saat streak putus**, yaitu memindahkan `if streak > terbaik:` ke dalam `else`. Hasilnya `2`: streak 3 hari di akhir minggu tidak pernah putus, sehingga tidak pernah tercatat. Tanyakan selalu: "bagaimana jika kejadian itu tidak pernah datang?"
+
+::: {.callout-tip title="Kata kunci di soal"}
+"**Berturut-turut**" biasanya berarti butuh penampung yang di-*reset*. "**Terpanjang**", "**terbesar**", "**termurah**" berarti butuh penampung terbaik sejauh ini.
+:::
+
+### Pencarian: berhenti begitu ketemu
+
+Pertanyaan berikutnya untuk data Dieng: **pada hari ke berapa embun beku pertama kali terjadi**, yaitu suhu di bawah 0?
+
+| Hari | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+|---|---|---|---|---|---|---|---|
+| Suhu (°C) | 4 | 2 | **-1** | 3 | -3 | 0 | 1 |
+
+: {tbl-colwidths="[16,12,12,12,12,12,12,12]"}
+
+Jawabannya satu nomor hari: **3**. Begitu hari 3 ditemukan, hari 4 sampai 7 tidak perlu dilihat lagi, karena jawabannya sudah pasti. Menelusuri data sampai yang dicari ketemu disebut **pencarian** (*search*).
+
+```python
+def hari_pertama_minus(n):
+    for hari in range(1, n + 1):
+        x = int(input())
+        if x < 0:
+            return hari
+    return -1
+```
+
+Trace table dengan data `4 2 -1 3 -3` (n = 5):
+
+| Putaran | `x` | `x < 0` | Yang terjadi |
+|---|---|---|---|
+| 1 | 4 | `False` | lanjut |
+| 2 | 2 | `False` | lanjut |
+| 3 | -1 | `True` | **`return 3`**, fungsi selesai |
+| 4–5 | | | *tidak dijalankan; 3 dan −3 tidak pernah dibaca* |
+
+: {tbl-colwidths="[18,14,18,50]"}
+
+Inilah aturan dari Minggu 5 yang kini dipakai dengan sengaja: **`return` mengakhiri fungsi, bukan hanya putarannya** (Downey, 2024, Bab 7). Tidak penting bahwa `return` berada di dalam loop; begitu dijalankan, fungsi selesai saat itu juga, dan putaran sesudahnya tidak pernah ada. Ini berbeda dengan kondisi `while` di Minggu 6, yang hanya diperiksa **di awal** putaran: `while` tidak pernah berhenti di tengah badan loop, sedangkan `return` berhenti tepat di barisnya.
+
+Bagaimana jika data `4 2 1 3 5`, tanpa satu pun suhu di bawah 0? Kelima putaran berjalan, `return hari` tidak pernah dijalankan, loop selesai, lalu baris terakhir `return -1` dijalankan. Hasilnya `-1`, **bukan** `None`: baris `return -1` itu benar-benar dicapai.
+
+Pola yang sama berlaku untuk pencarian apa pun, termasuk yang tidak membaca `input()`. Fungsi `pembagi_pertama(n)` mencari pembagi pertama `n` mulai dari 2, atau `-1` jika tidak ada (artinya `n` bilangan prima). Telusuri dua panggilannya dan perhatikan **di putaran ke berapa** setiap panggilan selesai:
+
+```{=html}
+<div class="stackviz" data-trace="trace-w09-cari" data-title="Telusuri: return di dalam perulangan"></div>
+<script type="application/json" id="trace-w09-cari">{"code":["def pembagi_pertama(n):","    for d in range(2, n):","        if n % d == 0:","            return d","    return -1","","print(pembagi_pertama(9))","print(pembagi_pertama(5))"],"steps":[{"line":null,"frames":[{"name":"__main__","vars":[]}],"out":"","note":"Program belum berjalan. Tebak dulu: untuk `pembagi_pertama(9)`, berapa putaran yang benar-benar dijalankan, dan apakah baris 5 pernah dijalankan? Lalu tekan **Lanjut**."},{"line":1,"frames":[{"name":"__main__","vars":[["pembagi_pertama","<fungsi>"]]}],"out":"","note":"Baris 1: `def` membuat fungsi `pembagi_pertama`; badannya belum dijalankan. Python melompat ke baris 7."},{"line":7,"frames":[{"name":"__main__","vars":[["pembagi_pertama","<fungsi>"]]},{"name":"pembagi_pertama","vars":[["n","9"]],"table":{"cols":["d","n % d","n % d == 0"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","–"]}],"cur":null,"foot":null}}],"out":"","note":"Baris 7 memanggil `pembagi_pertama(9)`. Frame baru dibuat dengan `n ← 9`. Kita mencari pembagi pertama 9 mulai dari 2."},{"line":2,"frames":[{"name":"__main__","vars":[["pembagi_pertama","<fungsi>"]]},{"name":"pembagi_pertama","vars":[["n","9"]],"table":{"cols":["d","n % d","n % d == 0"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","–"]},{"label":"1","cls":"","cells":["2",null,null]}],"cur":[1,0],"foot":null}}],"out":"","note":"Baris 2 · ① **ulangi setiap data**: `range(2, 9)` berisi `2 3 4 5 6 7 8`. Putaran 1: `d ← 2`."},{"line":3,"frames":[{"name":"__main__","vars":[["pembagi_pertama","<fungsi>"]]},{"name":"pembagi_pertama","vars":[["n","9"]],"table":{"cols":["d","n % d","n % d == 0"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","–"]},{"label":"1","cls":"","cells":["2","1","False"]}],"cur":[1,2],"foot":null}}],"out":"","note":"Baris 3 · ② **ketemu?** `9 % 2` bernilai `1`, bukan 0. Belum ketemu, lanjut ke putaran berikutnya."},{"line":2,"frames":[{"name":"__main__","vars":[["pembagi_pertama","<fungsi>"]]},{"name":"pembagi_pertama","vars":[["n","9"]],"table":{"cols":["d","n % d","n % d == 0"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","–"]},{"label":"1","cls":"","cells":["2","1","False"]},{"label":"2","cls":"","cells":["3",null,null]}],"cur":[2,0],"foot":null}}],"out":"","note":"Baris 2: putaran 2, `d ← 3`."},{"line":3,"frames":[{"name":"__main__","vars":[["pembagi_pertama","<fungsi>"]]},{"name":"pembagi_pertama","vars":[["n","9"]],"table":{"cols":["d","n % d","n % d == 0"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","–"]},{"label":"1","cls":"","cells":["2","1","False"]},{"label":"2","cls":"","cells":["3","0","True"]}],"cur":[2,2],"foot":null}}],"out":"","note":"Baris 3: `9 % 3` bernilai `0`. **Ketemu!**"},{"line":4,"frames":[{"name":"__main__","vars":[["pembagi_pertama","<fungsi>"]]},{"name":"pembagi_pertama","vars":[["n","9"]],"ret":"3","table":{"cols":["d","n % d","n % d == 0"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","–"]},{"label":"1","cls":"","cells":["2","1","False"]},{"label":"2","cls":"","cells":["3","0","True"]}],"cur":null,"foot":"return di putaran 2: fungsi selesai, putaran 3–7 tidak ada."}}],"out":"","note":"Baris 4 · ② **langsung kembalikan**: `return 3`. Fungsi selesai **saat itu juga**, di tengah perulangan. `d = 4` sampai `8` tidak pernah dicoba, dan baris 5 tidak dijalankan."},{"line":7,"frames":[{"name":"__main__","vars":[["pembagi_pertama","<fungsi>"]]}],"out":"3\n","note":"Kembali ke baris 7: `print` mencetak `3`. Hanya **2** putaran dari 7 yang mungkin."},{"line":8,"frames":[{"name":"__main__","vars":[["pembagi_pertama","<fungsi>"]]},{"name":"pembagi_pertama","vars":[["n","5"]],"table":{"cols":["d","n % d","n % d == 0"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","–"]}],"cur":null,"foot":null}}],"out":"3\n","note":"Baris 8 memanggil `pembagi_pertama(5)`. Frame baru, `n ← 5`. Trace table dimulai dari awal lagi."},{"line":2,"frames":[{"name":"__main__","vars":[["pembagi_pertama","<fungsi>"]]},{"name":"pembagi_pertama","vars":[["n","5"]],"table":{"cols":["d","n % d","n % d == 0"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","–"]},{"label":"1","cls":"","cells":["2",null,null]}],"cur":[1,0],"foot":null}}],"out":"3\n","note":"Baris 2: `range(2, 5)` berisi `2 3 4`. Putaran 1: `d ← 2`."},{"line":3,"frames":[{"name":"__main__","vars":[["pembagi_pertama","<fungsi>"]]},{"name":"pembagi_pertama","vars":[["n","5"]],"table":{"cols":["d","n % d","n % d == 0"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","–"]},{"label":"1","cls":"","cells":["2","1","False"]}],"cur":[1,2],"foot":null}}],"out":"3\n","note":"Baris 3: `5 % 2` bernilai `1`. Belum ketemu."},{"line":2,"frames":[{"name":"__main__","vars":[["pembagi_pertama","<fungsi>"]]},{"name":"pembagi_pertama","vars":[["n","5"]],"table":{"cols":["d","n % d","n % d == 0"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","–"]},{"label":"1","cls":"","cells":["2","1","False"]},{"label":"2","cls":"","cells":["3",null,null]}],"cur":[2,0],"foot":null}}],"out":"3\n","note":"Baris 2: putaran 2, `d ← 3`."},{"line":3,"frames":[{"name":"__main__","vars":[["pembagi_pertama","<fungsi>"]]},{"name":"pembagi_pertama","vars":[["n","5"]],"table":{"cols":["d","n % d","n % d == 0"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","–"]},{"label":"1","cls":"","cells":["2","1","False"]},{"label":"2","cls":"","cells":["3","2","False"]}],"cur":[2,2],"foot":null}}],"out":"3\n","note":"Baris 3: `5 % 3` bernilai `2`. Belum ketemu."},{"line":2,"frames":[{"name":"__main__","vars":[["pembagi_pertama","<fungsi>"]]},{"name":"pembagi_pertama","vars":[["n","5"]],"table":{"cols":["d","n % d","n % d == 0"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","–"]},{"label":"1","cls":"","cells":["2","1","False"]},{"label":"2","cls":"","cells":["3","2","False"]},{"label":"3","cls":"","cells":["4",null,null]}],"cur":[3,0],"foot":null}}],"out":"3\n","note":"Baris 2: putaran 3, `d ← 4`."},{"line":3,"frames":[{"name":"__main__","vars":[["pembagi_pertama","<fungsi>"]]},{"name":"pembagi_pertama","vars":[["n","5"]],"table":{"cols":["d","n % d","n % d == 0"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","–"]},{"label":"1","cls":"","cells":["2","1","False"]},{"label":"2","cls":"","cells":["3","2","False"]},{"label":"3","cls":"","cells":["4","1","False"]}],"cur":[3,2],"foot":null}}],"out":"3\n","note":"Baris 3: `5 % 4` bernilai `1`. Belum ketemu juga."},{"line":2,"frames":[{"name":"__main__","vars":[["pembagi_pertama","<fungsi>"]]},{"name":"pembagi_pertama","vars":[["n","5"]],"table":{"cols":["d","n % d","n % d == 0"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","–"]},{"label":"1","cls":"","cells":["2","1","False"]},{"label":"2","cls":"","cells":["3","2","False"]},{"label":"3","cls":"","cells":["4","1","False"]}],"cur":null,"foot":"Barisan habis: loop selesai setelah 3 putaran."}}],"out":"3\n","note":"Baris 2: `for` mencoba mengambil bilangan berikutnya, tetapi barisan sudah habis. Loop selesai tanpa pernah menjalankan `return d`."},{"line":5,"frames":[{"name":"__main__","vars":[["pembagi_pertama","<fungsi>"]]},{"name":"pembagi_pertama","vars":[["n","5"]],"ret":"-1","table":{"cols":["d","n % d","n % d == 0"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","–"]},{"label":"1","cls":"","cells":["2","1","False"]},{"label":"2","cls":"","cells":["3","2","False"]},{"label":"3","cls":"","cells":["4","1","False"]}],"cur":null,"foot":"Barisan habis: loop selesai setelah 3 putaran."}}],"out":"3\n","note":"Baris 5 · ③ **tidak ketemu: kembalikan setelah loop**. Baru sekarang, setelah **semua** kandidat diperiksa, fungsi boleh berkata \"tidak ada\": `return -1`."},{"line":8,"frames":[{"name":"__main__","vars":[["pembagi_pertama","<fungsi>"]]}],"out":"3\n-1\n","note":"Kembali ke baris 8: `print` mencetak `-1`. Ketemu cukup dengan satu nilai; tidak ketemu baru pasti setelah semua nilai dilihat."}]}</script>
+<script src="../assets/stackviz.js?v=2"></script>
+```
+
+::: {.callout-note title="Versi bendera (flag)"}
+Pencarian juga bisa ditulis dengan **satu** `return` di akhir fungsi, memakai variabel penanda (*flag*):
+
+```python
+def hari_pertama_minus(n):
+    hasil = -1
+    for hari in range(1, n + 1):
+        x = int(input())
+        if x < 0 and hasil == -1:
+            hasil = hari
+    return hasil
+```
+
+Jawabannya sama, `3`, tetapi kelima hari dibaca (NCCE, t.t.-c). Keduanya benar. Di kuliah ini kita memakai `return` di dalam perulangan, karena ia menyatakan "ketemu, selesai" dalam satu baris.
+:::
+
+### Di mana "tidak ketemu" diletakkan?
+
+Prediksi dulu: apa yang dikembalikan fungsi ini untuk data `3 1 -2`?
+
+```python
+def ada_suhu_minus(n):
+    for hari in range(n):
+        x = int(input())
+        if x < 0:
+            return True
+        else:
+            return False
+
+print(ada_suhu_minus(3))     # False
+```
+
+Jawabannya `False`, padahal −2 ada di data. Telusuri putaran 1 saja: `x = 3`, bukan minus, sehingga `else` dijalankan, `return False`, dan fungsi selesai. Fungsi memutuskan di hari pertama dan **tidak pernah melihat** −2.
+
+Kuncinya ada pada perbedaan dua jawaban itu:
+
+- **Ketemu** bisa diputuskan dari **satu** data.
+- **Tidak ketemu** baru pasti setelah **semua** data diperiksa.
+
+Karena itu `return False` diletakkan **setelah** loop, sejajar dengan `for`, dan `else` dihapus:
+
+```python
+def ada_suhu_minus(n):
+    for hari in range(n):
+        x = int(input())
+        if x < 0:
+            return True
+    return False
+
+print(ada_suhu_minus(3))     # data 3 1 -2 → True;  data 3 1 2 → False
+```
+
+Pola pencarian punya **tiga langkah**:
+
+```
+① ulangi setiap data
+②     ketemu? langsung kembalikan (True, atau posisinya)
+③ tidak ketemu: kembalikan setelah loop (False, atau -1)
+```
+
+::: {.table-responsive}
+| Pertanyaan | Saat ketemu | Setelah loop |
+|---|---|---|
+| Adakah hari minus? | `if x < 0: return True` | `return False` |
+| Hari minus pertama? | `if x < 0: return hari` | `return -1` |
+| Hari pertama hujan ≥ 50 mm? | `if x >= 50: return hari` | `return -1` |
+
+: {tbl-colwidths="[34,38,28]"}
+:::
+
+`-1` dipilih untuk "tidak ketemu" karena nomor hari selalu dimulai dari 1, jadi `-1` tidak mungkin tertukar dengan jawaban yang sah.
+
+### Nilai ekstrem atau pencarian?
+
+Dua pola ini sering tertukar. Pertanyaan penentunya: **apakah jawabannya bisa dipastikan sebelum semua data dilihat?**
+
+::: {.table-responsive}
+| | Nilai ekstrem | Pencarian |
+|---|---|---|
+| Pertanyaan khas | "yang paling …", "berapa …-nya" | "adakah …?", "yang pertama …?" |
+| Data yang dilihat | **selalu semua** | sampai ketemu; semua jika tidak ketemu |
+| Letak `return` | satu, setelah loop | satu di dalam loop, satu setelah loop |
+| Nilai awal | data pertama | tidak ada penampung |
+| Contoh | suhu terdingin, harga termurah | hari pertama minus, adakah nilai di atas 100 |
+
+: {tbl-colwidths="[22,39,39]"}
+:::
+
+"Pada hari ke berapa suhu **terdingin**?" adalah nilai ekstrem dengan dua penampung (nilai dan harinya), bukan pencarian: hari terdingin baru pasti setelah hari terakhir dilihat.
+
+### Contoh terpandu: suhu_terendah
+
+Kita tulis `suhu_terendah(n)` dengan resep lima langkah dari Minggu 5. Empat label nilai ekstrem adalah isi langkah **Rancang**.
+
+**1 · Pahami.** Masukannya `n`, lalu `n` suhu yang diketik satu per baris. Keluarannya satu angka, yang terendah; fungsi **mengembalikan**, tidak mencetak. Hitung dengan tangan untuk `1 -2 0`: mulai dari 1, yang terdingin sejauh ini karena satu-satunya. Lalu −2: lebih dingin dari 1? Ya, ganti. Lalu 0: lebih dingin dari −2? Tidak, tetap. Jawabannya −2. Yang dilakukan setiap kali setelah data pertama: bandingkan dengan yang terdingin sejauh ini, ganti jika lebih dingin. Itulah badan loop. Data pertama tidak dibandingkan dengan apa pun; ia langsung diambil.
+
+**2–3 · Pecah dan rancang.** Satu fungsi cukup. Tulis kerangka, uji dari hitungan tangan, dan empat label sebagai komentar:
+
+```python
+def suhu_terendah(n):
+    """Kembalikan suhu terendah dari n suhu subuh yang dibaca dari input."""
+    # ① AMBIL DATA PERTAMA
+    # ② ULANGI SISA DATA
+    # ③ BANDINGKAN DAN GANTI
+    # ④ KEMBALIKAN SETELAH LOOP
+    return 0
+```
+
+Sebelum menulis kode: mengapa tidak mulai dari `terendah = 0`, seperti total? Karena 0 ikut bertanding. Dengan data `2 4 6`, fungsi akan mengembalikan 0, subuh yang tidak pernah ada.
+
+**4 · Isi dan uji.** Isi satu label setiap kali:
+
+```python
+def suhu_terendah(n):
+    """Kembalikan suhu terendah dari n suhu subuh yang dibaca dari input."""
+    # ① AMBIL DATA PERTAMA
+    terendah = int(input())
+    # ② ULANGI SISA DATA
+    for hari in range(n - 1):
+        x = int(input())
+        # ③ BANDINGKAN DAN GANTI
+        if x < terendah:
+            terendah = x
+    # ④ KEMBALIKAN SETELAH LOOP
+    return terendah
+```
+
+- ① Subuh pertama adalah yang terdingin sejauh ini.
+- ② Satu data sudah dibaca, jadi tersisa `n - 1`.
+- ③ Baca subuh berikutnya; jika lebih dingin, ia menjadi yang terdingin sejauh ini.
+- ④ `return` sejajar dengan `for`. Jika menjorok di dalam `if` atau `for`, fungsi selesai setelah satu perbandingan: data Dieng menghasilkan `2`.
+
+| `n` | Masukan | Harapan | Yang diuji |
+|---|---|---|---|
+| 3 | `1 -2 0` | `-2` | hitungan tangan |
+| 7 | `4 2 -1 3 -3 0 1` | `-3` | data Dieng |
+| 3 | `2 4 -6` | `-6` | yang terendah di akhir |
+| 3 | `2 4 6` | `2` | menangkap nilai awal 0 (jawaban salahnya `0`) |
+| 1 | `3` | `3` | kasus tepi: loop berjalan nol kali |
+
+: {tbl-colwidths="[8,30,16,46]"}
+
+Uji keempat penting: dengan data Dieng, versi `terendah = 0` kebetulan benar (`-3`), karena ada data di bawah 0. Satu uji yang lulus belum berarti fungsinya benar.
+
+**5 · Rakit.**
+
+```python
+n = int(input())
+print(suhu_terendah(n))
+```
+
+Untuk suhu **terhangat**, hanya `<` yang berubah menjadi `>`.
+
+## Lesson B · Perulangan Bersarang dan Konversi while/for
+
+### Masalahnya: berapa baris kode untuk tabel perkalian?
+
+Dua baris loop cukup untuk mencetak satu tabel perkalian:
+
+```python
+def tabel(t):
+    for x in range(1, 11):
+        print(f"{x} x {t} = {x * t}")
+
+tabel(5)
+```
+
+```
+1 x 5 = 5
+2 x 5 = 10
+...
+10 x 5 = 50
+```
+
+Sekarang lihat tabel perkalian 1–5 berikut. Berapa baris kode **paling sedikit** untuk mencetak seluruhnya?
+
+```
+1 2 3 4 5
+2 4 6 8 10
+3 6 9 12 15
+4 8 12 16 20
+5 10 15 20 25
+```
+
+Cara salin-tempel memakai lima loop, satu per baris tabel. Untuk tabel 1–20, dua puluh loop. Pasti ada cara yang lebih baik, dan jawabannya ada di akhir subbab berikutnya.
+
+### Loop di dalam loop
+
+Perhatikan apa yang berulang pada tabel tadi: **untuk setiap baris**, **untuk setiap kolom**, tulis baris × kolom. Yang diulang oleh baris bukan satu perintah, melainkan **seluruh perulangan kolom**. Perulangan yang berada di dalam badan perulangan lain disebut **perulangan bersarang** (*nested loop*), dengan perulangan **luar** (*outer loop*) dan perulangan **dalam** (*inner loop*).
+
+Mulai dari bentuk yang paling sederhana, persegi bintang 3 × 4:
+
+```python
+def persegi():
+    for baris in range(3):
+        teks = ""
+        for kolom in range(4):
+            teks = teks + "*"
+        print(teks)
+
+persegi()
+```
+
+```
+****
+****
+****
+```
+
+Setiap baris dibangun sebagai **teks baris**: mulai dari string kosong, ditambah satu `*` di setiap putaran dalam dengan `+` (Minggu 2), lalu dicetak sekali.
+
+| Bagian | Baris kode | Dijalankan |
+|---|---|---|
+| Badan loop luar | `teks = ""`, loop dalam, `print(teks)` | 3 kali |
+| Badan loop dalam | `teks = teks + "*"` | 4 kali **per baris**, total 12 kali |
+
+: {tbl-colwidths="[22,48,30]"}
+
+### Loop dalam mulai lagi dari awal
+
+Berapa kali `teks = teks + "*"` dijalankan? Banyak yang menjawab 3 + 4 = 7. Trace table menunjukkan sebaliknya:
+
+| `baris` | `kolom` | `teks` | Putaran dalam ke- |
+|---|---|---|---|
+| 0 | 0 1 2 3 | `*` → `****` | 1–4 |
+| 1 | 0 1 2 3 | `*` → `****` | 5–8 |
+| 2 | 0 1 2 3 | `*` → `****` | 9–12 |
+
+: {tbl-colwidths="[16,28,30,26]"}
+
+Loop dalam adalah bagian dari **badan** loop luar. Setiap kali loop luar menjalankan badannya, loop dalam berjalan **dari awal sampai habis**: `kolom` kembali ke 0 di setiap baris, karena loop dalam tidak mengingat di mana ia berhenti. Seperti jam: jarum menit berputar penuh untuk setiap satu jam. Karena itu, jika batas loop dalam **tetap**:
+
+> **total putaran dalam = putaran luar × putaran dalam** = 3 × 4 = 12
+
+Telusuri versi yang lebih kecil, 2 × 3. Perhatikan nilai `kolom` saat `baris` berganti dari 0 ke 1:
+
+```{=html}
+<div class="stackviz" data-trace="trace-w09-sarang" data-title="Telusuri: perulangan bersarang"></div>
+<script type="application/json" id="trace-w09-sarang">{"code":["def hitung_putaran():","    putaran = 0","    for baris in range(2):","        for kolom in range(3):","            putaran = putaran + 1","    return putaran","","print(hitung_putaran())"],"steps":[{"line":null,"frames":[{"name":"__main__","vars":[]}],"out":"","note":"Program belum berjalan. Tebak dulu: berapa kali baris 5 dijalankan, 2 + 3 = 5 atau 2 × 3 = 6? Perhatikan juga nilai `kolom` setiap kali `baris` berganti. Lalu tekan **Lanjut**."},{"line":1,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]}],"out":"","note":"Baris 1: `def` membuat fungsi `hitung_putaran`. Python melompat ke baris 8."},{"line":8,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]},{"name":"hitung_putaran","vars":[]}],"out":"","note":"Baris 8 memanggil `hitung_putaran()`. Frame baru dibuat; fungsi ini tidak punya parameter."},{"line":2,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]},{"name":"hitung_putaran","vars":[["putaran","0"]]}],"out":"","note":"Baris 2 · ① **siapkan penampung**: `putaran = 0`, sekali, sebelum kedua perulangan."},{"line":3,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]},{"name":"hitung_putaran","vars":[["putaran","0"],["baris","0"]]}],"out":"","note":"Baris 3 · ② **loop luar**: putaran luar pertama, `baris ← 0`."},{"line":4,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]},{"name":"hitung_putaran","vars":[["putaran","0"],["baris","0"],["kolom","0"]]}],"out":"","note":"Baris 4 · ③ **loop dalam** dimulai: `kolom ← 0`."},{"line":5,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]},{"name":"hitung_putaran","vars":[["putaran","1"],["baris","0"],["kolom","0"]]}],"out":"","note":"Baris 5 · ④ **perbarui penampung**: `putaran ← 1`."},{"line":4,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]},{"name":"hitung_putaran","vars":[["putaran","1"],["baris","0"],["kolom","1"]]}],"out":"","note":"Baris 4: `kolom ← 1`. Kita masih di `baris = 0`."},{"line":5,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]},{"name":"hitung_putaran","vars":[["putaran","2"],["baris","0"],["kolom","1"]]}],"out":"","note":"Baris 5: `putaran ← 2`."},{"line":4,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]},{"name":"hitung_putaran","vars":[["putaran","2"],["baris","0"],["kolom","2"]]}],"out":"","note":"Baris 4: `kolom ← 2`, bilangan terakhir `range(3)`."},{"line":5,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]},{"name":"hitung_putaran","vars":[["putaran","3"],["baris","0"],["kolom","2"]]}],"out":"","note":"Baris 5: `putaran ← 3`. Baris pertama selesai diisi."},{"line":4,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]},{"name":"hitung_putaran","vars":[["putaran","3"],["baris","0"],["kolom","2"]]}],"out":"","note":"Baris 4: barisan `range(3)` habis, jadi loop **dalam** selesai. Loop **luar** belum selesai; Python kembali ke baris 3."},{"line":3,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]},{"name":"hitung_putaran","vars":[["putaran","3"],["baris","1"],["kolom","2"]]}],"out":"","note":"Baris 3: putaran luar kedua, `baris ← 1`. `kolom` masih menyimpan `2` dari putaran luar sebelumnya."},{"line":4,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]},{"name":"hitung_putaran","vars":[["putaran","3"],["baris","1"],["kolom","0"]]}],"out":"","note":"Baris 4: loop dalam **mulai lagi dari awal**: `kolom ← 0`, bukan `3`. Loop dalam tidak mengingat di mana ia berhenti."},{"line":5,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]},{"name":"hitung_putaran","vars":[["putaran","4"],["baris","1"],["kolom","0"]]}],"out":"","note":"Baris 5: `putaran ← 4`."},{"line":4,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]},{"name":"hitung_putaran","vars":[["putaran","4"],["baris","1"],["kolom","1"]]}],"out":"","note":"Baris 4: `kolom ← 1`."},{"line":5,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]},{"name":"hitung_putaran","vars":[["putaran","5"],["baris","1"],["kolom","1"]]}],"out":"","note":"Baris 5: `putaran ← 5`."},{"line":4,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]},{"name":"hitung_putaran","vars":[["putaran","5"],["baris","1"],["kolom","2"]]}],"out":"","note":"Baris 4: `kolom ← 2`."},{"line":5,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]},{"name":"hitung_putaran","vars":[["putaran","6"],["baris","1"],["kolom","2"]]}],"out":"","note":"Baris 5: `putaran ← 6`."},{"line":4,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]},{"name":"hitung_putaran","vars":[["putaran","6"],["baris","1"],["kolom","2"]]}],"out":"","note":"Baris 4: loop dalam habis lagi, kembali ke baris 3."},{"line":3,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]},{"name":"hitung_putaran","vars":[["putaran","6"],["baris","1"],["kolom","2"]]}],"out":"","note":"Baris 3: `range(2)` juga sudah habis, jadi loop luar selesai."},{"line":6,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]},{"name":"hitung_putaran","vars":[["putaran","6"],["baris","1"],["kolom","2"]],"ret":"6"}],"out":"","note":"Baris 6 · ⑤ **kembalikan**: `return putaran` sejajar dengan `for` luar, dijalankan sekali setelah kedua loop selesai. Nilai kembali `6`."},{"line":8,"frames":[{"name":"__main__","vars":[["hitung_putaran","<fungsi>"]]}],"out":"6\n","note":"Kembali ke baris 8: tercetak `6`. Loop dalam berjalan penuh (3 putaran) untuk **setiap** putaran luar (2 kali): 2 × 3 = 6."}]}</script>
+```
+
+Jawaban pertanyaan Engage: tabel perkalian 1–5 hanya butuh **enam baris**, termasuk `def`. Satu-satunya perbedaan dengan persegi adalah isi teksnya:
+
+```python
+def tabel_kali():
+    for a in range(1, 6):
+        teks = ""
+        for b in range(1, 6):
+            teks = teks + str(a * b) + " "
+        print(teks)
+```
+
+Loop dalamnya berjalan 5 × 5 = 25 kali. Untuk tabel 1–20, cukup mengganti `6` menjadi `21`.
+
+### Letak teks baris dan print
+
+Pada perulangan bersarang, setiap baris kode punya tiga kemungkinan tempat, dan setiap tempat berarti frekuensi yang berbeda:
+
+::: {.table-responsive}
+| Letak | Dijalankan | Cocok untuk |
+|---|---|---|
+| Sebelum loop luar | **sekali** | penampung untuk seluruh hasil: `total = 0` |
+| Di loop luar, di luar loop dalam | **sekali per baris** | teks baris: `teks = ""`, `print(teks)` |
+| Di dalam loop dalam | **sekali per sel** | `teks = teks + "*"`, `total = total + a * b` |
+
+: {tbl-colwidths="[34,22,44]"}
+:::
+
+Salah satu tingkat saja, hasilnya berubah total:
+
+- **`teks = ""` sebelum loop luar.** Teks tidak pernah dikosongkan, sehingga setiap baris memanjang: untuk 3 baris × 2 bintang tercetak `**`, `****`, `******`.
+- **`print(teks)` di dalam loop dalam.** Teks dicetak setelah setiap bintang: `*`, `**`, `***`, `****`, diulang tiga kali (12 baris).
+
+### Segitiga: batas loop dalam bergantung pada loop luar
+
+```python
+def segitiga():
+    for baris in range(1, 5):
+        teks = ""
+        for kolom in range(1, baris + 1):
+            teks = teks + str(kolom)
+        print(teks)
+
+segitiga()
+```
+
+```
+1
+12
+123
+1234
+```
+
+Di sini batas loop dalam, `baris + 1`, **memakai variabel loop luar**. Variabel luar menentukan panjang baris ini:
+
+| `baris` | Loop dalam | Putaran dalam | `teks` |
+|---|---|---|---|
+| 1 | `range(1, 2)` | 1 | `1` |
+| 2 | `range(1, 3)` | 2 | `12` |
+| 3 | `range(1, 4)` | 3 | `123` |
+| 4 | `range(1, 5)` | 4 | `1234` |
+| | | **10** | |
+
+: {tbl-colwidths="[16,30,24,30]"}
+
+Totalnya 1 + 2 + 3 + 4 = **10**, bukan 4 × 4 = 16. Aturannya: **jika batas dalam berubah, jangan kalikan; hitung putaran dalam untuk setiap nilai luar, lalu jumlahkan.**
+
+Kode yang sedikit berbeda bisa memberi jumlah putaran yang sama. Dengan loop dalam `range(baris, 5)`, putarannya 4 + 3 + 2 + 1 = 10 juga, tetapi segitiganya terbalik: `1234`, `234`, `34`, `4`. Hitung per baris, jangan menebak dari bentuk kodenya.
+
+::: {.callout-note title="Mengapa tidak \"*\" * baris saja?"}
+`"*" * baris` membuat segitiga bintang dengan **satu** loop (pengulangan string, Minggu 2), dan itu boleh. Namun teks seperti `1234` tidak bisa dibuat dengan pengulangan, karena setiap karakternya berbeda. Untuk teks yang isinya bergantung pada posisi kolom, kita butuh loop dalam.
+:::
+
+### Contoh terpandu: jumlah_tabel
+
+Tulis fungsi `jumlah_tabel(n)` yang mengembalikan jumlah **semua** isi tabel perkalian n × n. Isi baris `a`, kolom `b` adalah `a * b`.
+
+**1 · Pahami.** Gambar tabel 2 × 2: baris 1 berisi `1 2`, baris 2 berisi `2 4`. Jumlahnya 1 + 2 + 2 + 4 = 9. Bagaimana mendapatkan setiap angka? Baris × kolom. Apa yang dilakukan setiap kali? Ambil satu isi, tambahkan ke total berjalan: itu **akumulator** dari Minggu 6. Urutannya: baris 1, setiap kolom; lalu baris 2, setiap kolom. "Untuk setiap baris, untuk setiap kolom" berarti dua loop, satu di dalam yang lain.
+
+**2–3 · Pecah dan rancang.** Lima label perulangan bersarang:
+
+| Label | Isinya |
+|---|---|
+| ① Siapkan penampung | **sekali**, sebelum kedua loop |
+| ② Loop luar | baris `a` dari 1 sampai `n` |
+| ③ Loop dalam | kolom `b` dari 1 sampai `n`, mulai ulang setiap baris |
+| ④ Perbarui penampung | di dalam loop dalam |
+| ⑤ Kembalikan | sejajar dengan loop **luar** |
+
+: {tbl-colwidths="[30,70]"}
+
+Di mana `total = 0`: sebelum loop luar, atau di dalam loop luar seperti `teks = ""` pada persegi? `teks` adalah milik **satu baris**, jadi dikosongkan setiap baris. `total` adalah milik **seluruh tabel**, jadi dimulai sekali. Jika diletakkan di dalam loop luar, `n = 5` menghasilkan `75`: hanya jumlah baris terakhir.
+
+**4 · Isi dan uji.**
+
+```python
+def jumlah_tabel(n):
+    """Kembalikan jumlah semua isi tabel perkalian n x n."""
+    # ① SIAPKAN PENAMPUNG
+    total = 0
+    # ② LOOP LUAR
+    for a in range(1, n + 1):
+        # ③ LOOP DALAM (MULAI ULANG TIAP PUTARAN LUAR)
+        for b in range(1, n + 1):
+            # ④ PERBARUI PENAMPUNG
+            total = total + a * b
+    # ⑤ KEMBALIKAN
+    return total
+
+print(jumlah_tabel(2) == 9)       # True
+print(jumlah_tabel(5) == 225)     # True
+print(jumlah_tabel(1) == 1)       # True
+```
+
+| `a` | `b` | `a * b` | `total` |
+|---|---|---|---|
+| *(awal)* | – | – | 0 |
+| 1 | 1 | 1 | 1 |
+| 1 | 2 | 2 | 3 |
+| 2 | 1 | 2 | 5 |
+| 2 | 2 | 4 | 9 |
+
+: {tbl-colwidths="[25,25,25,25]"}
+
+`return total` sejajar dengan `for` **luar**. Jika menjorok di dalam loop luar, fungsi selesai setelah baris pertama: `n = 3` menghasilkan `6`.
+
+::: {.callout-warning title="Jangan percaya satu uji"}
+Misalkan kamu salah ketik `a + b`, bukan `a * b`. Untuk `n = 3`, hasilnya `36`, **sama** dengan jawaban yang benar, kebetulan. Untuk `n = 5`, hasilnya `150`, padahal seharusnya `225`. Satu uji yang beruntung bisa menyembunyikan *bug*. Uji lebih dari satu ukuran.
+:::
+
+**5 · Rakit.**
+
+```python
+n = int(input())
+print(jumlah_tabel(n))
+```
+
+### Empat bagian perulangan
+
+Minggu 6 memperkenalkan tiga bagian setiap loop: inisialisasi, kondisi, dan pemutakhiran. Bersama **badan** loop, keempatnya menjadi alat untuk **mengubah** satu bentuk loop menjadi bentuk lainnya. `for` dengan `range` menyembunyikan tiga di antaranya; `while` menuliskan semuanya:
+
+::: {.table-responsive}
+| Bagian | `for` | `while` |
+|---|---|---|
+| ① Inisialisasi | `range(1, baris + 1)` → mulai dari 1 | `kolom = 1` |
+| ② Kondisi | `range(1, baris + 1)` → sampai `baris` | `while kolom <= baris:` |
+| ③ Badan | `teks = teks + str(kolom)` | `teks = teks + str(kolom)` |
+| ④ Pemutakhiran | otomatis oleh `for` | `kolom = kolom + 1` |
+
+: {tbl-colwidths="[22,40,38]"}
+:::
+
+Mengubah bentuk perulangan berarti **memindahkan** keempat bagian ini tanpa mengubah hasilnya.
+
+### for → while
+
+Loop dalam segitiga ditulis ulang dengan `while`:
+
+```python
+def segitiga():
+    for baris in range(1, 5):
+        teks = ""
+        kolom = 1                     # ① inisialisasi: DI DALAM loop luar
+        while kolom <= baris:         # ② range(1, baris + 1) berhenti sebelum baris + 1
+            teks = teks + str(kolom)  # ③ badan
+            kolom = kolom + 1         # ④ pemutakhiran, di akhir badan
+        print(teks)
+```
+
+Keluarannya sama: `1`, `12`, `123`, `1234`. Tiga hal yang dipindahkan:
+
+- ① `kolom = 1` adalah awal `range`. Letaknya **di dalam** loop luar, tepat sebelum `while`, karena loop dalam mulai ulang setiap baris.
+- ② `range(1, baris + 1)` berhenti **sebelum** `baris + 1`, jadi nilai terakhirnya `baris`, dan kondisinya `kolom <= baris`.
+- ④ `kolom = kolom + 1` ditulis sendiri sebagai baris terakhir badan. Lupa baris ini berarti *infinite loop* (Minggu 6).
+
+Apa jadinya jika `kolom = 1` diletakkan **sekali**, di atas loop luar?
+
+```python
+def segitiga():
+    kolom = 1                         # SALAH: hanya sekali
+    for baris in range(1, 5):
+        teks = ""
+        while kolom <= baris:
+            teks = teks + str(kolom)
+            kolom = kolom + 1
+        print(teks)
+```
+
+```
+1
+2
+3
+4
+```
+
+Setelah baris 1, `kolom` sudah bernilai 2 dan tidak pernah dikembalikan ke 1. Setiap baris berikutnya hanya mendapat satu angka. Pada `for`, inisialisasi ini terjadi otomatis setiap kali loop dalam dimulai; pada `while`, kamu yang harus meletakkannya di tempat yang dijalankan setiap baris.
+
+### while → for
+
+Arah sebaliknya: temukan keempat bagian di `while`, susun menjadi `range(awal, batas, langkah)`, lalu **hapus** baris pemutakhiran.
+
+```python
+# while
+def mundur():
+    i = 10
+    while i >= 1:
+        print(i)
+        i = i - 3
+
+# for
+def mundur():
+    for i in range(10, 0, -3):
+        print(i)
+```
+
+Keduanya mencetak `10`, `7`, `4`, `1`.
+
+| Bagian `while` | Menjadi |
+|---|---|
+| ① `i = 10` | argumen pertama `range`: `10` |
+| ② `while i >= 1:` | batas `0`, karena `range` berhenti **sebelum** batas |
+| ④ `i = i - 3` | langkah `-3`, lalu barisnya **dihapus** |
+
+: {tbl-colwidths="[40,60]"}
+
+Rumus umumnya: kondisi `i <= akhir` dengan langkah naik menjadi batas `akhir + 1`; kondisi `i >= akhir` dengan langkah turun menjadi batas `akhir - 1`.
+
+::: {.callout-note title="Baris pemutakhiran yang tertinggal"}
+Jika `i = i - 3` lupa dihapus dari badan `for`, program **tidak** rusak: `for` mengisi `i` lagi dari barisan `range` di setiap putaran, sehingga perubahan itu hilang. Tetap hapus barisnya, karena ia menyesatkan pembaca: seolah-olah ia yang mengendalikan loop, padahal tidak.
+:::
+
+### for atau while?
+
+Pertanyaan penentu dari Minggu 6 tetap berlaku: **apakah banyak putaran sudah diketahui sebelum loop dimulai?**
+
+::: {.table-responsive}
+| Situasi | Pilihan | Alasan |
+|---|---|---|
+| Jumlahkan nilai 4 juri untuk masing-masing 10 peserta lomba | `for` di dalam `for` | 10 dan 4 diketahui sebelum perulangan |
+| Berapa kali `n` bisa dibagi dua (pembagian bulat) sampai 1 atau kurang? | `while` | Banyak putaran bergantung pada nilai `n` dan tidak bisa ditulis sebagai `range` |
+| Baca berat barang sampai kasir mengetik 0 | `while` | Berhenti pada penanda 0 (sentinel, Minggu 6) |
+
+: {tbl-colwidths="[44,18,38]"}
+:::
+
+```python
+def dibagi_dua(n):
+    kali = 0
+    while n > 1:
+        n = n // 2
+        kali = kali + 1
+    return kali
+
+print(dibagi_dua(8), dibagi_dua(100), dibagi_dua(1))    # 3 6 0
+```
+
+Situasi kedua menunjukkan bahwa **tidak setiap `while` bisa menjadi `for`**. Arah sebaliknya selalu bisa: setiap `for` dengan `range` dapat ditulis sebagai `while` dengan memindahkan keempat bagiannya. Jadi pilihannya bukan soal mana yang "lebih kuat", melainkan mana yang menyatakan maksudnya dengan jelas: `for` untuk banyak putaran yang diketahui, `while` untuk berhenti karena sebuah keadaan.
+
+## Kesalahan Umum
+
+::: {.table-responsive}
+| Gejala | Penyebab | Perbaikan |
+|---|---|---|
+| Nilai ekstrem bernilai 0 (atau 100) yang tidak ada di data | Nilai awal tebakan ikut bertanding | Ambil data pertama sebagai nilai awal |
+| `EOFError` pada fungsi nilai ekstrem | Data pertama dibaca, lalu loop masih `range(n)` | Loop membaca sisanya: `range(n - 1)` |
+| Nilai ekstrem hanya membandingkan sekali | `return` menjorok di dalam `if` atau `for` | `return` sejajar dengan `for` |
+| Hari yang salah saat ada nilai kembar | `>` dan `>=` tertukar | `>`: yang pertama menang; `>=`: yang terakhir menang |
+| Pencarian menjawab `False` padahal datanya ada | `else: return False` di dalam loop | `return False` setelah loop, tanpa `else` |
+| Trace table punya baris sesudah `return` | Mengira `return` hanya mengakhiri putaran | `return` mengakhiri **fungsi**; putaran sesudahnya tidak ada |
+| Batas tidak sesuai soal ("di bawah 0") | `x <= 0` padahal maksudnya `x < 0` | Uji nilai batasnya, misalnya `0` |
+| Nomor hari meleset satu | `range(n)` padahal hari dimulai dari 1 | `range(1, n + 1)` |
+| Menghitung putaran bersarang dengan menjumlahkan (3 + 4) | Mengira loop dalam berjalan sekali | Batas tetap: kalikan (3 × 4) |
+| Menghitung segitiga dengan mengalikan (4 × 4) | Batas dalam bergantung pada loop luar | Hitung per baris, lalu jumlahkan |
+| Baris pola terus memanjang | `teks = ""` sebelum loop luar | Kosongkan teks di dalam loop luar |
+| Tercetak satu baris per karakter | `print(teks)` di dalam loop dalam | `print` sejajar dengan loop dalam |
+| Total hanya berisi baris terakhir | `total = 0` di dalam loop luar | Penampung seluruh hasil: sebelum kedua loop |
+| Konversi ke `while` mencetak `1`, `2`, `3`, `4` | Inisialisasi loop dalam hanya sekali, di atas loop luar | Inisialisasi di dalam loop luar, sebelum `while` |
+| `while i <= n` diubah menjadi `range(1, n)` | Kondisi dan batas `range` tertukar | `<=` berarti batas `n + 1` |
+
+: {tbl-colwidths="[32,34,34]"}
+:::
 
 ## Tebak Dulu
 
@@ -63,6 +814,137 @@ for i in range(3):
 Tercetak 6 baris: `0 0`, `0 1`, `1 0`, `1 1`, `2 0`, `2 1`. Perulangan dalam berjalan 2 kali untuk setiap putaran perulangan luar, sehingga totalnya 3 × 2 = 6 iterasi.
 :::
 
+Dengan data `4 2 1 3 5` (satu per baris), berapa putaran yang dijalankan, dan apa yang dikembalikan?
+
+```python
+def hari_pertama_minus(n):
+    for hari in range(1, n + 1):
+        x = int(input())
+        if x < 0:
+            return hari
+    return -1
+
+print(hari_pertama_minus(5))
+```
+
+::: {.callout-tip collapse="true" title="Lihat jawaban"}
+Kelima putaran berjalan, lalu tercetak `-1`. Tidak ada suhu di bawah 0, sehingga `return hari` tidak pernah dijalankan. Setelah loop selesai, baris `return -1` dijalankan. Hasilnya bukan `None`, karena baris terakhir fungsi itu memang dicapai.
+:::
+
+Berapa kali `teks = teks + "#"` dijalankan, dan apa keluarannya?
+
+```python
+for baris in range(1, 4):
+    teks = ""
+    for kolom in range(baris, 4):
+        teks = teks + "#"
+    print(teks)
+```
+
+::: {.callout-tip collapse="true" title="Lihat jawaban"}
+6 kali: 3 + 2 + 1. Keluarannya `###`, `##`, `#`. Batas dalam bergantung pada `baris`, jadi putarannya dihitung per baris lalu dijumlahkan, bukan dikalikan (3 × 3 = 9 salah).
+:::
+
+Program berikut seharusnya mencetak persegi 3 × 2. Apa yang sebenarnya tercetak?
+
+```python
+teks = ""
+for baris in range(3):
+    for kolom in range(2):
+        teks = teks + "*"
+    print(teks)
+```
+
+::: {.callout-tip collapse="true" title="Lihat jawaban"}
+`**`, `****`, `******`. `teks = ""` berada **sebelum** loop luar, sehingga tidak pernah dikosongkan. Setiap baris melanjutkan teks baris sebelumnya. Perbaikannya: pindahkan `teks = ""` ke dalam loop luar, tepat sebelum loop dalam.
+:::
+
+## Latihan Mandiri
+
+1. **(U9.1)** Buat trace table (kolom putaran, `x`, `x > top`, `top`) untuk fungsi berikut dengan `n = 5` dan data `60 75 75 40 90`. Berapa nilai yang dikembalikan? Lalu jelaskan apa yang berubah jika baris 2 diganti `top = 100`.
+
+    ```python
+    def nilai_tertinggi(n):
+        top = int(input())
+        for i in range(n - 1):
+            x = int(input())
+            if x > top:
+                top = x
+        return top
+    ```
+
+2. **(U9.1)** Dengan data `8 12 7 15 3`, sebutkan di putaran ke berapa fungsi berikut selesai, data mana saja yang tidak pernah dibaca, dan nilai kembaliannya. Ulangi untuk data `8 6 7 1 3`.
+
+    ```python
+    def hari_pertama_genap_besar(n):
+        for hari in range(1, n + 1):
+            x = int(input())
+            if x % 2 == 0 and x > 10:
+                return hari
+        return -1
+    ```
+
+3. **(U9.2)** Tulis fungsi `harga_termurah(n)` yang membaca `n` harga (bilangan bulat, satu per baris, `input()` tanpa teks) dan mengembalikan harga termurah, lengkap dengan docstring dan empat label sebagai komentar. Uji: `5000 3500 7000` → `3500`, `9000 9500 9900` → `9000`, satu harga `4200` → `4200`.
+4. **(U9.2)** Tulis fungsi `ada_nilai_sempurna(n)` yang membaca `n` nilai ujian dan mengembalikan `True` jika ada nilai 100, atau `False` jika tidak ada. Lalu tulis `posisi_sempurna(n)` yang mengembalikan nomor urut (mulai dari 1) nilai 100 yang pertama, atau `-1`. Uji: `80 100 90 100` → `True` / `2`; `80 95 90` → `False` / `-1`.
+5. **(U9.2)** Fungsi berikut seharusnya mengembalikan `True` jika ada bilangan negatif. Uji dengan data `5 -1 2`, jelaskan mengapa hasilnya salah, lalu perbaiki.
+
+    ```python
+    def ada_negatif(n):
+        for i in range(n):
+            x = int(input())
+            if x < 0:
+                return True
+            else:
+                return False
+    ```
+
+6. **(U9.3)** Tanpa menjalankannya, tentukan berapa kali baris `banyak = banyak + 1` dijalankan pada (a) dan (b), lalu periksa dengan menjalankannya.
+
+    ```python
+    # (a)
+    banyak = 0
+    for b in range(1, 6):
+        for k in range(1, 9):
+            banyak = banyak + 1
+
+    # (b)
+    banyak = 0
+    for i in range(5):
+        for j in range(i):
+            banyak = banyak + 1
+    ```
+
+7. **(U9.4)** Tulis fungsi `cetak_tangga(n)` yang mencetak `n` baris: baris ke-`i` berisi bilangan `i` sebanyak `i` kali, dibangun dengan loop dalam. Untuk `n = 4`: `1`, `22`, `333`, `4444`. Lalu tulis `banyak_kelipatan_tiga(n)` yang mengembalikan berapa isi tabel perkalian `n × n` yang habis dibagi 3 (uji: `n = 3` → `5`, `n = 2` → `0`).
+8. **(U9.5)** Ubah fungsi berikut menjadi versi `for` tanpa `while`, dengan hasil yang sama. Kemudian, untuk setiap situasi, pilih `for` atau `while` dan beri satu kalimat alasan: (a) mencetak denah kursi bioskop 8 baris × 12 kursi; (b) menghitung berapa tahun tabungan Rp1.000.000 berbunga 5% per tahun sampai mencapai Rp2.000.000.
+
+    ```python
+    def jumlah_genap(n):
+        total = 0
+        i = 2
+        while i <= n:
+            total = total + i
+            i = i + 2
+        return total
+    ```
+
 ## Bacaan
 
 - Think Python Ch. 7 - Iteration and Search
+- Pendukung: NCCE KS4 Programming Part 3 - Iteration (Lesson 13 *Trace tables*, Lesson 14 *For loops*, Lessons 16–17 *Pseudocode*) dan Part 4 - Subroutines (Lesson 22 *Structured programming*)
+- Referensi resmi Python §8.3 - The for statement, §7.6 - The return statement
+
+## Referensi
+
+Downey, A. B. (2024). *Think Python: How to think like a computer scientist* (3rd ed.). O'Reilly Media. <https://allendowney.github.io/ThinkPython/>
+
+- Bab 7, *Iteration and Search* (subbab *Looping and counting*, *Search*): <https://allendowney.github.io/ThinkPython/chap07.html>
+
+National Centre for Computing Education. (t.t.-a). *KS4 Programming, Lesson 13: Trace tables*. Raspberry Pi Foundation & STEM Learning. Open Government Licence v3.0.
+
+National Centre for Computing Education. (t.t.-b). *KS4 Programming, Lesson 14: For loops*. Raspberry Pi Foundation & STEM Learning. Open Government Licence v3.0.
+
+National Centre for Computing Education. (t.t.-c). *KS4 Programming, Lesson 22: Structured programming*. Raspberry Pi Foundation & STEM Learning. Open Government Licence v3.0.
+
+Python Software Foundation. (t.t.-a). Compound statements: The for statement. Dalam *The Python language reference*. Diakses 12 November 2026, dari <https://docs.python.org/3/reference/compound_stmts.html#the-for-statement>
+
+Python Software Foundation. (t.t.-b). Simple statements: The return statement. Dalam *The Python language reference*. Diakses 12 November 2026, dari <https://docs.python.org/3/reference/simple_stmts.html#the-return-statement>
