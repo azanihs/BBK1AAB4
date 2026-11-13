@@ -12,10 +12,10 @@ minggu: 10
 
 | Kode | Jenis | Skill |
 |---|---|---|
-| `U10.1` | Trace (T) | Memprediksi hasil indexing dan slicing; menjelaskan sifat immutable string |
-| `U10.2` | Write (W) | Menelusuri string dengan for untuk menghitung atau mengumpulkan karakter |
-| `U10.3` | Write (W) | Menggunakan metode string (find, split, strip, lower, replace) untuk tugas kecil |
-| `U10.4` | Transfer (X) | Memilih antara metode bawaan dan perulangan manual, dengan alasan |
+| `U10.1` | Trace (T) | Memprediksi hasil indexing dan slicing, termasuk indeks negatif dan batas yang melewati panjang string; menjelaskan sifat immutable string |
+| `U10.2` | Write (W) | Menelusuri string dengan `for` untuk menghitung atau mengumpulkan karakter |
+| `U10.3` | Write (W) | Menggunakan metode string (`find`, `split`, `strip`, `lower`, `replace`) untuk tugas kecil |
+| `U10.4` | Transfer (X) | Memilih antara metode bawaan dan perulangan buatan sendiri, dengan alasan |
 | `U10.5` | Transfer (X) | Pengayaan: memakai ekspresi reguler sederhana |
 
 : {tbl-colwidths="[12,16,72]"}
@@ -29,15 +29,547 @@ minggu: 10
 
 ## Konsep Kunci
 
-Indeks dimulai dari `0`, batas akhir *slicing* tidak ikut diambil, dan indeks negatif menghitung dari belakang. String bersifat **immutable**: metode seperti `upper()` dan `strip()` menghasilkan string baru, bukan mengubah string lama.
+Setiap karakter string punya **indeks**, dimulai dari `0`; indeks negatif menghitung dari belakang. **Slice** `teks[a:b]` berhenti **sebelum** `b`, seperti `range`. String bersifat **immutable**: isinya tidak bisa diubah, jadi kita selalu membuat string baru. `for karakter in teks:` mengambil satu karakter di setiap putaran, dan pola penampung dari Minggu 6 dan 9 berlaku lagi. **Metode** seperti `strip()` dan `lower()` juga tidak mengubah string; ia **mengembalikan** string baru yang harus disimpan.
 
 ```python
-kata = "Telkom"
-print(kata[0], kata[-1], kata[1:4])   # T m elk
+pesan = "kuis hari jumat"
+print(pesan[0], pesan[-1], pesan[5:9])   # k t hari
+
+def hitung_huruf(pesan, huruf):
+    banyak = 0                           # ① siapkan penampung
+    for karakter in pesan:               # ② ulangi setiap karakter
+        if karakter == huruf:            # ③ periksa karakter,
+            banyak = banyak + 1          #    perbarui penampung
+    return banyak                        # ④ kembalikan setelah loop
+
+print(hitung_huruf(pesan, "a"))          # 2
 
 nama = "  budi SANTOSO "
-print(nama.strip().title())            # Budi Santoso
+nama = nama.strip().lower()              # simpan hasilnya!
+print(nama)                              # budi santoso
 ```
+
+## Lesson A · Indexing, Slicing, dan Immutability
+
+### Masalahnya: cuma satu huruf kapital
+
+Ketua kelas mengirim pesan ke grup: `kuis hari jumat`. Ia ingin huruf pertamanya kapital. Hanya satu karakter yang perlu diganti, jadi kita coba:
+
+```python
+pesan = "kuis hari jumat"
+pesan[0] = "K"
+```
+
+```
+TypeError: 'str' object does not support item assignment
+```
+
+Python menolak. Baca pesan galatnya: kata **str** dan **item assignment** adalah petunjuknya. Apa yang sebenarnya ditolak Python? Tulis satu kalimat dengan kata-katamu sendiri, lalu simpan tebakanmu. Jawabannya ada di subbab *String tidak bisa diubah*.
+
+### Tebak delapan ekspresi
+
+Sebelum membaca penjelasan apa pun, tebak hasil delapan ekspresi berikut **di kertas**, lalu jalankan satu per satu di notebook dan tandai benar atau salah. Boleh menulis nomor posisi di bawah setiap huruf.
+
+| # | Ekspresi | Tebakanmu |
+|---|---|---|
+| 1 | `pesan[0]` | |
+| 2 | `pesan[5]` | |
+| 3 | `pesan[-1]` | |
+| 4 | `pesan[-5]` | |
+| 5 | `pesan[0:4]` | |
+| 6 | `pesan[5:9]` | |
+| 7 | `pesan[10:99]` | |
+| 8 | `pesan[15]` | |
+
+: {tbl-colwidths="[8,40,52]"}
+
+::: {.callout-tip collapse="true" title="Lihat jawaban"}
+`k` · `h` · `t` · `j` · `kuis` · `hari` · `jumat` · **`IndexError: string index out of range`**
+
+Tebakan salah yang paling sering: `u` untuk #1 (menghitung dari 1), `kuis ` dengan spasi untuk #5 (mengira batas akhir ikut), galat untuk #7, dan `t` untuk #8 (mengira indeks terakhir sama dengan panjangnya).
+:::
+
+Setelah menjalankannya, jawab tiga pertanyaan ini:
+
+1. Mengapa `pesan[0]` bernilai `k`? Indeks berapa yang memberi huruf terakhir?
+2. Mengapa `[0:4]` menghasilkan 4 huruf? Mengapa `[10:99]` berhasil, padahal `[15]` gagal?
+3. Bagaimana menghitung berapa huruf `a` di dalam `pesan` tanpa menghitung dengan mata?
+
+Tiga subbab berikut menjawab ketiganya secara berurutan.
+
+### Indeks: posisi setiap karakter
+
+String adalah barisan **karakter**: huruf, angka, spasi, atau simbol. Setiap karakter punya posisi yang disebut **indeks** (*index*), dimulai dari **0**, sama seperti `range(15)` (NCCE, t.t.-a). Spasi juga karakter dan juga punya indeks.
+
+::: {.table-responsive}
+| Karakter | `k` | `u` | `i` | `s` | ␣ | `h` | `a` | `r` | `i` | ␣ | `j` | `u` | `m` | `a` | `t` |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Indeks | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 |
+| Indeks negatif | -15 | -14 | -13 | -12 | -11 | -10 | -9 | -8 | -7 | -6 | -5 | -4 | -3 | -2 | -1 |
+:::
+
+- `len(pesan)` memberi **panjang** string, yaitu banyaknya karakter: `15`, termasuk dua spasi.
+- Karena indeks dimulai dari 0, indeks terakhir adalah **panjang − 1**: `pesan[14]`, atau `pesan[len(pesan) - 1]`. Keduanya bernilai `t`.
+- `pesan[15]` meminta karakter ke-16 yang tidak ada, sehingga Python berhenti dengan `IndexError`.
+- **Indeks negatif** menghitung dari belakang: `pesan[-1]` adalah karakter terakhir, `pesan[-5]` adalah `j` dari `jumat` (Downey, 2024, §8.1). Ini cara mudah mengambil "huruf terakhir" tanpa perlu tahu panjangnya.
+
+Cek cepat: `pesan[1]` bernilai `u`, dan `pesan[-15]` bernilai `k`, karakter pertama.
+
+### String tidak bisa diubah
+
+Sekarang galat di awal bisa dijelaskan. Setelah sebuah string dibuat, karakternya **tidak bisa diganti**. Sifat ini disebut **immutable** (Downey, 2024, §8.3). Itulah arti *does not support item assignment*: kita tidak boleh menaruh karakter baru ke posisi 0. Huruf `K`-nya tidak salah, indeksnya juga tidak salah; yang ditolak adalah **mengubah** string.
+
+Yang bisa kita lakukan adalah **membuat string baru**, lalu memberikannya ke nama yang sama:
+
+```python
+pesan = "K" + pesan[1:]
+print(pesan)          # Kuis hari jumat
+```
+
+`pesan[1:]` artinya "semua karakter mulai indeks 1". Bentuk ini disebut *slice*, isi subbab berikutnya. `+` dari Minggu 2 menyambung `"K"` dengan potongan itu menjadi string yang benar-benar baru. String lama tidak berubah; nama `pesan` sekarang menunjuk ke string baru.
+
+### Slice: berhenti sebelum batas
+
+`pesan[a:b]` mengambil karakter dari indeks `a` **sampai sebelum** `b`. Aturannya sama dengan `range(0, 4)`, yang memberi 0, 1, 2, 3 (NCCE, t.t.-b). Jadi `pesan[0:4]` berisi empat karakter, `kuis`, tanpa spasi di indeks 4.
+
+Cara lain membayangkannya: letakkan nomor indeks di **celah di antara** karakter (Downey, 2024, §8.2). `[0:4]` memotong di celah 0 dan celah 4.
+
+```
+ | k | u | i | s | ␣ | h | a | r | i | ...
+ 0   1   2   3   4   5   6   7   8   9
+ ↑               ↑
+ [0:4] → "kuis"
+```
+
+Dengan gambaran ini, `pesan[4:4]` memotong dua kali di celah yang sama, dan hasilnya `''`, **string kosong**.
+
+| Slice | Hasil | Arti |
+|---|---|---|
+| `pesan[0:4]` | `kuis` | indeks 0 sampai 3 |
+| `pesan[0:5]` | `'kuis '` | spasi di indeks 4 ikut |
+| `pesan[:4]` | `kuis` | batas awal kosong = dari awal |
+| `pesan[10:]` | `jumat` | batas akhir kosong = sampai akhir |
+| `pesan[-5:]` | `jumat` | lima karakter terakhir |
+| `pesan[4:4]` | `''` | string kosong |
+| `pesan[10:99]` | `jumat` | slice melewati akhir berhenti di akhir |
+
+: {tbl-colwidths="[24,22,54]"}
+
+::: {.callout-note title="Indeks melewati akhir vs slice melewati akhir"}
+`pesan[15]` adalah galat, karena tidak ada karakter yang bisa dikembalikan. `pesan[10:99]` bukan galat: slice hanya mengambil yang ada dan berhenti di akhir string. Jalankan keduanya berdampingan untuk melihat bedanya.
+:::
+
+### Menelusuri string dengan for
+
+Pertanyaan ketiga dari Explore: berapa huruf `a` di `pesan`? Kita butuh cara melihat karakternya **satu per satu**. `for` dari Minggu 6 bisa melakukannya, dengan string sebagai barisannya, bukan `range`:
+
+```python
+for karakter in pesan:
+    print(karakter)
+```
+
+Loop ini berjalan 15 putaran: `k`, lalu `u`, lalu `i`, dan seterusnya, spasi juga. Kita tidak menulis indeks apa pun; `for` sendiri yang mengambilkan karakter berikutnya. Menelusuri string seperti ini disebut *walking a string* (NCCE, t.t.-a).
+
+Untuk **menghitung**, kita pakai penghitung dari Minggu 6 di dalam fungsi yang mengembalikan nilai. Polanya punya **empat langkah**, dan seperti biasa labelnya adalah *pseudocode* kita:
+
+```
+① SIAPKAN PENAMPUNG
+② ULANGI SETIAP KARAKTER
+③     PERIKSA KARAKTER, PERBARUI PENAMPUNG
+④ KEMBALIKAN SETELAH LOOP
+```
+
+```python
+def hitung_huruf(pesan, huruf):
+    """Kembalikan berapa kali huruf muncul di dalam pesan."""
+    banyak = 0                          # ①
+    for karakter in pesan:              # ②
+        if karakter == huruf:           # ③
+            banyak = banyak + 1
+    return banyak                       # ④
+
+print(hitung_huruf("kuis hari jumat", "a"))   # 2
+```
+
+Telusuri versi pendeknya dengan `"data"`. Perhatikan kolom `karakter` di trace table: setiap putaran mendapat satu karakter, berurutan dari indeks 0.
+
+```{=html}
+<div class="stackviz" data-trace="trace-w10-hitung" data-title="Telusuri: menghitung karakter"></div>
+<script type="application/json" id="trace-w10-hitung">{"code":["def hitung_huruf(pesan, huruf):","    banyak = 0","    for karakter in pesan:","        if karakter == huruf:","            banyak = banyak + 1","    return banyak","","print(hitung_huruf(\"data\", \"a\"))"],"steps":[{"line":null,"frames":[{"name":"__main__","vars":[]}],"out":"","note":"Program belum berjalan. Tebak dulu: berapa putaran yang dijalankan loop `for karakter in pesan`, dan berapa nilai `banyak` di akhir? Lalu tekan **Lanjut**."},{"line":1,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]}],"out":"","note":"Baris 1: `def` membuat fungsi `hitung_huruf`; badannya belum dijalankan. Python melompat ke baris 8."},{"line":8,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","–"]}],"cur":null,"foot":null}}],"out":"","note":"Baris 8 memanggil `hitung_huruf(\"data\", \"a\")`. Frame baru dibuat dengan `pesan ← 'data'` dan `huruf ← 'a'`."},{"line":2,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]}],"cur":[0,2],"foot":null}}],"out":"","note":"Baris 2 · ① **siapkan penampung**: `banyak = 0`, sekali, sebelum loop. Belum ada yang dihitung."},{"line":3,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'",null,null]}],"cur":[1,0],"foot":null}}],"out":"","note":"Baris 3 · ② **ulangi setiap karakter**: putaran 1, `karakter ← 'd'`, karakter pertama (indeks 0)."},{"line":4,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",null]}],"cur":[1,1],"foot":null}}],"out":"","note":"Baris 4 · ③ **periksa karakter**: `'d' == 'a'` bernilai `False`. `banyak` tidak berubah."},{"line":3,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",{"v":"0","carry":true}]},{"label":"2","cls":"","cells":["'a'",null,null]}],"cur":[2,0],"foot":null}}],"out":"","note":"Baris 3: putaran 2, `karakter ← 'a'`. Perhatikan: kita tidak menulis indeks apa pun; `for` mengambilkan karakter berikutnya."},{"line":4,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",{"v":"0","carry":true}]},{"label":"2","cls":"","cells":["'a'","True",null]}],"cur":[2,1],"foot":null}}],"out":"","note":"Baris 4: `'a' == 'a'` bernilai `True`."},{"line":5,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",{"v":"0","carry":true}]},{"label":"2","cls":"","cells":["'a'","True","1"]}],"cur":[2,2],"foot":null}}],"out":"","note":"Baris 5 · ③ **perbarui penampung**: `banyak ← 1`."},{"line":3,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",{"v":"0","carry":true}]},{"label":"2","cls":"","cells":["'a'","True","1"]},{"label":"3","cls":"","cells":["'t'",null,null]}],"cur":[3,0],"foot":null}}],"out":"","note":"Baris 3: putaran 3, `karakter ← 't'`."},{"line":4,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",{"v":"0","carry":true}]},{"label":"2","cls":"","cells":["'a'","True","1"]},{"label":"3","cls":"","cells":["'t'","False",null]}],"cur":[3,1],"foot":null}}],"out":"","note":"Baris 4: `'t' == 'a'` bernilai `False`."},{"line":3,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",{"v":"0","carry":true}]},{"label":"2","cls":"","cells":["'a'","True","1"]},{"label":"3","cls":"","cells":["'t'","False",{"v":"1","carry":true}]},{"label":"4","cls":"","cells":["'a'",null,null]}],"cur":[4,0],"foot":null}}],"out":"","note":"Baris 3: putaran 4, `karakter ← 'a'`, karakter terakhir (indeks 3)."},{"line":4,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",{"v":"0","carry":true}]},{"label":"2","cls":"","cells":["'a'","True","1"]},{"label":"3","cls":"","cells":["'t'","False",{"v":"1","carry":true}]},{"label":"4","cls":"","cells":["'a'","True",null]}],"cur":[4,1],"foot":null}}],"out":"","note":"Baris 4: `'a' == 'a'` bernilai `True`."},{"line":5,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",{"v":"0","carry":true}]},{"label":"2","cls":"","cells":["'a'","True","1"]},{"label":"3","cls":"","cells":["'t'","False",{"v":"1","carry":true}]},{"label":"4","cls":"","cells":["'a'","True","2"]}],"cur":[4,2],"foot":null}}],"out":"","note":"Baris 5: `banyak ← 2`."},{"line":3,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",{"v":"0","carry":true}]},{"label":"2","cls":"","cells":["'a'","True","1"]},{"label":"3","cls":"","cells":["'t'","False",{"v":"1","carry":true}]},{"label":"4","cls":"","cells":["'a'","True","2"]}],"cur":null,"foot":"Barisan habis: loop selesai setelah 4 putaran."}}],"out":"","note":"Baris 3: tidak ada karakter lagi. `\"data\"` punya 4 karakter, jadi loop berjalan tepat 4 putaran, sama dengan `len(pesan)`."},{"line":6,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"ret":"2","table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",{"v":"0","carry":true}]},{"label":"2","cls":"","cells":["'a'","True","1"]},{"label":"3","cls":"","cells":["'t'","False",{"v":"1","carry":true}]},{"label":"4","cls":"","cells":["'a'","True","2"]}],"cur":null,"foot":"Barisan habis: loop selesai setelah 4 putaran."}}],"out":"","note":"Baris 6 · ④ **kembalikan setelah loop**: `return banyak` sejajar dengan `for`, dijalankan sekali setelah semua karakter diperiksa. Nilai kembali `2`."},{"line":8,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]}],"out":"2\n","note":"Kembali ke baris 8: tercetak `2`. Satu putaran per karakter, satu pemeriksaan per putaran: pola penghitung dari Minggu 6, dengan string sebagai barisannya."}]}</script>
+<script src="../assets/stackviz.js?v=2"></script>
+```
+
+::: {.callout-note title="Operator in: ada atau tidak?"}
+Untuk pertanyaan "**adakah** teks ini di dalam string?", Python punya operator `in`: `"jumat" in pesan` bernilai `True`. Namun `"Jumat" in pesan` bernilai `False`, karena `J` kapital adalah karakter yang berbeda dari `j`. `in` hanya menjawab ada atau tidak; untuk "**berapa banyak**", kita tetap butuh loop. Dengan alasan yang sama, `hitung_huruf(pesan, "A")` bernilai `0`.
+:::
+
+### Contoh terpandu: hitung_vokal
+
+Kita tulis `hitung_vokal(pesan)`, yang mengembalikan banyaknya huruf vokal (a, i, u, e, o), kapital maupun kecil, dengan resep lima langkah dari Minggu 5. Empat label di atas adalah isi langkah **Rancang**.
+
+**1 · Pahami.** Masukannya satu string, keluarannya satu angka; fungsi **mengembalikan**, tidak mencetak. Hitung dengan tangan untuk `Ada`: `A`, vokal? Ya, `A` kapital tetap huruf a. Hitungan 1. `d`: bukan. `a`: ya, hitungan 2. Jawabannya 2. Yang dilakukan untuk setiap kotak: lihat satu karakter, tanya "vokal?", tambah 1 jika ya. Itulah badan loop. Ingat juga bahwa `A` kapital kita perlakukan seperti `a` kecil.
+
+**2–3 · Pecah dan rancang.** Satu fungsi cukup. Tulis kerangka, uji pertama dari hitungan tangan, dan empat label sebagai komentar:
+
+```python
+def hitung_vokal(pesan):
+    """Kembalikan banyaknya huruf vokal (a, i, u, e, o) di pesan, kapital maupun kecil."""
+    # ① SIAPKAN PENAMPUNG
+    # ② ULANGI SETIAP KARAKTER
+    # ③ PERIKSA KARAKTER, PERBARUI PENAMPUNG
+    # ④ KEMBALIKAN SETELAH LOOP
+    return 0
+```
+
+Kerangka ini sudah bisa dijalankan; `hitung_vokal("Ada")` menghasilkan `0`. Sebelum menulis kode: bagaimana membuat `A` kapital ikut terhitung tanpa sepuluh perbandingan? Ubah dulu pesannya menjadi huruf kecil dengan `.lower()`, lalu bandingkan dengan lima vokal kecil.
+
+**4 · Isi dan uji.** Isi satu label setiap kali:
+
+```python
+def hitung_vokal(pesan):
+    """Kembalikan banyaknya huruf vokal (a, i, u, e, o) di pesan, kapital maupun kecil."""
+    # ① SIAPKAN PENAMPUNG
+    banyak = 0
+    # ② ULANGI SETIAP KARAKTER
+    for karakter in pesan.lower():
+        # ③ PERIKSA KARAKTER, PERBARUI PENAMPUNG
+        if (karakter == "a" or karakter == "i" or karakter == "u"
+                or karakter == "e" or karakter == "o"):
+            banyak = banyak + 1
+    # ④ KEMBALIKAN SETELAH LOOP
+    return banyak
+```
+
+- ① Belum ada yang dihitung; sebelum loop, seperti setiap penghitung di Minggu 6.
+- ② `pesan.lower()` menghasilkan string **baru** berhuruf kecil, dan loop menelusuri string baru itu. Metode seperti ini dibahas lengkap di Lesson B.
+- ③ Setiap perbandingan ditulis **lengkap**. Tanda kurung membuat kondisi yang panjang boleh dipecah menjadi dua baris. Bentuk yang lebih pendek dan sama benarnya: `if karakter in "aiueo":`, memakai `in` dari subbab sebelumnya.
+- ④ `return` sejajar dengan `for`.
+
+::: {.callout-warning title="Mengapa tidak karakter == \"a\" or \"i\" or ...?"}
+Bentuk `if karakter == "a" or "i" or "u" or "e" or "o":` terlihat lebih ringkas, tetapi Python membacanya sebagai `(karakter == "a") or "i" or ...`. `"i"` sendirian adalah string tidak kosong, dan string tidak kosong dianggap benar. Kondisinya **selalu** `True`, sehingga setiap karakter terhitung: `"xyz"` menghasilkan `3`, `"kuis hari jumat"` menghasilkan `15`.
+:::
+
+| Masukan | Harapan | Yang diuji |
+|---|---|---|
+| `"Ada"` | `2` | hitungan tangan |
+| `"kuis hari jumat"` | `6` | pesan contoh |
+| `"AIUEO"` | `5` | menangkap `.lower()` yang lupa (jawaban salahnya `0`) |
+| `"xyz"` | `0` | menangkap `or` yang tidak lengkap (jawaban salahnya `3`) |
+| `""` | `0` | kasus tepi: loop berjalan nol kali |
+
+: {tbl-colwidths="[30,16,54]"}
+
+Uji ketiga penting: versi tanpa `.lower()` lulus di semua uji berhuruf kecil. Jika `return banyak` menjorok di dalam loop, fungsi selesai setelah karakter pertama: `"kuis hari jumat"` menghasilkan `0`.
+
+**5 · Rakit.**
+
+```python
+pesan = input()
+print(hitung_vokal(pesan))
+```
+
+Untuk menghitung angka, hanya langkah ③ yang berubah: `if karakter.isdigit():` (Minggu 3). Perhatikan, yang diperiksa adalah **`karakter`**, satu karakter, bukan `pesan.isdigit()` yang memeriksa seluruh string.
+
+### Mengumpulkan karakter: penampung berupa string
+
+Loop yang sama juga bisa **membangun** string baru. Penampungnya bukan lagi angka `0`, melainkan string kosong `""`, dan setiap putaran menyambungkan satu karakter dengan `+`. Contohnya `balik(teks)`, yang membalik urutan karakter: `balik("jumat")` menghasilkan `tamuj`.
+
+Kuncinya ada di baris pembaruan: karakter baru diletakkan di **depan** `hasil`. Telusuri dengan `"abc"` dan perhatikan isi `hasil` di setiap putaran:
+
+```{=html}
+<div class="stackviz" data-trace="trace-w10-balik" data-title="Telusuri: membalik string"></div>
+<script type="application/json" id="trace-w10-balik">{"code":["def balik(teks):","    hasil = \"\"","    for karakter in teks:","        hasil = karakter + hasil","    return hasil","","print(balik(\"abc\"))"],"steps":[{"line":null,"frames":[{"name":"__main__","vars":[]}],"out":"","note":"Program belum berjalan. Tebak dulu: apa isi `hasil` setelah putaran 1, 2, dan 3? Perhatikan baris 4: `karakter` ditaruh di **depan** atau di belakang `hasil`? Lalu tekan **Lanjut**."},{"line":1,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]}],"out":"","note":"Baris 1: `def` membuat fungsi `balik`. Python melompat ke baris 7."},{"line":7,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]},{"name":"balik","vars":[["teks","'abc'"]],"table":{"cols":["karakter","hasil"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–"]}],"cur":null,"foot":null}}],"out":"","note":"Baris 7 memanggil `balik(\"abc\")`. Frame baru dibuat dengan `teks ← 'abc'`."},{"line":2,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]},{"name":"balik","vars":[["teks","'abc'"]],"table":{"cols":["karakter","hasil"],"rows":[{"label":"(awal)","cls":"init","cells":["–","''"]}],"cur":[0,1],"foot":null}}],"out":"","note":"Baris 2 · ① **siapkan penampung**: `hasil = \"\"`, string kosong. Untuk mengumpulkan karakter, penampungnya string, bukan angka."},{"line":3,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]},{"name":"balik","vars":[["teks","'abc'"]],"table":{"cols":["karakter","hasil"],"rows":[{"label":"(awal)","cls":"init","cells":["–","''"]},{"label":"1","cls":"","cells":["'a'",null]}],"cur":[1,0],"foot":null}}],"out":"","note":"Baris 3 · ② **ulangi setiap karakter**: putaran 1, `karakter ← 'a'`."},{"line":4,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]},{"name":"balik","vars":[["teks","'abc'"]],"table":{"cols":["karakter","hasil"],"rows":[{"label":"(awal)","cls":"init","cells":["–","''"]},{"label":"1","cls":"","cells":["'a'","'a'"]}],"cur":[1,1],"foot":null}}],"out":"","note":"Baris 4 · ③ **perbarui penampung**: `'a' + ''` menghasilkan `'a'`. String lama tidak diubah; `+` membuat string **baru**, lalu nama `hasil` menunjuk ke string baru itu."},{"line":3,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]},{"name":"balik","vars":[["teks","'abc'"]],"table":{"cols":["karakter","hasil"],"rows":[{"label":"(awal)","cls":"init","cells":["–","''"]},{"label":"1","cls":"","cells":["'a'","'a'"]},{"label":"2","cls":"","cells":["'b'",null]}],"cur":[2,0],"foot":null}}],"out":"","note":"Baris 3: putaran 2, `karakter ← 'b'`."},{"line":4,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]},{"name":"balik","vars":[["teks","'abc'"]],"table":{"cols":["karakter","hasil"],"rows":[{"label":"(awal)","cls":"init","cells":["–","''"]},{"label":"1","cls":"","cells":["'a'","'a'"]},{"label":"2","cls":"","cells":["'b'","'ba'"]}],"cur":[2,1],"foot":null}}],"out":"","note":"Baris 4: `'b' + 'a'` menghasilkan `'ba'`. Karakter baru masuk di **depan**, jadi yang datang belakangan berada paling depan."},{"line":3,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]},{"name":"balik","vars":[["teks","'abc'"]],"table":{"cols":["karakter","hasil"],"rows":[{"label":"(awal)","cls":"init","cells":["–","''"]},{"label":"1","cls":"","cells":["'a'","'a'"]},{"label":"2","cls":"","cells":["'b'","'ba'"]},{"label":"3","cls":"","cells":["'c'",null]}],"cur":[3,0],"foot":null}}],"out":"","note":"Baris 3: putaran 3, `karakter ← 'c'`."},{"line":4,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]},{"name":"balik","vars":[["teks","'abc'"]],"table":{"cols":["karakter","hasil"],"rows":[{"label":"(awal)","cls":"init","cells":["–","''"]},{"label":"1","cls":"","cells":["'a'","'a'"]},{"label":"2","cls":"","cells":["'b'","'ba'"]},{"label":"3","cls":"","cells":["'c'","'cba'"]}],"cur":[3,1],"foot":null}}],"out":"","note":"Baris 4: `'c' + 'ba'` menghasilkan `'cba'`."},{"line":3,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]},{"name":"balik","vars":[["teks","'abc'"]],"table":{"cols":["karakter","hasil"],"rows":[{"label":"(awal)","cls":"init","cells":["–","''"]},{"label":"1","cls":"","cells":["'a'","'a'"]},{"label":"2","cls":"","cells":["'b'","'ba'"]},{"label":"3","cls":"","cells":["'c'","'cba'"]}],"cur":null,"foot":"Barisan habis: loop selesai setelah 3 putaran."}}],"out":"","note":"Baris 3: tidak ada karakter lagi. Loop selesai setelah 3 putaran."},{"line":5,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]},{"name":"balik","vars":[["teks","'abc'"]],"ret":"'cba'","table":{"cols":["karakter","hasil"],"rows":[{"label":"(awal)","cls":"init","cells":["–","''"]},{"label":"1","cls":"","cells":["'a'","'a'"]},{"label":"2","cls":"","cells":["'b'","'ba'"]},{"label":"3","cls":"","cells":["'c'","'cba'"]}],"cur":null,"foot":"Barisan habis: loop selesai setelah 3 putaran."}}],"out":"","note":"Baris 5 · ④ **kembalikan setelah loop**: nilai kembali `'cba'`."},{"line":7,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]}],"out":"cba\n","note":"Kembali ke baris 7: tercetak `cba`. Jika baris 4 ditulis `hasil = hasil + karakter`, isinya `a`, `ab`, `abc`: teks kembali tanpa terbalik."}]}</script>
+```
+
+Jika baris itu ditulis `hasil = hasil + karakter`, karakter disambung di **belakang**, dan fungsi mengembalikan teks yang sama persis: `balik("jumat")` menghasilkan `jumat`. Bug ini mudah lolos jika ujinya palindrom: `"kasur rusak"` dibaca sama dari dua arah, jadi versi yang salah tampak benar. Uji selalu dengan kata yang **bukan** palindrom.
+
+Satu contoh lagi: `sensor_angka(pesan)` mengganti setiap angka dengan `*`, dan karakter lain dibiarkan.
+
+```python
+def sensor_angka(pesan):
+    """Kembalikan pesan dengan setiap angka diganti '*'."""
+    hasil = ""
+    for karakter in pesan:
+        if karakter.isdigit():
+            hasil = hasil + "*"
+        else:
+            hasil = hasil + karakter
+    return hasil
+
+print(sensor_angka("Kode OTP: 4821"))    # Kode OTP: ****
+```
+
+Di sini `else` wajib ada. Tanpa `else`, huruf tidak pernah dimasukkan ke `hasil`: `"Kode OTP: 4821"` menghasilkan `****`, dan `"tanpa angka"` menghasilkan string kosong. Pada pola mengumpulkan, tanyakan: **apa yang terjadi pada karakter yang tidak lolos pemeriksaan?**
+
+::: {.table-responsive}
+| Tugas | ① Penampung | ③ Pemeriksaan dan pembaruan |
+|---|---|---|
+| Hitung huruf `a` | `banyak = 0` | `if karakter == "a":` → `banyak = banyak + 1` |
+| Hitung vokal | `banyak = 0` | `if karakter in "aiueo":` → `banyak = banyak + 1` |
+| Balik teks | `hasil = ""` | (tanpa `if`) → `hasil = karakter + hasil` |
+| Sensor angka | `hasil = ""` | `if karakter.isdigit():` → `"*"`, `else:` → `karakter` |
+| Ambil huruf kapital | `hasil = ""` | `if karakter >= "A" and karakter <= "Z":` → `hasil = hasil + karakter` |
+
+: {tbl-colwidths="[24,22,54]"}
+:::
+
+## Lesson B · Metode String dan Pemrosesan Teks
+
+### Masalahnya: 300 nama yang berantakan
+
+Bagian kemahasiswaan mengekspor nama dari formulir pendaftaran untuk dicetak sebagai *name tag*. Empat di antaranya (tanda kutip menunjukkan di mana spasinya):
+
+```
+"  budi SANTOSO"   "rina  putri "   "ANDI"   " dewi lestari  "
+```
+
+Rapikan keempatnya dengan tangan, lalu tulis langkah yang kamu lakukan, berurutan. Kemungkinan besar langkahnya: buang spasi di awal dan akhir, lalu jadikan huruf kecil semua. Sekarang bayangkan file aslinya berisi 300 nama. Masih mau mengerjakannya dengan tangan?
+
+Perhatikan juga `"rina  putri "`: spasi gandanya ada di **tengah**, bukan di tepi. Ingat nama ini; kita kembali ke sana.
+
+### Apa yang dikembalikan setiap metode?
+
+Satu baris dari formulir yang sama berisi nama, kota, dan email, dipisahkan `;`:
+
+```python
+data = "  Rina Putri;BANDUNG ;rina.putri@telkom.ac.id  "
+```
+
+Tebak **nilai yang dikembalikan** setiap panggilan berikut, lalu jalankan. Pakai `print(repr(...))` agar spasi di tepi terlihat.
+
+| # | Panggilan | Tebakanmu |
+|---|---|---|
+| 1 | `data.strip()` | |
+| 2 | `data.lower()` | |
+| 3 | `data.split(";")` | |
+| 4 | `data.find("@")` | |
+| 5 | `data.find("#")` | |
+| 6 | `data.replace(";", " \| ")` | |
+| 7 | `print(repr(data))`, setelah keenam panggilan di atas | |
+
+: {tbl-colwidths="[8,52,40]"}
+
+::: {.callout-tip collapse="true" title="Lihat jawaban"}
+1. `'Rina Putri;BANDUNG ;rina.putri@telkom.ac.id'`
+2. `'  rina putri;bandung ;rina.putri@telkom.ac.id  '` (spasi di tepi tetap ada)
+3. `['  Rina Putri', 'BANDUNG ', 'rina.putri@telkom.ac.id  ']`
+4. `32`
+5. `-1` (bukan galat, bukan `False`)
+6. `'  Rina Putri | BANDUNG  | rina.putri@telkom.ac.id  '`
+7. `'  Rina Putri;BANDUNG ;rina.putri@telkom.ac.id  '`: **tidak berubah sama sekali**
+:::
+
+Hasil #7 biasanya paling mengejutkan. Tiga pertanyaan untuk dijawab:
+
+1. Mengapa `data` tetap berantakan setelah semua panggilan itu?
+2. Apa yang dikembalikan `split` dan `find`? Apa arti `-1`?
+3. Bisakah kita mendapatkan `bandung` dengan loop, bukan dengan metode? Versi mana yang lebih mudah dibaca?
+
+### Mengapa data tidak berubah?
+
+**Metode** (*method*) adalah fungsi yang dipanggil pada sebuah nilai dengan titik: `data.strip()`. Kamu sudah memakai satu sejak Minggu 3, yaitu `isdigit()`. Aturan Lesson A tetap berlaku: string tidak bisa diubah, dan metode juga tidak mengubahnya. Metode string **mengembalikan string baru**, dan string aslinya tetap seperti semula (Downey, 2024, §8.5).
+
+Jika hasilnya ingin dipakai, **simpan**:
+
+```python
+data = data.strip()
+print(repr(data))     # 'Rina Putri;BANDUNG ;rina.putri@telkom.ac.id'
+```
+
+Metode juga bisa dirangkai. Setiap metode bekerja pada nilai yang dikembalikan metode sebelumnya:
+
+```python
+print(data.strip().lower())    # rina putri;bandung ;rina.putri@telkom.ac.id
+```
+
+Kembali ke nama-nama tadi: `"rina  putri ".strip().lower()` menghasilkan `'rina  putri'`. Spasi ganda di tengah **tetap ada**, karena `strip` hanya membuang spasi di **tepi**.
+
+::: {.callout-warning title="Lupa tanda kurung"}
+`data.lower` tanpa `()` tidak memanggil metodenya. Hasilnya adalah metode itu sendiri, `<built-in method lower of str object at 0x…>`, bukan string berhuruf kecil. Metode selalu dipanggil dengan `()`.
+:::
+
+### Lima metode dan nilai kembaliannya
+
+| Metode | Yang dilakukan | Yang dikembalikan |
+|---|---|---|
+| `strip()` | membuang spasi di tepi | string baru |
+| `lower()` / `upper()` | mengubah huruf menjadi kecil / kapital | string baru |
+| `replace(lama, baru)` | mengganti **setiap** `lama` dengan `baru` | string baru |
+| `find(teks)` | mencari `teks` | indeks pertama yang cocok, atau **-1** |
+| `split(pemisah)` | memotong di setiap `pemisah` | bagian-bagiannya |
+
+: {tbl-colwidths="[26,40,34]"}
+
+**`split` memberi bagian.** `data.split(";")` memotong di setiap `;` dan mengembalikan tiga bagian. Satu bagian dibaca dengan `[ ]`, kurung yang sama dengan indeks karakter, dan bagian pertama bernomor `0`:
+
+```python
+print(repr(data.split(";")[1]))                  # 'BANDUNG '
+print(data.split(";")[1].strip().lower())        # bandung
+```
+
+Tiga bagian bernomor 0, 1, 2. `data.split(";")[3]` tidak ada dan menghasilkan `IndexError: list index out of range`, sama seperti indeks string yang melewati akhir. Bagian-bagian ini sebenarnya sebuah **list**, tipe data yang dipelajari di Minggu 11. Minggu ini kita hanya membaca bagiannya dengan nomor.
+
+**`find` memberi indeks, atau −1.** `data.find("@")` bernilai `32`, indeks `@` yang pertama. Jika tidak ketemu, hasilnya `-1`. Hati-hati: `-1` juga indeks yang sah, yaitu karakter terakhir. Akibatnya kode berikut tidak menghasilkan galat, tetapi diam-diam salah:
+
+```python
+posisi = data.find("#")           # -1, tidak ketemu
+print(data[posisi + 1:])          # seluruh data: -1 + 1 = 0
+```
+
+Jadi periksa `-1` **sebelum** memotong. Satu jebakan lagi: jika yang dicari ada di indeks 0, `find` mengembalikan `0`, dan `0` dianggap salah dalam `if`. Kondisi `if posisi:` akan memperlakukan "ketemu di awal" sebagai "tidak ketemu". Bandingkan langsung: `if posisi == -1:`.
+
+Tugas kecil dengan metode biasanya mengikuti **empat langkah**:
+
+```
+① RAPIKAN               (strip, lower/upper)
+② PECAH ATAU CARI       (split, find)
+③ AMBIL BAGIAN          (bagian[i], slice)
+④ SIMPAN HASILNYA, LALU KEMBALIKAN
+```
+
+### Contoh terpandu: ambil_nama
+
+Setiap baris formulir berisi nama, kota, dan email, dipisahkan `;`. Tulis `ambil_nama(baris)` yang mengembalikan namanya saja, tanpa spasi di tepi.
+
+**1 · Pahami.** Masukannya satu baris (string), keluarannya string: nama. Dengan tangan, tulis barisnya dengan spasi digambar sebagai titik: `··Rina Putri;BANDUNG·;rina.putri@telkom.ac.id··`. Cari `;` pertama; semua sebelum itu adalah nama, `··Rina Putri`. Hapus titik di tepi: `Rina Putri`. Spasi di antara Rina dan Putri tetap. Baris kedua, `Dewi`, tidak punya `;` sama sekali: seluruh baris adalah nama. Dua langkah setiap kali: ambil bagian pertama, buang spasi di tepinya.
+
+**2–3 · Pecah dan rancang.**
+
+```python
+def ambil_nama(baris):
+    """Kembalikan bagian sebelum ';' pertama, tanpa spasi di tepi."""
+    # ② PECAH ATAU CARI
+    # ③ AMBIL BAGIAN
+    # ④ SIMPAN HASILNYA, LALU KEMBALIKAN
+    return ""
+```
+
+Label ① tidak dibutuhkan di sini: yang dirapikan adalah bagiannya, bukan seluruh baris.
+
+Ada dua cara memotong: `find` dengan slice, atau `split`. Mana yang menangani baris `"Dewi"` tanpa kerja tambahan? `split`. Tanpa `;`, `"Dewi".split(";")` memberi **satu** bagian, yaitu seluruh baris, jadi `bagian[0]` bernilai `Dewi`. Dengan `find`, tidak ada `;`, `find` memberi `-1`, dan `baris[0:-1]` menghasilkan `Dew`: huruf terakhir hilang. Cara `find` juga bisa benar, tetapi hanya dengan pemeriksaan `-1`.
+
+**4 · Isi dan uji.**
+
+```python
+def ambil_nama(baris):
+    """Kembalikan bagian sebelum ';' pertama, tanpa spasi di tepi."""
+    # ② PECAH ATAU CARI
+    bagian = baris.split(";")
+    # ③ AMBIL BAGIAN
+    # ④ SIMPAN HASILNYA, LALU KEMBALIKAN
+    nama = bagian[0].strip()
+    return nama
+```
+
+- ② Potong di setiap `;`.
+- ③ Bagian pertama bernomor **0**. Dengan `bagian[1]`, fungsi mengembalikan kota, `BANDUNG`, dan baris `"Dewi"` berhenti dengan `IndexError`.
+- ④ `.strip()` mengembalikan salinan yang rapi, dan salinan itu **disimpan** di `nama`. Jika ditulis `nama = bagian[0]`, lalu `nama.strip()` di barisnya sendiri, fungsi mengembalikan `'  Rina Putri'`.
+
+| Masukan | Harapan | Yang diuji |
+|---|---|---|
+| `"  Rina Putri;BANDUNG ;rina.putri@telkom.ac.id  "` | `'Rina Putri'` | hitungan tangan |
+| `"Budi;Medan;budi@gmail.com"` | `'Budi'` | tanpa spasi |
+| `" Andi Wijaya ; Ambon ; andi@yahoo.co.id"` | `'Andi Wijaya'` | spasi di dua sisi nama |
+| `"Dewi"` | `'Dewi'` | tanpa pemisah (versi `find` tanpa cek: `'Dew'`) |
+| `""` | `''` | string kosong |
+
+: {tbl-colwidths="[48,20,32]"}
+
+**5 · Rakit.**
+
+```python
+baris = input()
+print(ambil_nama(baris))
+```
+
+Untuk kota, hanya langkah ③ yang berubah: bagian `[1]`, ditambah `.lower()`. Hasilnya `bandung`, `medan`, `ambon` untuk tiga baris pertama.
+
+### Metode atau loop?
+
+Bandingkan dua cara mengganti `;` menjadi `,`. Yang pertama adalah pola mengumpulkan dari Lesson A (NCCE, t.t.-c):
+
+```python
+def ganti_titik_koma(teks):
+    hasil = ""
+    for karakter in teks:
+        if karakter == ";":
+            hasil = hasil + ","
+        else:
+            hasil = hasil + karakter
+    return hasil
+
+print(ganti_titik_koma("Rina Putri;Bandung;2025"))    # Rina Putri,Bandung,2025
+print("Rina Putri;Bandung;2025".replace(";", ","))    # Rina Putri,Bandung,2025
+```
+
+Hasilnya sama. Versi metode hanya satu baris, dan namanya sudah menjelaskan apa yang dilakukan. Jika **satu metode mengerjakan persis tugas itu**, pakai metodenya: kodenya lebih sedikit, tempat bersembunyinya *bug* juga lebih sedikit.
+
+Namun metode bisa memberi jawaban salah jika ia menjawab **pertanyaan yang berbeda**. Sebuah sekolah memeriksa tahun masuk dari *username* seperti `16Ma20` (masuk 2016) dengan `if "20" in username:`. Apakah `16Ma20` terhitung sebagai angkatan 2020? Ya, dan itu salah: `"20" in "16Ma20"` bernilai `True`, karena `in` mencari **di mana saja** (NCCE, t.t.-b). Untuk memeriksa awalan, potong posisinya: `username[0:2] == "20"` bernilai `False`.
+
+Kapan loop adalah jawaban yang jujur? Saat **tidak ada** metode yang mengerjakannya dalam satu panggilan, atau saat setiap karakter butuh keputusannya sendiri. Menghitung vokal (`hitung_vokal`) adalah contohnya: tidak ada metode "hitung vokal" di daftar kita.
+
+::: {.table-responsive}
+| Situasi | Pilihan | Alasan |
+|---|---|---|
+| Harga diketik `"12,5"`, harus menjadi `"12.5"` | `replace(",", ".")` | satu metode mengerjakan persis tugas ini |
+| Hitung huruf vokal di sebuah nama | loop | tidak ada metode di daftar kita yang melakukannya; periksa setiap karakter |
+| Periksa apakah NIM **diawali** kode tertentu | slice `nim[0:4] == kode` | `in` mencari di mana saja; slice memeriksa posisi |
+
+: {tbl-colwidths="[40,24,36]"}
+:::
+
+::: {.callout-note title="Jalan pintas untuk membalik string"}
+Slice punya bagian ketiga, langkah, seperti `range`: `"jumat"[::-1]` menghasilkan `tamuj`, sama dengan `balik` dari Lesson A. Ini contoh metode bawaan yang mengerjakan persis tugasnya. Di worksheet kamu tetap menulis loopnya, karena yang dilatih adalah menulis loop itu.
+:::
+
+### Pengayaan: ekspresi reguler
+
+*Bagian ini pengayaan (U10.5) dan tidak diujikan di Evaluate maupun UAS.*
+
+**Ekspresi reguler** (*regular expression*) adalah pola yang menggambarkan banyak string sekaligus (Downey, 2024, §8.8–8.9). Modul `re` menyediakan `re.search(pola, teks)`:
+
+```python
+import re
+print(re.search("colou?r", "a colour"))    # <re.Match object; span=(2, 8), match='colour'>
+print(re.search("colou?r", "a color"))     # <re.Match object; span=(2, 7), match='color'>
+print(re.search("colou?r", "a colr"))      # None
+print(re.search("^Rina", "Putri Rina"))    # None
+```
+
+- `?` berarti "karakter sebelum aku boleh ada, boleh tidak", sehingga satu pola menemukan kedua ejaan.
+- `^` berarti "di awal teks"; `Rina` di akhir tidak cocok.
+- `re.search` mengembalikan objek *Match* atau `None`, **bukan** `True`/`False`.
+
+Bagian opsional notebook Lesson B berisi contoh lainnya, termasuk `|` (atau) dan `re.sub`.
+
+## Kesalahan Umum
+
+::: {.table-responsive}
+| Gejala | Penyebab | Perbaikan |
+|---|---|---|
+| `pesan[5]` ditebak `u` atau spasi | Menghitung indeks dari 1 | Karakter pertama berindeks 0 |
+| `IndexError` saat mengambil huruf terakhir | `teks[len(teks)]` | Indeks terakhir `len(teks) - 1`, atau `teks[-1]` |
+| Slice punya satu karakter terlalu banyak | Mengira batas akhir ikut diambil | `[a:b]` berhenti **sebelum** b, seperti `range` |
+| Mengira `teks[10:99]` galat | Slice disamakan dengan indeks | Slice melewati akhir berhenti di akhir |
+| `TypeError: 'str' object does not support item assignment` | Mengubah satu karakter: `teks[0] = "K"` | Buat string baru: `"K" + teks[1:]` |
+| Setiap karakter terhitung | `karakter == "a" or "i" or ...` | Tulis setiap perbandingan lengkap, atau `karakter in "aiueo"` |
+| Huruf kapital tidak terhitung | Lupa `.lower()` | Telusuri `pesan.lower()` |
+| Hitungan selalu 0 atau 1 | `return` di dalam loop | `return` sejajar dengan `for` |
+| Pemeriksaan angka selalu gagal | `pesan.isdigit()` memeriksa seluruh string | `karakter.isdigit()` |
+| `balik` mengembalikan teks yang sama | `hasil = hasil + karakter` | `hasil = karakter + hasil`; uji dengan kata bukan palindrom |
+| Huruf hilang dari hasil | Tidak ada `else` pada pola mengumpulkan | Karakter yang tidak lolos pemeriksaan juga disambung |
+| String tetap berantakan setelah `strip()` | Hasil metode tidak disimpan | `teks = teks.strip()` |
+| `<built-in method lower ...>` | Metode tanpa `()` | `teks.lower()` |
+| Spasi ganda di tengah masih ada | `strip` hanya membuang spasi di tepi | Itu memang perilakunya; jangan pakai `replace(" ", "")` untuk merapikan nama |
+| `tanjungpinang` | `replace(" ", "")` membuang spasi di tengah juga | `strip()` untuk tepi saja |
+| Bagian yang salah, atau `IndexError` | `bagian[1]` untuk bagian pertama | Bagian bernomor dari 0 |
+| Slice dari `find` mengembalikan seluruh teks, atau huruf terakhir hilang | `-1` dipakai langsung sebagai indeks | Periksa `if posisi == -1:` sebelum memotong |
+| "Ketemu di awal" dianggap tidak ketemu | `if posisi:`, padahal `0` dianggap salah | `if posisi == -1:` |
+| Awalan dianggap cocok padahal tidak | `in` mencari di mana saja | Slice: `teks[0:4] == kode` |
+| `re.search(...) == True` selalu `False` | Mengira hasilnya boolean | Hasilnya objek *Match* atau `None` |
+
+: {tbl-colwidths="[32,34,34]"}
+:::
 
 ## Tebak Dulu
 
@@ -53,6 +585,74 @@ print(s)
 Hasilnya tetap `halo`. `upper()` menghasilkan string baru, tetapi hasilnya tidak disimpan ke mana pun. Tulis `s = s.upper()` untuk menyimpannya.
 :::
 
+`kota = "Surabaya"`. Apa hasil `kota[2:5]`, `kota[-3:]`, `kota[5:50]`, dan `kota[8]`?
+
+::: {.callout-tip collapse="true" title="Lihat jawaban"}
+`rab`, `aya`, `aya`, dan `IndexError`. `"Surabaya"` punya 8 karakter, berindeks 0 sampai 7. `[2:5]` mengambil indeks 2, 3, 4. `[5:50]` melewati akhir tetapi tetap berhasil, berhenti di akhir. `kota[8]` meminta karakter yang tidak ada.
+:::
+
+Apa yang dikembalikan `hitung("Ada apa")`?
+
+```python
+def hitung(teks):
+    banyak = 0
+    for karakter in teks:
+        if karakter == "a":
+            banyak = banyak + 1
+        return banyak
+```
+
+::: {.callout-tip collapse="true" title="Lihat jawaban"}
+`0`. `return banyak` menjorok di dalam loop, jadi fungsi selesai di putaran pertama. Karakter pertama adalah `A` kapital, yang tidak sama dengan `"a"`, sehingga `banyak` masih 0 saat dikembalikan. Setelah `return` dipindahkan sejajar dengan `for`, hasilnya `3`: `A` kapital tetap tidak terhitung tanpa `.lower()`. Dengan `teks.lower()`, hasilnya `4`.
+:::
+
+Apa keluaran program berikut?
+
+```python
+email = "tanpa-at.com"
+posisi = email.find("@")
+print(email[posisi + 1:])
+```
+
+::: {.callout-tip collapse="true" title="Lihat jawaban"}
+`tanpa-at.com`, seluruh teks. Tidak ada `@`, jadi `posisi` bernilai `-1`, dan `posisi + 1` bernilai `0`. Slice `[0:]` mengambil semuanya. Tidak ada galat, tetapi jawabannya salah: periksa `-1` sebelum memotong.
+:::
+
+## Latihan Mandiri
+
+1. **(U10.1)** `kode = "Kode OTP: 4821"`. Tanpa menjalankannya, tentukan `len(kode)`, `kode[-4:]`, `kode[5:8]`, dan `kode[14]`. Lalu tulis satu baris yang membuat string baru `"kode OTP: 4821"` (huruf pertama kecil) dari `kode` tanpa mengetik ulang seluruh teks.
+2. **(U10.1)** Untuk `pesan = "kuis hari jumat"`, tulis slice yang menghasilkan `hari`, `jumat` dengan indeks negatif, dan string kosong. Jelaskan mengapa `pesan[15]` galat tetapi `pesan[15:20]` tidak.
+3. **(U10.2)** Tulis fungsi `ambil_huruf_besar(teks)` yang mengembalikan semua huruf kapital (A–Z) di `teks`, berurutan, sebagai string baru. Gunakan `karakter >= "A" and karakter <= "Z"`. Uji: `"Sistem Informasi Telkom"` → `SIT`, `"halo"` → `''`. Jelaskan mengapa `karakter >= "A"` saja tidak cukup.
+4. **(U10.2)** Tulis fungsi `posisi_pertama(teks, huruf)` yang mengembalikan indeks pertama `huruf` di `teks`, atau `-1`, dengan `for i in range(len(teks))` dan pola pencarian dari Minggu 9 (tanpa `find`). Uji: `("kuis hari jumat", "a")` → `6`, `"k"` → `0`, `"z"` → `-1`. Bandingkan hasilnya dengan `teks.find(huruf)`.
+5. **(U10.2)** Tulis fungsi `palindrom(kata)` yang mengembalikan `True` jika kata dibaca sama dari dua arah, tanpa membedakan huruf kapital. Pakai fungsi `balik` dari Lesson A. Uji: `"Katak"` → `True`, `"kasur rusak"` → `True`, `"jumat"` → `False`.
+6. **(U10.3)** Tulis fungsi `bersihkan_hp(teks)` yang mengembalikan nomor HP tanpa spasi dan tanpa `-`. Uji: `" 0812-3456-7890 "` → `081234567890`, `"0857 1111 2222"` → `085711112222`. Apa yang dikembalikan jika hasil setiap metode tidak disimpan?
+7. **(U10.3)** Tulis fungsi `ambil_pengguna(email)` yang mengembalikan bagian **sebelum** `@` dalam huruf kecil, atau `""` jika tidak ada `@`. Gunakan `find` dan slice. Uji: `"Budi@gmail.com"` → `budi`, `"tanpa-at.com"` → `''`, `"@kosong.id"` → `''`. Apa yang dikembalikan versi tanpa pemeriksaan `-1` untuk `"tanpa-at.com"`?
+8. **(U10.4)** Tulis `hapus_spasi(teks)` dua kali: sekali dengan `replace`, sekali dengan loop. Keduanya harus memberi `081234567890` untuk `"0812 3456 7890"`. Tulis satu kalimat: versi mana yang lebih mudah dibaca, dan mengapa?
+9. **(U10.4)** Fungsi berikut seharusnya memeriksa apakah sebuah NIM diawali `kode`. Uji dengan `("1031220045", "1031")` dan `("1202231031", "1031")`, jelaskan mengapa salah satu hasilnya keliru, lalu perbaiki dengan slice.
+
+    ```python
+    def cek_awalan_nim(nim, kode):
+        return kode in nim
+    ```
+
+10. **(U10.5, opsional)** Dengan `re.search`, tulis pola yang cocok dengan `"warna"` dan `"warnah"` tetapi tidak dengan `"warn"`. Lalu tulis pola yang hanya cocok jika teks **diawali** `"BBK"`.
+
 ## Bacaan
 
-- Think Python Ch. 8 - Strings and Regular Expressions
+- Think Python Ch. 8 - Strings and Regular Expressions (§8.1–8.5, §8.7–8.9; §8.6 dan §8.10 dilewati)
+- Pendukung: NCCE KS4 Programming Part 5 - Strings and Lists (Lesson 26 *String handling I*, Lesson 27 *String handling II*, Lesson 28 *String handling III*)
+- Referensi resmi Python §4.8 - String Methods (Python Standard Library, *Built-in Types*)
+
+## Referensi
+
+Downey, A. B. (2024). *Think Python: How to think like a computer scientist* (3rd ed.). O'Reilly Media. <https://allendowney.github.io/ThinkPython/>
+
+- Bab 8, *Strings and Regular Expressions*: <https://allendowney.github.io/ThinkPython/chap08.html>
+
+National Centre for Computing Education. (t.t.-a). *KS4 Programming, Lesson 26: String handling I*. Raspberry Pi Foundation & STEM Learning. Open Government Licence v3.0.
+
+National Centre for Computing Education. (t.t.-b). *KS4 Programming, Lesson 27: String handling II*. Raspberry Pi Foundation & STEM Learning. Open Government Licence v3.0.
+
+National Centre for Computing Education. (t.t.-c). *KS4 Programming, Lesson 28: String handling III*. Raspberry Pi Foundation & STEM Learning. Open Government Licence v3.0.
+
+Python Software Foundation. (t.t.). Built-in types: String methods. Dalam *The Python standard library*. Diakses 13 November 2026, dari <https://docs.python.org/3/library/stdtypes.html#string-methods>
