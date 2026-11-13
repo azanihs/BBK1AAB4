@@ -514,8 +514,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#skill-yang-dinilai" id="toc-skill-yang-dinilai" class="nav-link active" data-scroll-target="#skill-yang-dinilai">Skill yang Dinilai</a></li>
   <li><a href="#lesson" id="toc-lesson" class="nav-link" data-scroll-target="#lesson">Lesson</a></li>
   <li><a href="#konsep-kunci" id="toc-konsep-kunci" class="nav-link" data-scroll-target="#konsep-kunci">Konsep Kunci</a></li>
+  <li><a href="#lesson-a-indexing-slicing-dan-immutability" id="toc-lesson-a-indexing-slicing-dan-immutability" class="nav-link" data-scroll-target="#lesson-a-indexing-slicing-dan-immutability">Lesson A · Indexing, Slicing, dan Immutability</a>
+  <ul class="collapse">
+  <li><a href="#masalahnya-cuma-satu-huruf-kapital" id="toc-masalahnya-cuma-satu-huruf-kapital" class="nav-link" data-scroll-target="#masalahnya-cuma-satu-huruf-kapital">Masalahnya: cuma satu huruf kapital</a></li>
+  <li><a href="#tebak-delapan-ekspresi" id="toc-tebak-delapan-ekspresi" class="nav-link" data-scroll-target="#tebak-delapan-ekspresi">Tebak delapan ekspresi</a></li>
+  <li><a href="#indeks-posisi-setiap-karakter" id="toc-indeks-posisi-setiap-karakter" class="nav-link" data-scroll-target="#indeks-posisi-setiap-karakter">Indeks: posisi setiap karakter</a></li>
+  <li><a href="#string-tidak-bisa-diubah" id="toc-string-tidak-bisa-diubah" class="nav-link" data-scroll-target="#string-tidak-bisa-diubah">String tidak bisa diubah</a></li>
+  <li><a href="#slice-berhenti-sebelum-batas" id="toc-slice-berhenti-sebelum-batas" class="nav-link" data-scroll-target="#slice-berhenti-sebelum-batas">Slice: berhenti sebelum batas</a></li>
+  <li><a href="#menelusuri-string-dengan-for" id="toc-menelusuri-string-dengan-for" class="nav-link" data-scroll-target="#menelusuri-string-dengan-for">Menelusuri string dengan for</a></li>
+  <li><a href="#contoh-terpandu-hitung_vokal" id="toc-contoh-terpandu-hitung_vokal" class="nav-link" data-scroll-target="#contoh-terpandu-hitung_vokal">Contoh terpandu: hitung_vokal</a></li>
+  <li><a href="#mengumpulkan-karakter-penampung-berupa-string" id="toc-mengumpulkan-karakter-penampung-berupa-string" class="nav-link" data-scroll-target="#mengumpulkan-karakter-penampung-berupa-string">Mengumpulkan karakter: penampung berupa string</a></li>
+  </ul></li>
+  <li><a href="#lesson-b-metode-string-dan-pemrosesan-teks" id="toc-lesson-b-metode-string-dan-pemrosesan-teks" class="nav-link" data-scroll-target="#lesson-b-metode-string-dan-pemrosesan-teks">Lesson B · Metode String dan Pemrosesan Teks</a>
+  <ul class="collapse">
+  <li><a href="#masalahnya-300-nama-yang-berantakan" id="toc-masalahnya-300-nama-yang-berantakan" class="nav-link" data-scroll-target="#masalahnya-300-nama-yang-berantakan">Masalahnya: 300 nama yang berantakan</a></li>
+  <li><a href="#apa-yang-dikembalikan-setiap-metode" id="toc-apa-yang-dikembalikan-setiap-metode" class="nav-link" data-scroll-target="#apa-yang-dikembalikan-setiap-metode">Apa yang dikembalikan setiap metode?</a></li>
+  <li><a href="#mengapa-data-tidak-berubah" id="toc-mengapa-data-tidak-berubah" class="nav-link" data-scroll-target="#mengapa-data-tidak-berubah">Mengapa data tidak berubah?</a></li>
+  <li><a href="#lima-metode-dan-nilai-kembaliannya" id="toc-lima-metode-dan-nilai-kembaliannya" class="nav-link" data-scroll-target="#lima-metode-dan-nilai-kembaliannya">Lima metode dan nilai kembaliannya</a></li>
+  <li><a href="#contoh-terpandu-ambil_nama" id="toc-contoh-terpandu-ambil_nama" class="nav-link" data-scroll-target="#contoh-terpandu-ambil_nama">Contoh terpandu: ambil_nama</a></li>
+  <li><a href="#metode-atau-loop" id="toc-metode-atau-loop" class="nav-link" data-scroll-target="#metode-atau-loop">Metode atau loop?</a></li>
+  <li><a href="#pengayaan-ekspresi-reguler" id="toc-pengayaan-ekspresi-reguler" class="nav-link" data-scroll-target="#pengayaan-ekspresi-reguler">Pengayaan: ekspresi reguler</a></li>
+  </ul></li>
+  <li><a href="#kesalahan-umum" id="toc-kesalahan-umum" class="nav-link" data-scroll-target="#kesalahan-umum">Kesalahan Umum</a></li>
   <li><a href="#tebak-dulu" id="toc-tebak-dulu" class="nav-link" data-scroll-target="#tebak-dulu">Tebak Dulu</a></li>
+  <li><a href="#latihan-mandiri" id="toc-latihan-mandiri" class="nav-link" data-scroll-target="#latihan-mandiri">Latihan Mandiri</a></li>
   <li><a href="#bacaan" id="toc-bacaan" class="nav-link" data-scroll-target="#bacaan">Bacaan</a></li>
+  <li><a href="#referensi" id="toc-referensi" class="nav-link" data-scroll-target="#referensi">Referensi</a></li>
   </ul>
 </nav>
     </div>
@@ -572,22 +596,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td><code>U10.1</code></td>
 <td>Trace (T)</td>
-<td>Memprediksi hasil indexing dan slicing; menjelaskan sifat immutable string</td>
+<td>Memprediksi hasil indexing dan slicing, termasuk indeks negatif dan batas yang melewati panjang string; menjelaskan sifat immutable string</td>
 </tr>
 <tr class="even">
 <td><code>U10.2</code></td>
 <td>Write (W)</td>
-<td>Menelusuri string dengan for untuk menghitung atau mengumpulkan karakter</td>
+<td>Menelusuri string dengan <code>for</code> untuk menghitung atau mengumpulkan karakter</td>
 </tr>
 <tr class="odd">
 <td><code>U10.3</code></td>
 <td>Write (W)</td>
-<td>Menggunakan metode string (find, split, strip, lower, replace) untuk tugas kecil</td>
+<td>Menggunakan metode string (<code>find</code>, <code>split</code>, <code>strip</code>, <code>lower</code>, <code>replace</code>) untuk tugas kecil</td>
 </tr>
 <tr class="even">
 <td><code>U10.4</code></td>
 <td>Transfer (X)</td>
-<td>Memilih antara metode bawaan dan perulangan manual, dengan alasan</td>
+<td>Memilih antara metode bawaan dan perulangan buatan sendiri, dengan alasan</td>
 </tr>
 <tr class="odd">
 <td><code>U10.5</code></td>
@@ -632,19 +656,92 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="konsep-kunci" class="level2">
 <h2 class="anchored" data-anchor-id="konsep-kunci">Konsep Kunci</h2>
-<p>Indeks dimulai dari <code>0</code>, batas akhir <em>slicing</em> tidak ikut diambil, dan indeks negatif menghitung dari belakang. String bersifat <strong>immutable</strong>: metode seperti <code>upper()</code> dan <code>strip()</code> menghasilkan string baru, bukan mengubah string lama.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>kata <span class="op">=</span> <span class="st">"Telkom"</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(kata[<span class="dv">0</span>], kata[<span class="op">-</span><span class="dv">1</span>], kata[<span class="dv">1</span>:<span class="dv">4</span>])   <span class="co"># T m elk</span></span>
+<p>Setiap karakter string punya <strong>indeks</strong>, dimulai dari <code>0</code>; indeks negatif menghitung dari belakang. <strong>Slice</strong> <code>teks[a:b]</code> berhenti <strong>sebelum</strong> <code>b</code>, seperti <code>range</code>. String bersifat <strong>immutable</strong>: isinya tidak bisa diubah, jadi kita selalu membuat string baru. <code>for karakter in teks:</code> mengambil satu karakter di setiap putaran, dan pola penampung dari Minggu 6 dan 9 berlaku lagi. <strong>Metode</strong> seperti <code>strip()</code> dan <code>lower()</code> juga tidak mengubah string; ia <strong>mengembalikan</strong> string baru yang harus disimpan.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pesan <span class="op">=</span> <span class="st">"kuis hari jumat"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pesan[<span class="dv">0</span>], pesan[<span class="op">-</span><span class="dv">1</span>], pesan[<span class="dv">5</span>:<span class="dv">9</span>])   <span class="co"># k t hari</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>nama <span class="op">=</span> <span class="st">"  budi SANTOSO "</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nama.strip().title())            <span class="co"># Budi Santoso</span></span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hitung_huruf(pesan, huruf):</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    banyak <span class="op">=</span> <span class="dv">0</span>                           <span class="co"># ① siapkan penampung</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> karakter <span class="kw">in</span> pesan:               <span class="co"># ② ulangi setiap karakter</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> karakter <span class="op">==</span> huruf:            <span class="co"># ③ periksa karakter,</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>            banyak <span class="op">=</span> banyak <span class="op">+</span> <span class="dv">1</span>          <span class="co">#    perbarui penampung</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> banyak                        <span class="co"># ④ kembalikan setelah loop</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(hitung_huruf(pesan, <span class="st">"a"</span>))          <span class="co"># 2</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>nama <span class="op">=</span> <span class="st">"  budi SANTOSO "</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>nama <span class="op">=</span> nama.strip().lower()              <span class="co"># simpan hasilnya!</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nama)                              <span class="co"># budi santoso</span></span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="tebak-dulu" class="level2">
-<h2 class="anchored" data-anchor-id="tebak-dulu">Tebak Dulu</h2>
-<p>Tanpa menjalankannya, apa keluaran program berikut? Tulis tebakanmu, <strong>baru</strong> buka jawabannya.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="st">"halo"</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>s.upper()</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(s)</span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="lesson-a-indexing-slicing-dan-immutability" class="level2">
+<h2 class="anchored" data-anchor-id="lesson-a-indexing-slicing-dan-immutability">Lesson A · Indexing, Slicing, dan Immutability</h2>
+<section id="masalahnya-cuma-satu-huruf-kapital" class="level3">
+<h3 class="anchored" data-anchor-id="masalahnya-cuma-satu-huruf-kapital">Masalahnya: cuma satu huruf kapital</h3>
+<p>Ketua kelas mengirim pesan ke grup: <code>kuis hari jumat</code>. Ia ingin huruf pertamanya kapital. Hanya satu karakter yang perlu diganti, jadi kita coba:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pesan <span class="op">=</span> <span class="st">"kuis hari jumat"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pesan[<span class="dv">0</span>] <span class="op">=</span> <span class="st">"K"</span></span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>TypeError: 'str' object does not support item assignment</code></pre>
+<p>Python menolak. Baca pesan galatnya: kata <strong>str</strong> dan <strong>item assignment</strong> adalah petunjuknya. Apa yang sebenarnya ditolak Python? Tulis satu kalimat dengan kata-katamu sendiri, lalu simpan tebakanmu. Jawabannya ada di subbab <em>String tidak bisa diubah</em>.</p>
+</section>
+<section id="tebak-delapan-ekspresi" class="level3">
+<h3 class="anchored" data-anchor-id="tebak-delapan-ekspresi">Tebak delapan ekspresi</h3>
+<p>Sebelum membaca penjelasan apa pun, tebak hasil delapan ekspresi berikut <strong>di kertas</strong>, lalu jalankan satu per satu di notebook dan tandai benar atau salah. Boleh menulis nomor posisi di bawah setiap huruf.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 40%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Ekspresi</th>
+<th>Tebakanmu</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>pesan[0]</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>pesan[5]</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><code>pesan[-1]</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><code>pesan[-5]</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><code>pesan[0:4]</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td><code>pesan[5:9]</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td><code>pesan[10:99]</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td><code>pesan[15]</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <div class="callout callout-style-default callout-tip callout-titled" title="Lihat jawaban">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -657,16 +754,956 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
+<p><code>k</code> · <code>h</code> · <code>t</code> · <code>j</code> · <code>kuis</code> · <code>hari</code> · <code>jumat</code> · <strong><code>IndexError: string index out of range</code></strong></p>
+<p>Tebakan salah yang paling sering: <code>u</code> untuk #1 (menghitung dari 1), <code>kuis</code> dengan spasi untuk #5 (mengira batas akhir ikut), galat untuk #7, dan <code>t</code> untuk #8 (mengira indeks terakhir sama dengan panjangnya).</p>
+</div>
+</div>
+</div>
+<p>Setelah menjalankannya, jawab tiga pertanyaan ini:</p>
+<ol type="1">
+<li>Mengapa <code>pesan[0]</code> bernilai <code>k</code>? Indeks berapa yang memberi huruf terakhir?</li>
+<li>Mengapa <code>[0:4]</code> menghasilkan 4 huruf? Mengapa <code>[10:99]</code> berhasil, padahal <code>[15]</code> gagal?</li>
+<li>Bagaimana menghitung berapa huruf <code>a</code> di dalam <code>pesan</code> tanpa menghitung dengan mata?</li>
+</ol>
+<p>Tiga subbab berikut menjawab ketiganya secara berurutan.</p>
+</section>
+<section id="indeks-posisi-setiap-karakter" class="level3">
+<h3 class="anchored" data-anchor-id="indeks-posisi-setiap-karakter">Indeks: posisi setiap karakter</h3>
+<p>String adalah barisan <strong>karakter</strong>: huruf, angka, spasi, atau simbol. Setiap karakter punya posisi yang disebut <strong>indeks</strong> (<em>index</em>), dimulai dari <strong>0</strong>, sama seperti <code>range(15)</code> (NCCE, t.t.-a). Spasi juga karakter dan juga punya indeks.</p>
+<div class="table-responsive">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Karakter</th>
+<th><code>k</code></th>
+<th><code>u</code></th>
+<th><code>i</code></th>
+<th><code>s</code></th>
+<th>␣</th>
+<th><code>h</code></th>
+<th><code>a</code></th>
+<th><code>r</code></th>
+<th><code>i</code></th>
+<th>␣</th>
+<th><code>j</code></th>
+<th><code>u</code></th>
+<th><code>m</code></th>
+<th><code>a</code></th>
+<th><code>t</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Indeks</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+<td>10</td>
+<td>11</td>
+<td>12</td>
+<td>13</td>
+<td>14</td>
+</tr>
+<tr class="even">
+<td>Indeks negatif</td>
+<td>-15</td>
+<td>-14</td>
+<td>-13</td>
+<td>-12</td>
+<td>-11</td>
+<td>-10</td>
+<td>-9</td>
+<td>-8</td>
+<td>-7</td>
+<td>-6</td>
+<td>-5</td>
+<td>-4</td>
+<td>-3</td>
+<td>-2</td>
+<td>-1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li><code>len(pesan)</code> memberi <strong>panjang</strong> string, yaitu banyaknya karakter: <code>15</code>, termasuk dua spasi.</li>
+<li>Karena indeks dimulai dari 0, indeks terakhir adalah <strong>panjang − 1</strong>: <code>pesan[14]</code>, atau <code>pesan[len(pesan) - 1]</code>. Keduanya bernilai <code>t</code>.</li>
+<li><code>pesan[15]</code> meminta karakter ke-16 yang tidak ada, sehingga Python berhenti dengan <code>IndexError</code>.</li>
+<li><strong>Indeks negatif</strong> menghitung dari belakang: <code>pesan[-1]</code> adalah karakter terakhir, <code>pesan[-5]</code> adalah <code>j</code> dari <code>jumat</code> (Downey, 2024, §8.1). Ini cara mudah mengambil “huruf terakhir” tanpa perlu tahu panjangnya.</li>
+</ul>
+<p>Cek cepat: <code>pesan[1]</code> bernilai <code>u</code>, dan <code>pesan[-15]</code> bernilai <code>k</code>, karakter pertama.</p>
+</section>
+<section id="string-tidak-bisa-diubah" class="level3">
+<h3 class="anchored" data-anchor-id="string-tidak-bisa-diubah">String tidak bisa diubah</h3>
+<p>Sekarang galat di awal bisa dijelaskan. Setelah sebuah string dibuat, karakternya <strong>tidak bisa diganti</strong>. Sifat ini disebut <strong>immutable</strong> (Downey, 2024, §8.3). Itulah arti <em>does not support item assignment</em>: kita tidak boleh menaruh karakter baru ke posisi 0. Huruf <code>K</code>-nya tidak salah, indeksnya juga tidak salah; yang ditolak adalah <strong>mengubah</strong> string.</p>
+<p>Yang bisa kita lakukan adalah <strong>membuat string baru</strong>, lalu memberikannya ke nama yang sama:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pesan <span class="op">=</span> <span class="st">"K"</span> <span class="op">+</span> pesan[<span class="dv">1</span>:]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pesan)          <span class="co"># Kuis hari jumat</span></span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>pesan[1:]</code> artinya “semua karakter mulai indeks 1”. Bentuk ini disebut <em>slice</em>, isi subbab berikutnya. <code>+</code> dari Minggu 2 menyambung <code>"K"</code> dengan potongan itu menjadi string yang benar-benar baru. String lama tidak berubah; nama <code>pesan</code> sekarang menunjuk ke string baru.</p>
+</section>
+<section id="slice-berhenti-sebelum-batas" class="level3">
+<h3 class="anchored" data-anchor-id="slice-berhenti-sebelum-batas">Slice: berhenti sebelum batas</h3>
+<p><code>pesan[a:b]</code> mengambil karakter dari indeks <code>a</code> <strong>sampai sebelum</strong> <code>b</code>. Aturannya sama dengan <code>range(0, 4)</code>, yang memberi 0, 1, 2, 3 (NCCE, t.t.-b). Jadi <code>pesan[0:4]</code> berisi empat karakter, <code>kuis</code>, tanpa spasi di indeks 4.</p>
+<p>Cara lain membayangkannya: letakkan nomor indeks di <strong>celah di antara</strong> karakter (Downey, 2024, §8.2). <code>[0:4]</code> memotong di celah 0 dan celah 4.</p>
+<pre><code> | k | u | i | s | ␣ | h | a | r | i | ...
+ 0   1   2   3   4   5   6   7   8   9
+ ↑               ↑
+ [0:4] → "kuis"</code></pre>
+<p>Dengan gambaran ini, <code>pesan[4:4]</code> memotong dua kali di celah yang sama, dan hasilnya <code>''</code>, <strong>string kosong</strong>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 22%">
+<col style="width: 54%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Slice</th>
+<th>Hasil</th>
+<th>Arti</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pesan[0:4]</code></td>
+<td><code>kuis</code></td>
+<td>indeks 0 sampai 3</td>
+</tr>
+<tr class="even">
+<td><code>pesan[0:5]</code></td>
+<td><code>'kuis '</code></td>
+<td>spasi di indeks 4 ikut</td>
+</tr>
+<tr class="odd">
+<td><code>pesan[:4]</code></td>
+<td><code>kuis</code></td>
+<td>batas awal kosong = dari awal</td>
+</tr>
+<tr class="even">
+<td><code>pesan[10:]</code></td>
+<td><code>jumat</code></td>
+<td>batas akhir kosong = sampai akhir</td>
+</tr>
+<tr class="odd">
+<td><code>pesan[-5:]</code></td>
+<td><code>jumat</code></td>
+<td>lima karakter terakhir</td>
+</tr>
+<tr class="even">
+<td><code>pesan[4:4]</code></td>
+<td><code>''</code></td>
+<td>string kosong</td>
+</tr>
+<tr class="odd">
+<td><code>pesan[10:99]</code></td>
+<td><code>jumat</code></td>
+<td>slice melewati akhir berhenti di akhir</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled" title="Indeks melewati akhir vs slice melewati akhir">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Catatan</span>Indeks melewati akhir vs slice melewati akhir
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>pesan[15]</code> adalah galat, karena tidak ada karakter yang bisa dikembalikan. <code>pesan[10:99]</code> bukan galat: slice hanya mengambil yang ada dan berhenti di akhir string. Jalankan keduanya berdampingan untuk melihat bedanya.</p>
+</div>
+</div>
+</section>
+<section id="menelusuri-string-dengan-for" class="level3">
+<h3 class="anchored" data-anchor-id="menelusuri-string-dengan-for">Menelusuri string dengan for</h3>
+<p>Pertanyaan ketiga dari Explore: berapa huruf <code>a</code> di <code>pesan</code>? Kita butuh cara melihat karakternya <strong>satu per satu</strong>. <code>for</code> dari Minggu 6 bisa melakukannya, dengan string sebagai barisannya, bukan <code>range</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> karakter <span class="kw">in</span> pesan:</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(karakter)</span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Loop ini berjalan 15 putaran: <code>k</code>, lalu <code>u</code>, lalu <code>i</code>, dan seterusnya, spasi juga. Kita tidak menulis indeks apa pun; <code>for</code> sendiri yang mengambilkan karakter berikutnya. Menelusuri string seperti ini disebut <em>walking a string</em> (NCCE, t.t.-a).</p>
+<p>Untuk <strong>menghitung</strong>, kita pakai penghitung dari Minggu 6 di dalam fungsi yang mengembalikan nilai. Polanya punya <strong>empat langkah</strong>, dan seperti biasa labelnya adalah <em>pseudocode</em> kita:</p>
+<pre><code>① SIAPKAN PENAMPUNG
+② ULANGI SETIAP KARAKTER
+③     PERIKSA KARAKTER, PERBARUI PENAMPUNG
+④ KEMBALIKAN SETELAH LOOP</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hitung_huruf(pesan, huruf):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Kembalikan berapa kali huruf muncul di dalam pesan."""</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    banyak <span class="op">=</span> <span class="dv">0</span>                          <span class="co"># ①</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> karakter <span class="kw">in</span> pesan:              <span class="co"># ②</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> karakter <span class="op">==</span> huruf:           <span class="co"># ③</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>            banyak <span class="op">=</span> banyak <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> banyak                       <span class="co"># ④</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(hitung_huruf(<span class="st">"kuis hari jumat"</span>, <span class="st">"a"</span>))   <span class="co"># 2</span></span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Telusuri versi pendeknya dengan <code>"data"</code>. Perhatikan kolom <code>karakter</code> di trace table: setiap putaran mendapat satu karakter, berurutan dari indeks 0.</p>
+<div class="stackviz" data-trace="trace-w10-hitung" data-title="Telusuri: menghitung karakter"></div>
+<script type="application/json" id="trace-w10-hitung">{"code":["def hitung_huruf(pesan, huruf):","    banyak = 0","    for karakter in pesan:","        if karakter == huruf:","            banyak = banyak + 1","    return banyak","","print(hitung_huruf(\"data\", \"a\"))"],"steps":[{"line":null,"frames":[{"name":"__main__","vars":[]}],"out":"","note":"Program belum berjalan. Tebak dulu: berapa putaran yang dijalankan loop `for karakter in pesan`, dan berapa nilai `banyak` di akhir? Lalu tekan **Lanjut**."},{"line":1,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]}],"out":"","note":"Baris 1: `def` membuat fungsi `hitung_huruf`; badannya belum dijalankan. Python melompat ke baris 8."},{"line":8,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","–"]}],"cur":null,"foot":null}}],"out":"","note":"Baris 8 memanggil `hitung_huruf(\"data\", \"a\")`. Frame baru dibuat dengan `pesan ← 'data'` dan `huruf ← 'a'`."},{"line":2,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]}],"cur":[0,2],"foot":null}}],"out":"","note":"Baris 2 · ① **siapkan penampung**: `banyak = 0`, sekali, sebelum loop. Belum ada yang dihitung."},{"line":3,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'",null,null]}],"cur":[1,0],"foot":null}}],"out":"","note":"Baris 3 · ② **ulangi setiap karakter**: putaran 1, `karakter ← 'd'`, karakter pertama (indeks 0)."},{"line":4,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",null]}],"cur":[1,1],"foot":null}}],"out":"","note":"Baris 4 · ③ **periksa karakter**: `'d' == 'a'` bernilai `False`. `banyak` tidak berubah."},{"line":3,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",{"v":"0","carry":true}]},{"label":"2","cls":"","cells":["'a'",null,null]}],"cur":[2,0],"foot":null}}],"out":"","note":"Baris 3: putaran 2, `karakter ← 'a'`. Perhatikan: kita tidak menulis indeks apa pun; `for` mengambilkan karakter berikutnya."},{"line":4,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",{"v":"0","carry":true}]},{"label":"2","cls":"","cells":["'a'","True",null]}],"cur":[2,1],"foot":null}}],"out":"","note":"Baris 4: `'a' == 'a'` bernilai `True`."},{"line":5,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",{"v":"0","carry":true}]},{"label":"2","cls":"","cells":["'a'","True","1"]}],"cur":[2,2],"foot":null}}],"out":"","note":"Baris 5 · ③ **perbarui penampung**: `banyak ← 1`."},{"line":3,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",{"v":"0","carry":true}]},{"label":"2","cls":"","cells":["'a'","True","1"]},{"label":"3","cls":"","cells":["'t'",null,null]}],"cur":[3,0],"foot":null}}],"out":"","note":"Baris 3: putaran 3, `karakter ← 't'`."},{"line":4,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",{"v":"0","carry":true}]},{"label":"2","cls":"","cells":["'a'","True","1"]},{"label":"3","cls":"","cells":["'t'","False",null]}],"cur":[3,1],"foot":null}}],"out":"","note":"Baris 4: `'t' == 'a'` bernilai `False`."},{"line":3,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",{"v":"0","carry":true}]},{"label":"2","cls":"","cells":["'a'","True","1"]},{"label":"3","cls":"","cells":["'t'","False",{"v":"1","carry":true}]},{"label":"4","cls":"","cells":["'a'",null,null]}],"cur":[4,0],"foot":null}}],"out":"","note":"Baris 3: putaran 4, `karakter ← 'a'`, karakter terakhir (indeks 3)."},{"line":4,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",{"v":"0","carry":true}]},{"label":"2","cls":"","cells":["'a'","True","1"]},{"label":"3","cls":"","cells":["'t'","False",{"v":"1","carry":true}]},{"label":"4","cls":"","cells":["'a'","True",null]}],"cur":[4,1],"foot":null}}],"out":"","note":"Baris 4: `'a' == 'a'` bernilai `True`."},{"line":5,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",{"v":"0","carry":true}]},{"label":"2","cls":"","cells":["'a'","True","1"]},{"label":"3","cls":"","cells":["'t'","False",{"v":"1","carry":true}]},{"label":"4","cls":"","cells":["'a'","True","2"]}],"cur":[4,2],"foot":null}}],"out":"","note":"Baris 5: `banyak ← 2`."},{"line":3,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",{"v":"0","carry":true}]},{"label":"2","cls":"","cells":["'a'","True","1"]},{"label":"3","cls":"","cells":["'t'","False",{"v":"1","carry":true}]},{"label":"4","cls":"","cells":["'a'","True","2"]}],"cur":null,"foot":"Barisan habis: loop selesai setelah 4 putaran."}}],"out":"","note":"Baris 3: tidak ada karakter lagi. `\"data\"` punya 4 karakter, jadi loop berjalan tepat 4 putaran, sama dengan `len(pesan)`."},{"line":6,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]},{"name":"hitung_huruf","vars":[["pesan","'data'"],["huruf","'a'"]],"ret":"2","table":{"cols":["karakter","karakter == huruf","banyak"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–","0"]},{"label":"1","cls":"","cells":["'d'","False",{"v":"0","carry":true}]},{"label":"2","cls":"","cells":["'a'","True","1"]},{"label":"3","cls":"","cells":["'t'","False",{"v":"1","carry":true}]},{"label":"4","cls":"","cells":["'a'","True","2"]}],"cur":null,"foot":"Barisan habis: loop selesai setelah 4 putaran."}}],"out":"","note":"Baris 6 · ④ **kembalikan setelah loop**: `return banyak` sejajar dengan `for`, dijalankan sekali setelah semua karakter diperiksa. Nilai kembali `2`."},{"line":8,"frames":[{"name":"__main__","vars":[["hitung_huruf","<fungsi>"]]}],"out":"2\n","note":"Kembali ke baris 8: tercetak `2`. Satu putaran per karakter, satu pemeriksaan per putaran: pola penghitung dari Minggu 6, dengan string sebagai barisannya."}]}</script>
+<script src="../assets/stackviz.js?v=2"></script>
+<div class="callout callout-style-default callout-note callout-titled" title="Operator in: ada atau tidak?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Catatan</span>Operator in: ada atau tidak?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Untuk pertanyaan “<strong>adakah</strong> teks ini di dalam string?”, Python punya operator <code>in</code>: <code>"jumat" in pesan</code> bernilai <code>True</code>. Namun <code>"Jumat" in pesan</code> bernilai <code>False</code>, karena <code>J</code> kapital adalah karakter yang berbeda dari <code>j</code>. <code>in</code> hanya menjawab ada atau tidak; untuk “<strong>berapa banyak</strong>”, kita tetap butuh loop. Dengan alasan yang sama, <code>hitung_huruf(pesan, "A")</code> bernilai <code>0</code>.</p>
+</div>
+</div>
+</section>
+<section id="contoh-terpandu-hitung_vokal" class="level3">
+<h3 class="anchored" data-anchor-id="contoh-terpandu-hitung_vokal">Contoh terpandu: hitung_vokal</h3>
+<p>Kita tulis <code>hitung_vokal(pesan)</code>, yang mengembalikan banyaknya huruf vokal (a, i, u, e, o), kapital maupun kecil, dengan resep lima langkah dari Minggu 5. Empat label di atas adalah isi langkah <strong>Rancang</strong>.</p>
+<p><strong>1 · Pahami.</strong> Masukannya satu string, keluarannya satu angka; fungsi <strong>mengembalikan</strong>, tidak mencetak. Hitung dengan tangan untuk <code>Ada</code>: <code>A</code>, vokal? Ya, <code>A</code> kapital tetap huruf a. Hitungan 1. <code>d</code>: bukan. <code>a</code>: ya, hitungan 2. Jawabannya 2. Yang dilakukan untuk setiap kotak: lihat satu karakter, tanya “vokal?”, tambah 1 jika ya. Itulah badan loop. Ingat juga bahwa <code>A</code> kapital kita perlakukan seperti <code>a</code> kecil.</p>
+<p><strong>2–3 · Pecah dan rancang.</strong> Satu fungsi cukup. Tulis kerangka, uji pertama dari hitungan tangan, dan empat label sebagai komentar:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hitung_vokal(pesan):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Kembalikan banyaknya huruf vokal (a, i, u, e, o) di pesan, kapital maupun kecil."""</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ① SIAPKAN PENAMPUNG</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ② ULANGI SETIAP KARAKTER</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ③ PERIKSA KARAKTER, PERBARUI PENAMPUNG</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ④ KEMBALIKAN SETELAH LOOP</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span></span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Kerangka ini sudah bisa dijalankan; <code>hitung_vokal("Ada")</code> menghasilkan <code>0</code>. Sebelum menulis kode: bagaimana membuat <code>A</code> kapital ikut terhitung tanpa sepuluh perbandingan? Ubah dulu pesannya menjadi huruf kecil dengan <code>.lower()</code>, lalu bandingkan dengan lima vokal kecil.</p>
+<p><strong>4 · Isi dan uji.</strong> Isi satu label setiap kali:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hitung_vokal(pesan):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Kembalikan banyaknya huruf vokal (a, i, u, e, o) di pesan, kapital maupun kecil."""</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ① SIAPKAN PENAMPUNG</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    banyak <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ② ULANGI SETIAP KARAKTER</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> karakter <span class="kw">in</span> pesan.lower():</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ③ PERIKSA KARAKTER, PERBARUI PENAMPUNG</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (karakter <span class="op">==</span> <span class="st">"a"</span> <span class="kw">or</span> karakter <span class="op">==</span> <span class="st">"i"</span> <span class="kw">or</span> karakter <span class="op">==</span> <span class="st">"u"</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                <span class="kw">or</span> karakter <span class="op">==</span> <span class="st">"e"</span> <span class="kw">or</span> karakter <span class="op">==</span> <span class="st">"o"</span>):</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>            banyak <span class="op">=</span> banyak <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ④ KEMBALIKAN SETELAH LOOP</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> banyak</span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>① Belum ada yang dihitung; sebelum loop, seperti setiap penghitung di Minggu 6.</li>
+<li>② <code>pesan.lower()</code> menghasilkan string <strong>baru</strong> berhuruf kecil, dan loop menelusuri string baru itu. Metode seperti ini dibahas lengkap di Lesson B.</li>
+<li>③ Setiap perbandingan ditulis <strong>lengkap</strong>. Tanda kurung membuat kondisi yang panjang boleh dipecah menjadi dua baris. Bentuk yang lebih pendek dan sama benarnya: <code>if karakter in "aiueo":</code>, memakai <code>in</code> dari subbab sebelumnya.</li>
+<li>④ <code>return</code> sejajar dengan <code>for</code>.</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled" title="Mengapa tidak karakter == &quot;a&quot; or &quot;i&quot; or ...?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Peringatan</span>Mengapa tidak karakter == “a” or “i” or …?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Bentuk <code>if karakter == "a" or "i" or "u" or "e" or "o":</code> terlihat lebih ringkas, tetapi Python membacanya sebagai <code>(karakter == "a") or "i" or ...</code>. <code>"i"</code> sendirian adalah string tidak kosong, dan string tidak kosong dianggap benar. Kondisinya <strong>selalu</strong> <code>True</code>, sehingga setiap karakter terhitung: <code>"xyz"</code> menghasilkan <code>3</code>, <code>"kuis hari jumat"</code> menghasilkan <code>15</code>.</p>
+</div>
+</div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 16%">
+<col style="width: 54%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Masukan</th>
+<th>Harapan</th>
+<th>Yang diuji</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>"Ada"</code></td>
+<td><code>2</code></td>
+<td>hitungan tangan</td>
+</tr>
+<tr class="even">
+<td><code>"kuis hari jumat"</code></td>
+<td><code>6</code></td>
+<td>pesan contoh</td>
+</tr>
+<tr class="odd">
+<td><code>"AIUEO"</code></td>
+<td><code>5</code></td>
+<td>menangkap <code>.lower()</code> yang lupa (jawaban salahnya <code>0</code>)</td>
+</tr>
+<tr class="even">
+<td><code>"xyz"</code></td>
+<td><code>0</code></td>
+<td>menangkap <code>or</code> yang tidak lengkap (jawaban salahnya <code>3</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>""</code></td>
+<td><code>0</code></td>
+<td>kasus tepi: loop berjalan nol kali</td>
+</tr>
+</tbody>
+</table>
+<p>Uji ketiga penting: versi tanpa <code>.lower()</code> lulus di semua uji berhuruf kecil. Jika <code>return banyak</code> menjorok di dalam loop, fungsi selesai setelah karakter pertama: <code>"kuis hari jumat"</code> menghasilkan <code>0</code>.</p>
+<p><strong>5 · Rakit.</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pesan <span class="op">=</span> <span class="bu">input</span>()</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(hitung_vokal(pesan))</span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Untuk menghitung angka, hanya langkah ③ yang berubah: <code>if karakter.isdigit():</code> (Minggu 3). Perhatikan, yang diperiksa adalah <strong><code>karakter</code></strong>, satu karakter, bukan <code>pesan.isdigit()</code> yang memeriksa seluruh string.</p>
+</section>
+<section id="mengumpulkan-karakter-penampung-berupa-string" class="level3">
+<h3 class="anchored" data-anchor-id="mengumpulkan-karakter-penampung-berupa-string">Mengumpulkan karakter: penampung berupa string</h3>
+<p>Loop yang sama juga bisa <strong>membangun</strong> string baru. Penampungnya bukan lagi angka <code>0</code>, melainkan string kosong <code>""</code>, dan setiap putaran menyambungkan satu karakter dengan <code>+</code>. Contohnya <code>balik(teks)</code>, yang membalik urutan karakter: <code>balik("jumat")</code> menghasilkan <code>tamuj</code>.</p>
+<p>Kuncinya ada di baris pembaruan: karakter baru diletakkan di <strong>depan</strong> <code>hasil</code>. Telusuri dengan <code>"abc"</code> dan perhatikan isi <code>hasil</code> di setiap putaran:</p>
+<div class="stackviz" data-trace="trace-w10-balik" data-title="Telusuri: membalik string"></div>
+<script type="application/json" id="trace-w10-balik">{"code":["def balik(teks):","    hasil = \"\"","    for karakter in teks:","        hasil = karakter + hasil","    return hasil","","print(balik(\"abc\"))"],"steps":[{"line":null,"frames":[{"name":"__main__","vars":[]}],"out":"","note":"Program belum berjalan. Tebak dulu: apa isi `hasil` setelah putaran 1, 2, dan 3? Perhatikan baris 4: `karakter` ditaruh di **depan** atau di belakang `hasil`? Lalu tekan **Lanjut**."},{"line":1,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]}],"out":"","note":"Baris 1: `def` membuat fungsi `balik`. Python melompat ke baris 7."},{"line":7,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]},{"name":"balik","vars":[["teks","'abc'"]],"table":{"cols":["karakter","hasil"],"rows":[{"label":"(awal)","cls":"init","cells":["–","–"]}],"cur":null,"foot":null}}],"out":"","note":"Baris 7 memanggil `balik(\"abc\")`. Frame baru dibuat dengan `teks ← 'abc'`."},{"line":2,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]},{"name":"balik","vars":[["teks","'abc'"]],"table":{"cols":["karakter","hasil"],"rows":[{"label":"(awal)","cls":"init","cells":["–","''"]}],"cur":[0,1],"foot":null}}],"out":"","note":"Baris 2 · ① **siapkan penampung**: `hasil = \"\"`, string kosong. Untuk mengumpulkan karakter, penampungnya string, bukan angka."},{"line":3,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]},{"name":"balik","vars":[["teks","'abc'"]],"table":{"cols":["karakter","hasil"],"rows":[{"label":"(awal)","cls":"init","cells":["–","''"]},{"label":"1","cls":"","cells":["'a'",null]}],"cur":[1,0],"foot":null}}],"out":"","note":"Baris 3 · ② **ulangi setiap karakter**: putaran 1, `karakter ← 'a'`."},{"line":4,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]},{"name":"balik","vars":[["teks","'abc'"]],"table":{"cols":["karakter","hasil"],"rows":[{"label":"(awal)","cls":"init","cells":["–","''"]},{"label":"1","cls":"","cells":["'a'","'a'"]}],"cur":[1,1],"foot":null}}],"out":"","note":"Baris 4 · ③ **perbarui penampung**: `'a' + ''` menghasilkan `'a'`. String lama tidak diubah; `+` membuat string **baru**, lalu nama `hasil` menunjuk ke string baru itu."},{"line":3,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]},{"name":"balik","vars":[["teks","'abc'"]],"table":{"cols":["karakter","hasil"],"rows":[{"label":"(awal)","cls":"init","cells":["–","''"]},{"label":"1","cls":"","cells":["'a'","'a'"]},{"label":"2","cls":"","cells":["'b'",null]}],"cur":[2,0],"foot":null}}],"out":"","note":"Baris 3: putaran 2, `karakter ← 'b'`."},{"line":4,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]},{"name":"balik","vars":[["teks","'abc'"]],"table":{"cols":["karakter","hasil"],"rows":[{"label":"(awal)","cls":"init","cells":["–","''"]},{"label":"1","cls":"","cells":["'a'","'a'"]},{"label":"2","cls":"","cells":["'b'","'ba'"]}],"cur":[2,1],"foot":null}}],"out":"","note":"Baris 4: `'b' + 'a'` menghasilkan `'ba'`. Karakter baru masuk di **depan**, jadi yang datang belakangan berada paling depan."},{"line":3,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]},{"name":"balik","vars":[["teks","'abc'"]],"table":{"cols":["karakter","hasil"],"rows":[{"label":"(awal)","cls":"init","cells":["–","''"]},{"label":"1","cls":"","cells":["'a'","'a'"]},{"label":"2","cls":"","cells":["'b'","'ba'"]},{"label":"3","cls":"","cells":["'c'",null]}],"cur":[3,0],"foot":null}}],"out":"","note":"Baris 3: putaran 3, `karakter ← 'c'`."},{"line":4,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]},{"name":"balik","vars":[["teks","'abc'"]],"table":{"cols":["karakter","hasil"],"rows":[{"label":"(awal)","cls":"init","cells":["–","''"]},{"label":"1","cls":"","cells":["'a'","'a'"]},{"label":"2","cls":"","cells":["'b'","'ba'"]},{"label":"3","cls":"","cells":["'c'","'cba'"]}],"cur":[3,1],"foot":null}}],"out":"","note":"Baris 4: `'c' + 'ba'` menghasilkan `'cba'`."},{"line":3,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]},{"name":"balik","vars":[["teks","'abc'"]],"table":{"cols":["karakter","hasil"],"rows":[{"label":"(awal)","cls":"init","cells":["–","''"]},{"label":"1","cls":"","cells":["'a'","'a'"]},{"label":"2","cls":"","cells":["'b'","'ba'"]},{"label":"3","cls":"","cells":["'c'","'cba'"]}],"cur":null,"foot":"Barisan habis: loop selesai setelah 3 putaran."}}],"out":"","note":"Baris 3: tidak ada karakter lagi. Loop selesai setelah 3 putaran."},{"line":5,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]},{"name":"balik","vars":[["teks","'abc'"]],"ret":"'cba'","table":{"cols":["karakter","hasil"],"rows":[{"label":"(awal)","cls":"init","cells":["–","''"]},{"label":"1","cls":"","cells":["'a'","'a'"]},{"label":"2","cls":"","cells":["'b'","'ba'"]},{"label":"3","cls":"","cells":["'c'","'cba'"]}],"cur":null,"foot":"Barisan habis: loop selesai setelah 3 putaran."}}],"out":"","note":"Baris 5 · ④ **kembalikan setelah loop**: nilai kembali `'cba'`."},{"line":7,"frames":[{"name":"__main__","vars":[["balik","<fungsi>"]]}],"out":"cba\n","note":"Kembali ke baris 7: tercetak `cba`. Jika baris 4 ditulis `hasil = hasil + karakter`, isinya `a`, `ab`, `abc`: teks kembali tanpa terbalik."}]}</script>
+<p>Jika baris itu ditulis <code>hasil = hasil + karakter</code>, karakter disambung di <strong>belakang</strong>, dan fungsi mengembalikan teks yang sama persis: <code>balik("jumat")</code> menghasilkan <code>jumat</code>. Bug ini mudah lolos jika ujinya palindrom: <code>"kasur rusak"</code> dibaca sama dari dua arah, jadi versi yang salah tampak benar. Uji selalu dengan kata yang <strong>bukan</strong> palindrom.</p>
+<p>Satu contoh lagi: <code>sensor_angka(pesan)</code> mengganti setiap angka dengan <code>*</code>, dan karakter lain dibiarkan.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sensor_angka(pesan):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Kembalikan pesan dengan setiap angka diganti '*'."""</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    hasil <span class="op">=</span> <span class="st">""</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> karakter <span class="kw">in</span> pesan:</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> karakter.isdigit():</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>            hasil <span class="op">=</span> hasil <span class="op">+</span> <span class="st">"*"</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>            hasil <span class="op">=</span> hasil <span class="op">+</span> karakter</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hasil</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sensor_angka(<span class="st">"Kode OTP: 4821"</span>))    <span class="co"># Kode OTP: ****</span></span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Di sini <code>else</code> wajib ada. Tanpa <code>else</code>, huruf tidak pernah dimasukkan ke <code>hasil</code>: <code>"Kode OTP: 4821"</code> menghasilkan <code>****</code>, dan <code>"tanpa angka"</code> menghasilkan string kosong. Pada pola mengumpulkan, tanyakan: <strong>apa yang terjadi pada karakter yang tidak lolos pemeriksaan?</strong></p>
+<div class="table-responsive">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 22%">
+<col style="width: 54%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tugas</th>
+<th>① Penampung</th>
+<th>③ Pemeriksaan dan pembaruan</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hitung huruf <code>a</code></td>
+<td><code>banyak = 0</code></td>
+<td><code>if karakter == "a":</code> → <code>banyak = banyak + 1</code></td>
+</tr>
+<tr class="even">
+<td>Hitung vokal</td>
+<td><code>banyak = 0</code></td>
+<td><code>if karakter in "aiueo":</code> → <code>banyak = banyak + 1</code></td>
+</tr>
+<tr class="odd">
+<td>Balik teks</td>
+<td><code>hasil = ""</code></td>
+<td>(tanpa <code>if</code>) → <code>hasil = karakter + hasil</code></td>
+</tr>
+<tr class="even">
+<td>Sensor angka</td>
+<td><code>hasil = ""</code></td>
+<td><code>if karakter.isdigit():</code> → <code>"*"</code>, <code>else:</code> → <code>karakter</code></td>
+</tr>
+<tr class="odd">
+<td>Ambil huruf kapital</td>
+<td><code>hasil = ""</code></td>
+<td><code>if karakter &gt;= "A" and karakter &lt;= "Z":</code> → <code>hasil = hasil + karakter</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="lesson-b-metode-string-dan-pemrosesan-teks" class="level2">
+<h2 class="anchored" data-anchor-id="lesson-b-metode-string-dan-pemrosesan-teks">Lesson B · Metode String dan Pemrosesan Teks</h2>
+<section id="masalahnya-300-nama-yang-berantakan" class="level3">
+<h3 class="anchored" data-anchor-id="masalahnya-300-nama-yang-berantakan">Masalahnya: 300 nama yang berantakan</h3>
+<p>Bagian kemahasiswaan mengekspor nama dari formulir pendaftaran untuk dicetak sebagai <em>name tag</em>. Empat di antaranya (tanda kutip menunjukkan di mana spasinya):</p>
+<pre><code>"  budi SANTOSO"   "rina  putri "   "ANDI"   " dewi lestari  "</code></pre>
+<p>Rapikan keempatnya dengan tangan, lalu tulis langkah yang kamu lakukan, berurutan. Kemungkinan besar langkahnya: buang spasi di awal dan akhir, lalu jadikan huruf kecil semua. Sekarang bayangkan file aslinya berisi 300 nama. Masih mau mengerjakannya dengan tangan?</p>
+<p>Perhatikan juga <code>"rina  putri "</code>: spasi gandanya ada di <strong>tengah</strong>, bukan di tepi. Ingat nama ini; kita kembali ke sana.</p>
+</section>
+<section id="apa-yang-dikembalikan-setiap-metode" class="level3">
+<h3 class="anchored" data-anchor-id="apa-yang-dikembalikan-setiap-metode">Apa yang dikembalikan setiap metode?</h3>
+<p>Satu baris dari formulir yang sama berisi nama, kota, dan email, dipisahkan <code>;</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> <span class="st">"  Rina Putri;BANDUNG ;rina.putri@telkom.ac.id  "</span></span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Tebak <strong>nilai yang dikembalikan</strong> setiap panggilan berikut, lalu jalankan. Pakai <code>print(repr(...))</code> agar spasi di tepi terlihat.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 52%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Panggilan</th>
+<th>Tebakanmu</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>data.strip()</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>data.lower()</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><code>data.split(";")</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><code>data.find("@")</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><code>data.find("#")</code></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td><code>data.replace(";", " \| ")</code></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td><code>print(repr(data))</code>, setelah keenam panggilan di atas</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled" title="Lihat jawaban">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Lihat jawaban
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><code>'Rina Putri;BANDUNG ;rina.putri@telkom.ac.id'</code></li>
+<li><code>'  rina putri;bandung ;rina.putri@telkom.ac.id  '</code> (spasi di tepi tetap ada)</li>
+<li><code>['  Rina Putri', 'BANDUNG ', 'rina.putri@telkom.ac.id  ']</code></li>
+<li><code>32</code></li>
+<li><code>-1</code> (bukan galat, bukan <code>False</code>)</li>
+<li><code>'  Rina Putri | BANDUNG  | rina.putri@telkom.ac.id  '</code></li>
+<li><code>'  Rina Putri;BANDUNG ;rina.putri@telkom.ac.id  '</code>: <strong>tidak berubah sama sekali</strong></li>
+</ol>
+</div>
+</div>
+</div>
+<p>Hasil #7 biasanya paling mengejutkan. Tiga pertanyaan untuk dijawab:</p>
+<ol type="1">
+<li>Mengapa <code>data</code> tetap berantakan setelah semua panggilan itu?</li>
+<li>Apa yang dikembalikan <code>split</code> dan <code>find</code>? Apa arti <code>-1</code>?</li>
+<li>Bisakah kita mendapatkan <code>bandung</code> dengan loop, bukan dengan metode? Versi mana yang lebih mudah dibaca?</li>
+</ol>
+</section>
+<section id="mengapa-data-tidak-berubah" class="level3">
+<h3 class="anchored" data-anchor-id="mengapa-data-tidak-berubah">Mengapa data tidak berubah?</h3>
+<p><strong>Metode</strong> (<em>method</em>) adalah fungsi yang dipanggil pada sebuah nilai dengan titik: <code>data.strip()</code>. Kamu sudah memakai satu sejak Minggu 3, yaitu <code>isdigit()</code>. Aturan Lesson A tetap berlaku: string tidak bisa diubah, dan metode juga tidak mengubahnya. Metode string <strong>mengembalikan string baru</strong>, dan string aslinya tetap seperti semula (Downey, 2024, §8.5).</p>
+<p>Jika hasilnya ingin dipakai, <strong>simpan</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data.strip()</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">repr</span>(data))     <span class="co"># 'Rina Putri;BANDUNG ;rina.putri@telkom.ac.id'</span></span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Metode juga bisa dirangkai. Setiap metode bekerja pada nilai yang dikembalikan metode sebelumnya:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data.strip().lower())    <span class="co"># rina putri;bandung ;rina.putri@telkom.ac.id</span></span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Kembali ke nama-nama tadi: <code>"rina  putri ".strip().lower()</code> menghasilkan <code>'rina  putri'</code>. Spasi ganda di tengah <strong>tetap ada</strong>, karena <code>strip</code> hanya membuang spasi di <strong>tepi</strong>.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Lupa tanda kurung">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Peringatan</span>Lupa tanda kurung
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>data.lower</code> tanpa <code>()</code> tidak memanggil metodenya. Hasilnya adalah metode itu sendiri, <code>&lt;built-in method lower of str object at 0x…&gt;</code>, bukan string berhuruf kecil. Metode selalu dipanggil dengan <code>()</code>.</p>
+</div>
+</div>
+</section>
+<section id="lima-metode-dan-nilai-kembaliannya" class="level3">
+<h3 class="anchored" data-anchor-id="lima-metode-dan-nilai-kembaliannya">Lima metode dan nilai kembaliannya</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 40%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Metode</th>
+<th>Yang dilakukan</th>
+<th>Yang dikembalikan</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>strip()</code></td>
+<td>membuang spasi di tepi</td>
+<td>string baru</td>
+</tr>
+<tr class="even">
+<td><code>lower()</code> / <code>upper()</code></td>
+<td>mengubah huruf menjadi kecil / kapital</td>
+<td>string baru</td>
+</tr>
+<tr class="odd">
+<td><code>replace(lama, baru)</code></td>
+<td>mengganti <strong>setiap</strong> <code>lama</code> dengan <code>baru</code></td>
+<td>string baru</td>
+</tr>
+<tr class="even">
+<td><code>find(teks)</code></td>
+<td>mencari <code>teks</code></td>
+<td>indeks pertama yang cocok, atau <strong>-1</strong></td>
+</tr>
+<tr class="odd">
+<td><code>split(pemisah)</code></td>
+<td>memotong di setiap <code>pemisah</code></td>
+<td>bagian-bagiannya</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>split</code> memberi bagian.</strong> <code>data.split(";")</code> memotong di setiap <code>;</code> dan mengembalikan tiga bagian. Satu bagian dibaca dengan <code>[ ]</code>, kurung yang sama dengan indeks karakter, dan bagian pertama bernomor <code>0</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">repr</span>(data.split(<span class="st">";"</span>)[<span class="dv">1</span>]))                  <span class="co"># 'BANDUNG '</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data.split(<span class="st">";"</span>)[<span class="dv">1</span>].strip().lower())        <span class="co"># bandung</span></span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Tiga bagian bernomor 0, 1, 2. <code>data.split(";")[3]</code> tidak ada dan menghasilkan <code>IndexError: list index out of range</code>, sama seperti indeks string yang melewati akhir. Bagian-bagian ini sebenarnya sebuah <strong>list</strong>, tipe data yang dipelajari di Minggu 11. Minggu ini kita hanya membaca bagiannya dengan nomor.</p>
+<p><strong><code>find</code> memberi indeks, atau −1.</strong> <code>data.find("@")</code> bernilai <code>32</code>, indeks <code>@</code> yang pertama. Jika tidak ketemu, hasilnya <code>-1</code>. Hati-hati: <code>-1</code> juga indeks yang sah, yaitu karakter terakhir. Akibatnya kode berikut tidak menghasilkan galat, tetapi diam-diam salah:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>posisi <span class="op">=</span> data.find(<span class="st">"#"</span>)           <span class="co"># -1, tidak ketemu</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(data[posisi <span class="op">+</span> <span class="dv">1</span>:])          <span class="co"># seluruh data: -1 + 1 = 0</span></span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Jadi periksa <code>-1</code> <strong>sebelum</strong> memotong. Satu jebakan lagi: jika yang dicari ada di indeks 0, <code>find</code> mengembalikan <code>0</code>, dan <code>0</code> dianggap salah dalam <code>if</code>. Kondisi <code>if posisi:</code> akan memperlakukan “ketemu di awal” sebagai “tidak ketemu”. Bandingkan langsung: <code>if posisi == -1:</code>.</p>
+<p>Tugas kecil dengan metode biasanya mengikuti <strong>empat langkah</strong>:</p>
+<pre><code>① RAPIKAN               (strip, lower/upper)
+② PECAH ATAU CARI       (split, find)
+③ AMBIL BAGIAN          (bagian[i], slice)
+④ SIMPAN HASILNYA, LALU KEMBALIKAN</code></pre>
+</section>
+<section id="contoh-terpandu-ambil_nama" class="level3">
+<h3 class="anchored" data-anchor-id="contoh-terpandu-ambil_nama">Contoh terpandu: ambil_nama</h3>
+<p>Setiap baris formulir berisi nama, kota, dan email, dipisahkan <code>;</code>. Tulis <code>ambil_nama(baris)</code> yang mengembalikan namanya saja, tanpa spasi di tepi.</p>
+<p><strong>1 · Pahami.</strong> Masukannya satu baris (string), keluarannya string: nama. Dengan tangan, tulis barisnya dengan spasi digambar sebagai titik: <code>··Rina Putri;BANDUNG·;rina.putri@telkom.ac.id··</code>. Cari <code>;</code> pertama; semua sebelum itu adalah nama, <code>··Rina Putri</code>. Hapus titik di tepi: <code>Rina Putri</code>. Spasi di antara Rina dan Putri tetap. Baris kedua, <code>Dewi</code>, tidak punya <code>;</code> sama sekali: seluruh baris adalah nama. Dua langkah setiap kali: ambil bagian pertama, buang spasi di tepinya.</p>
+<p><strong>2–3 · Pecah dan rancang.</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ambil_nama(baris):</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Kembalikan bagian sebelum ';' pertama, tanpa spasi di tepi."""</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ② PECAH ATAU CARI</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ③ AMBIL BAGIAN</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ④ SIMPAN HASILNYA, LALU KEMBALIKAN</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">""</span></span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Label ① tidak dibutuhkan di sini: yang dirapikan adalah bagiannya, bukan seluruh baris.</p>
+<p>Ada dua cara memotong: <code>find</code> dengan slice, atau <code>split</code>. Mana yang menangani baris <code>"Dewi"</code> tanpa kerja tambahan? <code>split</code>. Tanpa <code>;</code>, <code>"Dewi".split(";")</code> memberi <strong>satu</strong> bagian, yaitu seluruh baris, jadi <code>bagian[0]</code> bernilai <code>Dewi</code>. Dengan <code>find</code>, tidak ada <code>;</code>, <code>find</code> memberi <code>-1</code>, dan <code>baris[0:-1]</code> menghasilkan <code>Dew</code>: huruf terakhir hilang. Cara <code>find</code> juga bisa benar, tetapi hanya dengan pemeriksaan <code>-1</code>.</p>
+<p><strong>4 · Isi dan uji.</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ambil_nama(baris):</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Kembalikan bagian sebelum ';' pertama, tanpa spasi di tepi."""</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ② PECAH ATAU CARI</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    bagian <span class="op">=</span> baris.split(<span class="st">";"</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ③ AMBIL BAGIAN</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ④ SIMPAN HASILNYA, LALU KEMBALIKAN</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    nama <span class="op">=</span> bagian[<span class="dv">0</span>].strip()</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> nama</span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>② Potong di setiap <code>;</code>.</li>
+<li>③ Bagian pertama bernomor <strong>0</strong>. Dengan <code>bagian[1]</code>, fungsi mengembalikan kota, <code>BANDUNG</code>, dan baris <code>"Dewi"</code> berhenti dengan <code>IndexError</code>.</li>
+<li>④ <code>.strip()</code> mengembalikan salinan yang rapi, dan salinan itu <strong>disimpan</strong> di <code>nama</code>. Jika ditulis <code>nama = bagian[0]</code>, lalu <code>nama.strip()</code> di barisnya sendiri, fungsi mengembalikan <code>'  Rina Putri'</code>.</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 48%">
+<col style="width: 20%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Masukan</th>
+<th>Harapan</th>
+<th>Yang diuji</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>"  Rina Putri;BANDUNG ;rina.putri@telkom.ac.id  "</code></td>
+<td><code>'Rina Putri'</code></td>
+<td>hitungan tangan</td>
+</tr>
+<tr class="even">
+<td><code>"Budi;Medan;budi@gmail.com"</code></td>
+<td><code>'Budi'</code></td>
+<td>tanpa spasi</td>
+</tr>
+<tr class="odd">
+<td><code>" Andi Wijaya ; Ambon ; andi@yahoo.co.id"</code></td>
+<td><code>'Andi Wijaya'</code></td>
+<td>spasi di dua sisi nama</td>
+</tr>
+<tr class="even">
+<td><code>"Dewi"</code></td>
+<td><code>'Dewi'</code></td>
+<td>tanpa pemisah (versi <code>find</code> tanpa cek: <code>'Dew'</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>""</code></td>
+<td><code>''</code></td>
+<td>string kosong</td>
+</tr>
+</tbody>
+</table>
+<p><strong>5 · Rakit.</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>baris <span class="op">=</span> <span class="bu">input</span>()</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ambil_nama(baris))</span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Untuk kota, hanya langkah ③ yang berubah: bagian <code>[1]</code>, ditambah <code>.lower()</code>. Hasilnya <code>bandung</code>, <code>medan</code>, <code>ambon</code> untuk tiga baris pertama.</p>
+</section>
+<section id="metode-atau-loop" class="level3">
+<h3 class="anchored" data-anchor-id="metode-atau-loop">Metode atau loop?</h3>
+<p>Bandingkan dua cara mengganti <code>;</code> menjadi <code>,</code>. Yang pertama adalah pola mengumpulkan dari Lesson A (NCCE, t.t.-c):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ganti_titik_koma(teks):</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    hasil <span class="op">=</span> <span class="st">""</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> karakter <span class="kw">in</span> teks:</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> karakter <span class="op">==</span> <span class="st">";"</span>:</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>            hasil <span class="op">=</span> hasil <span class="op">+</span> <span class="st">","</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>            hasil <span class="op">=</span> hasil <span class="op">+</span> karakter</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hasil</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ganti_titik_koma(<span class="st">"Rina Putri;Bandung;2025"</span>))    <span class="co"># Rina Putri,Bandung,2025</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Rina Putri;Bandung;2025"</span>.replace(<span class="st">";"</span>, <span class="st">","</span>))    <span class="co"># Rina Putri,Bandung,2025</span></span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Hasilnya sama. Versi metode hanya satu baris, dan namanya sudah menjelaskan apa yang dilakukan. Jika <strong>satu metode mengerjakan persis tugas itu</strong>, pakai metodenya: kodenya lebih sedikit, tempat bersembunyinya <em>bug</em> juga lebih sedikit.</p>
+<p>Namun metode bisa memberi jawaban salah jika ia menjawab <strong>pertanyaan yang berbeda</strong>. Sebuah sekolah memeriksa tahun masuk dari <em>username</em> seperti <code>16Ma20</code> (masuk 2016) dengan <code>if "20" in username:</code>. Apakah <code>16Ma20</code> terhitung sebagai angkatan 2020? Ya, dan itu salah: <code>"20" in "16Ma20"</code> bernilai <code>True</code>, karena <code>in</code> mencari <strong>di mana saja</strong> (NCCE, t.t.-b). Untuk memeriksa awalan, potong posisinya: <code>username[0:2] == "20"</code> bernilai <code>False</code>.</p>
+<p>Kapan loop adalah jawaban yang jujur? Saat <strong>tidak ada</strong> metode yang mengerjakannya dalam satu panggilan, atau saat setiap karakter butuh keputusannya sendiri. Menghitung vokal (<code>hitung_vokal</code>) adalah contohnya: tidak ada metode “hitung vokal” di daftar kita.</p>
+<div class="table-responsive">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 24%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Situasi</th>
+<th>Pilihan</th>
+<th>Alasan</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Harga diketik <code>"12,5"</code>, harus menjadi <code>"12.5"</code></td>
+<td><code>replace(",", ".")</code></td>
+<td>satu metode mengerjakan persis tugas ini</td>
+</tr>
+<tr class="even">
+<td>Hitung huruf vokal di sebuah nama</td>
+<td>loop</td>
+<td>tidak ada metode di daftar kita yang melakukannya; periksa setiap karakter</td>
+</tr>
+<tr class="odd">
+<td>Periksa apakah NIM <strong>diawali</strong> kode tertentu</td>
+<td>slice <code>nim[0:4] == kode</code></td>
+<td><code>in</code> mencari di mana saja; slice memeriksa posisi</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Jalan pintas untuk membalik string">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Catatan</span>Jalan pintas untuk membalik string
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Slice punya bagian ketiga, langkah, seperti <code>range</code>: <code>"jumat"[::-1]</code> menghasilkan <code>tamuj</code>, sama dengan <code>balik</code> dari Lesson A. Ini contoh metode bawaan yang mengerjakan persis tugasnya. Di worksheet kamu tetap menulis loopnya, karena yang dilatih adalah menulis loop itu.</p>
+</div>
+</div>
+</section>
+<section id="pengayaan-ekspresi-reguler" class="level3">
+<h3 class="anchored" data-anchor-id="pengayaan-ekspresi-reguler">Pengayaan: ekspresi reguler</h3>
+<p><em>Bagian ini pengayaan (U10.5) dan tidak diujikan di Evaluate maupun UAS.</em></p>
+<p><strong>Ekspresi reguler</strong> (<em>regular expression</em>) adalah pola yang menggambarkan banyak string sekaligus (Downey, 2024, §8.8–8.9). Modul <code>re</code> menyediakan <code>re.search(pola, teks)</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(re.search(<span class="st">"colou?r"</span>, <span class="st">"a colour"</span>))    <span class="co"># &lt;re.Match object; span=(2, 8), match='colour'&gt;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(re.search(<span class="st">"colou?r"</span>, <span class="st">"a color"</span>))     <span class="co"># &lt;re.Match object; span=(2, 7), match='color'&gt;</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(re.search(<span class="st">"colou?r"</span>, <span class="st">"a colr"</span>))      <span class="co"># None</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(re.search(<span class="st">"^Rina"</span>, <span class="st">"Putri Rina"</span>))    <span class="co"># None</span></span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>?</code> berarti “karakter sebelum aku boleh ada, boleh tidak”, sehingga satu pola menemukan kedua ejaan.</li>
+<li><code>^</code> berarti “di awal teks”; <code>Rina</code> di akhir tidak cocok.</li>
+<li><code>re.search</code> mengembalikan objek <em>Match</em> atau <code>None</code>, <strong>bukan</strong> <code>True</code>/<code>False</code>.</li>
+</ul>
+<p>Bagian opsional notebook Lesson B berisi contoh lainnya, termasuk <code>|</code> (atau) dan <code>re.sub</code>.</p>
+</section>
+</section>
+<section id="kesalahan-umum" class="level2">
+<h2 class="anchored" data-anchor-id="kesalahan-umum">Kesalahan Umum</h2>
+<div class="table-responsive">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Gejala</th>
+<th>Penyebab</th>
+<th>Perbaikan</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pesan[5]</code> ditebak <code>u</code> atau spasi</td>
+<td>Menghitung indeks dari 1</td>
+<td>Karakter pertama berindeks 0</td>
+</tr>
+<tr class="even">
+<td><code>IndexError</code> saat mengambil huruf terakhir</td>
+<td><code>teks[len(teks)]</code></td>
+<td>Indeks terakhir <code>len(teks) - 1</code>, atau <code>teks[-1]</code></td>
+</tr>
+<tr class="odd">
+<td>Slice punya satu karakter terlalu banyak</td>
+<td>Mengira batas akhir ikut diambil</td>
+<td><code>[a:b]</code> berhenti <strong>sebelum</strong> b, seperti <code>range</code></td>
+</tr>
+<tr class="even">
+<td>Mengira <code>teks[10:99]</code> galat</td>
+<td>Slice disamakan dengan indeks</td>
+<td>Slice melewati akhir berhenti di akhir</td>
+</tr>
+<tr class="odd">
+<td><code>TypeError: 'str' object does not support item assignment</code></td>
+<td>Mengubah satu karakter: <code>teks[0] = "K"</code></td>
+<td>Buat string baru: <code>"K" + teks[1:]</code></td>
+</tr>
+<tr class="even">
+<td>Setiap karakter terhitung</td>
+<td><code>karakter == "a" or "i" or ...</code></td>
+<td>Tulis setiap perbandingan lengkap, atau <code>karakter in "aiueo"</code></td>
+</tr>
+<tr class="odd">
+<td>Huruf kapital tidak terhitung</td>
+<td>Lupa <code>.lower()</code></td>
+<td>Telusuri <code>pesan.lower()</code></td>
+</tr>
+<tr class="even">
+<td>Hitungan selalu 0 atau 1</td>
+<td><code>return</code> di dalam loop</td>
+<td><code>return</code> sejajar dengan <code>for</code></td>
+</tr>
+<tr class="odd">
+<td>Pemeriksaan angka selalu gagal</td>
+<td><code>pesan.isdigit()</code> memeriksa seluruh string</td>
+<td><code>karakter.isdigit()</code></td>
+</tr>
+<tr class="even">
+<td><code>balik</code> mengembalikan teks yang sama</td>
+<td><code>hasil = hasil + karakter</code></td>
+<td><code>hasil = karakter + hasil</code>; uji dengan kata bukan palindrom</td>
+</tr>
+<tr class="odd">
+<td>Huruf hilang dari hasil</td>
+<td>Tidak ada <code>else</code> pada pola mengumpulkan</td>
+<td>Karakter yang tidak lolos pemeriksaan juga disambung</td>
+</tr>
+<tr class="even">
+<td>String tetap berantakan setelah <code>strip()</code></td>
+<td>Hasil metode tidak disimpan</td>
+<td><code>teks = teks.strip()</code></td>
+</tr>
+<tr class="odd">
+<td><code>&lt;built-in method lower ...&gt;</code></td>
+<td>Metode tanpa <code>()</code></td>
+<td><code>teks.lower()</code></td>
+</tr>
+<tr class="even">
+<td>Spasi ganda di tengah masih ada</td>
+<td><code>strip</code> hanya membuang spasi di tepi</td>
+<td>Itu memang perilakunya; jangan pakai <code>replace(" ", "")</code> untuk merapikan nama</td>
+</tr>
+<tr class="odd">
+<td><code>tanjungpinang</code></td>
+<td><code>replace(" ", "")</code> membuang spasi di tengah juga</td>
+<td><code>strip()</code> untuk tepi saja</td>
+</tr>
+<tr class="even">
+<td>Bagian yang salah, atau <code>IndexError</code></td>
+<td><code>bagian[1]</code> untuk bagian pertama</td>
+<td>Bagian bernomor dari 0</td>
+</tr>
+<tr class="odd">
+<td>Slice dari <code>find</code> mengembalikan seluruh teks, atau huruf terakhir hilang</td>
+<td><code>-1</code> dipakai langsung sebagai indeks</td>
+<td>Periksa <code>if posisi == -1:</code> sebelum memotong</td>
+</tr>
+<tr class="even">
+<td>“Ketemu di awal” dianggap tidak ketemu</td>
+<td><code>if posisi:</code>, padahal <code>0</code> dianggap salah</td>
+<td><code>if posisi == -1:</code></td>
+</tr>
+<tr class="odd">
+<td>Awalan dianggap cocok padahal tidak</td>
+<td><code>in</code> mencari di mana saja</td>
+<td>Slice: <code>teks[0:4] == kode</code></td>
+</tr>
+<tr class="even">
+<td><code>re.search(...) == True</code> selalu <code>False</code></td>
+<td>Mengira hasilnya boolean</td>
+<td>Hasilnya objek <em>Match</em> atau <code>None</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="tebak-dulu" class="level2">
+<h2 class="anchored" data-anchor-id="tebak-dulu">Tebak Dulu</h2>
+<p>Tanpa menjalankannya, apa keluaran program berikut? Tulis tebakanmu, <strong>baru</strong> buka jawabannya.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="st">"halo"</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>s.upper()</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(s)</span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Lihat jawaban">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Lihat jawaban
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>Hasilnya tetap <code>halo</code>. <code>upper()</code> menghasilkan string baru, tetapi hasilnya tidak disimpan ke mana pun. Tulis <code>s = s.upper()</code> untuk menyimpannya.</p>
 </div>
 </div>
 </div>
+<p><code>kota = "Surabaya"</code>. Apa hasil <code>kota[2:5]</code>, <code>kota[-3:]</code>, <code>kota[5:50]</code>, dan <code>kota[8]</code>?</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Lihat jawaban">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Lihat jawaban
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code>rab</code>, <code>aya</code>, <code>aya</code>, dan <code>IndexError</code>. <code>"Surabaya"</code> punya 8 karakter, berindeks 0 sampai 7. <code>[2:5]</code> mengambil indeks 2, 3, 4. <code>[5:50]</code> melewati akhir tetapi tetap berhasil, berhenti di akhir. <code>kota[8]</code> meminta karakter yang tidak ada.</p>
+</div>
+</div>
+</div>
+<p>Apa yang dikembalikan <code>hitung("Ada apa")</code>?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hitung(teks):</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    banyak <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> karakter <span class="kw">in</span> teks:</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> karakter <span class="op">==</span> <span class="st">"a"</span>:</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>            banyak <span class="op">=</span> banyak <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> banyak</span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Lihat jawaban">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Lihat jawaban
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code>0</code>. <code>return banyak</code> menjorok di dalam loop, jadi fungsi selesai di putaran pertama. Karakter pertama adalah <code>A</code> kapital, yang tidak sama dengan <code>"a"</code>, sehingga <code>banyak</code> masih 0 saat dikembalikan. Setelah <code>return</code> dipindahkan sejajar dengan <code>for</code>, hasilnya <code>3</code>: <code>A</code> kapital tetap tidak terhitung tanpa <code>.lower()</code>. Dengan <code>teks.lower()</code>, hasilnya <code>4</code>.</p>
+</div>
+</div>
+</div>
+<p>Apa keluaran program berikut?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>email <span class="op">=</span> <span class="st">"tanpa-at.com"</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>posisi <span class="op">=</span> email.find(<span class="st">"@"</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(email[posisi <span class="op">+</span> <span class="dv">1</span>:])</span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Lihat jawaban">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Lihat jawaban
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code>tanpa-at.com</code>, seluruh teks. Tidak ada <code>@</code>, jadi <code>posisi</code> bernilai <code>-1</code>, dan <code>posisi + 1</code> bernilai <code>0</code>. Slice <code>[0:]</code> mengambil semuanya. Tidak ada galat, tetapi jawabannya salah: periksa <code>-1</code> sebelum memotong.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="latihan-mandiri" class="level2">
+<h2 class="anchored" data-anchor-id="latihan-mandiri">Latihan Mandiri</h2>
+<ol type="1">
+<li><p><strong>(U10.1)</strong> <code>kode = "Kode OTP: 4821"</code>. Tanpa menjalankannya, tentukan <code>len(kode)</code>, <code>kode[-4:]</code>, <code>kode[5:8]</code>, dan <code>kode[14]</code>. Lalu tulis satu baris yang membuat string baru <code>"kode OTP: 4821"</code> (huruf pertama kecil) dari <code>kode</code> tanpa mengetik ulang seluruh teks.</p></li>
+<li><p><strong>(U10.1)</strong> Untuk <code>pesan = "kuis hari jumat"</code>, tulis slice yang menghasilkan <code>hari</code>, <code>jumat</code> dengan indeks negatif, dan string kosong. Jelaskan mengapa <code>pesan[15]</code> galat tetapi <code>pesan[15:20]</code> tidak.</p></li>
+<li><p><strong>(U10.2)</strong> Tulis fungsi <code>ambil_huruf_besar(teks)</code> yang mengembalikan semua huruf kapital (A–Z) di <code>teks</code>, berurutan, sebagai string baru. Gunakan <code>karakter &gt;= "A" and karakter &lt;= "Z"</code>. Uji: <code>"Sistem Informasi Telkom"</code> → <code>SIT</code>, <code>"halo"</code> → <code>''</code>. Jelaskan mengapa <code>karakter &gt;= "A"</code> saja tidak cukup.</p></li>
+<li><p><strong>(U10.2)</strong> Tulis fungsi <code>posisi_pertama(teks, huruf)</code> yang mengembalikan indeks pertama <code>huruf</code> di <code>teks</code>, atau <code>-1</code>, dengan <code>for i in range(len(teks))</code> dan pola pencarian dari Minggu 9 (tanpa <code>find</code>). Uji: <code>("kuis hari jumat", "a")</code> → <code>6</code>, <code>"k"</code> → <code>0</code>, <code>"z"</code> → <code>-1</code>. Bandingkan hasilnya dengan <code>teks.find(huruf)</code>.</p></li>
+<li><p><strong>(U10.2)</strong> Tulis fungsi <code>palindrom(kata)</code> yang mengembalikan <code>True</code> jika kata dibaca sama dari dua arah, tanpa membedakan huruf kapital. Pakai fungsi <code>balik</code> dari Lesson A. Uji: <code>"Katak"</code> → <code>True</code>, <code>"kasur rusak"</code> → <code>True</code>, <code>"jumat"</code> → <code>False</code>.</p></li>
+<li><p><strong>(U10.3)</strong> Tulis fungsi <code>bersihkan_hp(teks)</code> yang mengembalikan nomor HP tanpa spasi dan tanpa <code>-</code>. Uji: <code>" 0812-3456-7890 "</code> → <code>081234567890</code>, <code>"0857 1111 2222"</code> → <code>085711112222</code>. Apa yang dikembalikan jika hasil setiap metode tidak disimpan?</p></li>
+<li><p><strong>(U10.3)</strong> Tulis fungsi <code>ambil_pengguna(email)</code> yang mengembalikan bagian <strong>sebelum</strong> <code>@</code> dalam huruf kecil, atau <code>""</code> jika tidak ada <code>@</code>. Gunakan <code>find</code> dan slice. Uji: <code>"Budi@gmail.com"</code> → <code>budi</code>, <code>"tanpa-at.com"</code> → <code>''</code>, <code>"@kosong.id"</code> → <code>''</code>. Apa yang dikembalikan versi tanpa pemeriksaan <code>-1</code> untuk <code>"tanpa-at.com"</code>?</p></li>
+<li><p><strong>(U10.4)</strong> Tulis <code>hapus_spasi(teks)</code> dua kali: sekali dengan <code>replace</code>, sekali dengan loop. Keduanya harus memberi <code>081234567890</code> untuk <code>"0812 3456 7890"</code>. Tulis satu kalimat: versi mana yang lebih mudah dibaca, dan mengapa?</p></li>
+<li><p><strong>(U10.4)</strong> Fungsi berikut seharusnya memeriksa apakah sebuah NIM diawali <code>kode</code>. Uji dengan <code>("1031220045", "1031")</code> dan <code>("1202231031", "1031")</code>, jelaskan mengapa salah satu hasilnya keliru, lalu perbaiki dengan slice.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cek_awalan_nim(nim, kode):</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> kode <span class="kw">in</span> nim</span></code></pre></div><button title="Salin ke Papan Klip" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p><strong>(U10.5, opsional)</strong> Dengan <code>re.search</code>, tulis pola yang cocok dengan <code>"warna"</code> dan <code>"warnah"</code> tetapi tidak dengan <code>"warn"</code>. Lalu tulis pola yang hanya cocok jika teks <strong>diawali</strong> <code>"BBK"</code>.</p></li>
+</ol>
 </section>
 <section id="bacaan" class="level2">
 <h2 class="anchored" data-anchor-id="bacaan">Bacaan</h2>
 <ul>
-<li>Think Python Ch. 8 - Strings and Regular Expressions</li>
+<li>Think Python Ch. 8 - Strings and Regular Expressions (§8.1–8.5, §8.7–8.9; §8.6 dan §8.10 dilewati)</li>
+<li>Pendukung: NCCE KS4 Programming Part 5 - Strings and Lists (Lesson 26 <em>String handling I</em>, Lesson 27 <em>String handling II</em>, Lesson 28 <em>String handling III</em>)</li>
+<li>Referensi resmi Python §4.8 - String Methods (Python Standard Library, <em>Built-in Types</em>)</li>
 </ul>
+</section>
+<section id="referensi" class="level2">
+<h2 class="anchored" data-anchor-id="referensi">Referensi</h2>
+<p>Downey, A. B. (2024). <em>Think Python: How to think like a computer scientist</em> (3rd ed.). O’Reilly Media. <a href="https://allendowney.github.io/ThinkPython/" class="uri">https://allendowney.github.io/ThinkPython/</a></p>
+<ul>
+<li>Bab 8, <em>Strings and Regular Expressions</em>: <a href="https://allendowney.github.io/ThinkPython/chap08.html" class="uri">https://allendowney.github.io/ThinkPython/chap08.html</a></li>
+</ul>
+<p>National Centre for Computing Education. (t.t.-a). <em>KS4 Programming, Lesson 26: String handling I</em>. Raspberry Pi Foundation &amp; STEM Learning. Open Government Licence v3.0.</p>
+<p>National Centre for Computing Education. (t.t.-b). <em>KS4 Programming, Lesson 27: String handling II</em>. Raspberry Pi Foundation &amp; STEM Learning. Open Government Licence v3.0.</p>
+<p>National Centre for Computing Education. (t.t.-c). <em>KS4 Programming, Lesson 28: String handling III</em>. Raspberry Pi Foundation &amp; STEM Learning. Open Government Licence v3.0.</p>
+<p>Python Software Foundation. (t.t.). Built-in types: String methods. Dalam <em>The Python standard library</em>. Diakses 13 November 2026, dari <a href="https://docs.python.org/3/library/stdtypes.html#string-methods" class="uri">https://docs.python.org/3/library/stdtypes.html#string-methods</a></p>
 
 
 </section>
